@@ -12,6 +12,7 @@ Makefile
 
 # Package Files #
 *.jar
+*.tar
 *.war
 *.nar
 *.ear
