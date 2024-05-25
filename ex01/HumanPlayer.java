@@ -1,6 +1,7 @@
 public class HumanPlayer implements Player {
     private static final String MSG_ASK_USER_FOR_COORD = "Player %s, type " +
             "coordinates: "; // TODO replace
+
     HumanPlayer() {
     } // TODO typing check
 
@@ -13,7 +14,8 @@ public class HumanPlayer implements Player {
     @Override
     public void playTurn(Board board, Mark mark) {
         // ask for cords
-        System.out.println(String.format(MSG_ASK_USER_FOR_COORD, mark.toString()));
+        System.out.println(String.format(MSG_ASK_USER_FOR_COORD,
+                mark.toString()));
         // check if cords are valid
         while (true) {
             int coordsFromUser = KeyboardInput.readInt();
@@ -22,7 +24,8 @@ public class HumanPlayer implements Player {
             if (board.putMark(mark, row, col)) {
                 break;
             }
-            if ((0 > row) || (row >= board.getSize()) || (0 > col) || (col >= board.getSize())) {
+            if ((0 > row) || (row >= board.getSize()) || (0 > col) ||
+                    (col >= board.getSize())) {
                 System.out.println(Constants.INVALID_COORDINATE);
             } else {
                 System.out.println(Constants.OCCUPIED_COORDINATE);

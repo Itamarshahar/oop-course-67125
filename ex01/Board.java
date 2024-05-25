@@ -43,9 +43,10 @@ public class Board {
      * @return true if placed the mark otherwise false
      */
     public boolean putMark(Mark mark,
-                    int row, int col) {
+                           int row, int col) {
 //        boolean coordIsEmpty = coordIsEmpty(row, col);
-        if ((coordInsideTheBoard(row)) && (coordInsideTheBoard(col) && coordIsEmpty(row, col))) {
+        if ((coordInsideTheBoard(row)) && (coordInsideTheBoard(col) &&
+                coordIsEmpty(row, col))) {
             this.board[row][col] = mark;
             return true;
         }
@@ -64,9 +65,11 @@ public class Board {
 //        return this.board[row][col].equals(Mark.BLANK);
         return this.board[row][col] == Mark.BLANK;
     }
-    private boolean coordInsideTheBoard(int coord){
+
+    private boolean coordInsideTheBoard(int coord) {
         return ((0 <= coord) && (coord < boardSize));
     }
+
     /**
      * getter for the mark of square
      *
@@ -75,7 +78,8 @@ public class Board {
      * @return the mark in board[row][col]
      */
     public Mark getMark(int row, int col) {
-        if ((0 <= row) && (row <= DEFAULT_BOARD_SIZE) && (0 <= col) && (col <= DEFAULT_BOARD_SIZE)) {
+        if ((0 <= row) && (row <= DEFAULT_BOARD_SIZE) && (0 <= col)
+                && (col <= DEFAULT_BOARD_SIZE)) {
             return this.board[row][col];
         }
         return Mark.BLANK;

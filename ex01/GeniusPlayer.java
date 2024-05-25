@@ -29,10 +29,10 @@ public class GeniusPlayer implements Player {
         // seeking for the next available position
         while (!board.putMark(mark, coord % board.getSize(),
                 coord / board.getSize())) {
-                coord++;
-                if (coord > board.getSize() * (board.getSize()) - 1){
-                    coord = 0;
-                }
+            coord++;
+            if (coord > board.getSize() * (board.getSize()) - 1) {
+                coord = 0;
+            }
 
         }
     }

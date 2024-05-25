@@ -17,8 +17,10 @@ class CleverPlayer implements Player {
     @Override
     public void playTurn(Board board, Mark mark) {
         if (chooseRandomIndex) {
-            int randomIndex = random.nextInt((board.getSize()) * (board.getSize()));
-            if (board.putMark(mark, randomIndex / board.getSize(), randomIndex % board.getSize())) {
+            int randomIndex = random.nextInt((board.getSize()) *
+                    (board.getSize()));
+            if (board.putMark(mark, randomIndex / board.getSize(),
+                    randomIndex % board.getSize())) {
                 chooseRandomIndex = false;
                 return;
             }

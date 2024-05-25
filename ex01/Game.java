@@ -4,17 +4,16 @@ public class Game {
     private final int boardSize, winStreak;
     private Player playerX;
     private Player playerO;
-    //    private Player[] players;
     private Renderer renderer;
     private Board board;
     private boolean endGame;
-
 
     Game(Player playerX, Player playerO, Renderer renderer) {
         this(playerX, playerO, DEFAULT_SIZE, DEFAULT_WIN_STREAK, renderer);
     }
 
-    Game(Player playerX, Player playerO, int size, int winStreak, Renderer renderer) {
+    Game(Player playerX, Player playerO, int size, int winStreak,
+         Renderer renderer) {
         this.playerX = playerX;
         this.playerO = playerO;
         this.boardSize = size;
@@ -159,31 +158,4 @@ public class Game {
         return false;
     }
 }
-//    private boolean checkDiagonal(Mark mark) {
-//        return checkDiagonalHelper(board, 0, 0, boardSize - 1, boardSize - 1) ||
-//                checkDiagonalHelper(board, 0, boardSize - 1, boardSize - 1, 0);
-//    };
-//
-//    private boolean checkDiagonalHelper(Mark mark, int startRow,
-//                                        int startCol,
-//                                        int endRow, int endCol) {
-//        int currentStrickLen = 0;
-//        Mark prevMark = board.getMark(startRow, startCol);
-//
-//        for (int row = startRow, col = startCol; row <= endRow && col >= endCol; row++, col--) {
-//            Mark currentMark = board.getMark(row, col);
-//            if (currentStrickLen == winStreak) {
-//                return true;
-//            } else if (row == startRow && col == startCol) {
-//                continue;
-//            } else if (currentMark == prevMark) {
-//                currentStrickLen += 1;
-//            } else {
-//                currentStrickLen = 0;
-//                prevMark = currentMark;
-//            }
-//        }
-//
-//        return false;
-//    };
 
