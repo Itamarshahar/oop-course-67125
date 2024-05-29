@@ -1,0 +1,32 @@
+itamarshahar2
+315669689
+
+Q1:
+My strategy for the automatic players:
+1. The GeniusPlayer strategy focuses on placing marks on the diagonal positions of the board.
+Diagonal positions can participate in the most potential winning streaks,
+ making them the most valuable locations.
+By targeting the diagonal, the GeniusPlayer not only maximizes its own chances
+of winning, but also helps to block the opponent's potential winning moves.
+2. The CleverPlayer strategy alternates between two approaches random
+Positioning For one turn, the CleverPlayer places its mark in a random,
+available position on the board.
+On the next turn, the CleverPlayer focuses on completing an entire row, column,
+ or diagonal with its marks.
+3. Whatever: The WhateverPlayer strategy is to locate randomly.
+
+Q2:
+The advantage of designing the software in this manner is that it promotes
+modularity and flexibility.
+When we want to add a new player type or modify an existing one, we can do
+so without having to change the entire codebase.
+The modular design allows us to make point-wise changes to the specific
+components that require updating, rather than having to touch the rest
+of the software.
+
+
+
+
+AAAAAA
+BBBBBB
+CCCCCC

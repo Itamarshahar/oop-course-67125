@@ -14,9 +14,12 @@ class WhateverPlayer implements Player {
      */
     @Override
     public void playTurn(Board board, Mark mark) {
-        int randomIndex = random.nextInt((board.getSize()) * (board.getSize()));
-        while (!board.putMark(mark, randomIndex / board.getSize(), randomIndex % board.getSize())) {
-            randomIndex = random.nextInt((board.getSize()) * (board.getSize()));
+        int randomIndex = random.nextInt((board.getSize())
+                * (board.getSize()));
+        while (!board.putMark(mark, randomIndex / board.getSize(),
+                randomIndex % board.getSize())) {
+            randomIndex = random.nextInt((board.getSize())
+                    * (board.getSize()));
         }
     }
 }

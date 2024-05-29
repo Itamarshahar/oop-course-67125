@@ -61,8 +61,6 @@ public class Board {
      * @return true if so, otherwise false
      */
     private boolean coordIsEmpty(int row, int col) {
-        // todo - check that the input fits the board?
-//        return this.board[row][col].equals(Mark.BLANK);
         return this.board[row][col] == Mark.BLANK;
     }
 
@@ -78,8 +76,8 @@ public class Board {
      * @return the mark in board[row][col]
      */
     public Mark getMark(int row, int col) {
-        if ((0 <= row) && (row <= DEFAULT_BOARD_SIZE) && (0 <= col)
-                && (col <= DEFAULT_BOARD_SIZE)) {
+        if ((0 <= row) && (row < boardSize) && (0 <= col)
+                && (col < boardSize)) {
             return this.board[row][col];
         }
         return Mark.BLANK;

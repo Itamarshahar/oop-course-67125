@@ -1,10 +1,14 @@
 import java.util.Random;
-
+/**
+ * the class represents a clever player with a built in algorithm
+ */
 class CleverPlayer implements Player {
     private int coord = 0;
-    Random random = new Random();
-    boolean chooseRandomIndex = false;
-
+    private final Random  random = new Random();
+    private boolean chooseRandomIndex = false;
+    /**
+     * default constructor
+     */
     public CleverPlayer() {
     }
 

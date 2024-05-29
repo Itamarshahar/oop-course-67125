@@ -1,7 +1,20 @@
 public class HumanPlayer implements Player {
-    private static final String MSG_ASK_USER_FOR_COORD = "Player %s, type " +
-            "coordinates: "; // TODO replace
+    private final static String MSG_ASK_USER_FOR_COORD = "Player %s, type " +
+            "coordinates: "; //TODO doc
+     public final static String UNKNOWN_PLAYER_NAME = "Choose a player, " +
+            "and start again.\nThe players: [human, clever, whatever, " +
+             "genius]"; //TODO doc
 
+    public final static String UNKNOWN_RENDERER_NAME = "Choose a renderer, " +
+            "and start again. \nPlease choose one of the following [console, none]";//TODO doc
+
+    public final static String INVALID_COORDINATE = "Invalid mark position," +
+            " please choose a different position.\n" +
+            "Invalid coordinates, type again: ";//TODO doc
+
+    public final static String OCCUPIED_COORDINATE = "Mark position is already " +
+            "occupied.\n" +
+            "Invalid coordinates, type again: ";//TODO doc
     HumanPlayer() {
     } // TODO typing check
 
@@ -26,9 +39,9 @@ public class HumanPlayer implements Player {
             }
             if ((0 > row) || (row >= board.getSize()) || (0 > col) ||
                     (col >= board.getSize())) {
-                System.out.println(Constants.INVALID_COORDINATE);
+                System.out.println(INVALID_COORDINATE);
             } else {
-                System.out.println(Constants.OCCUPIED_COORDINATE);
+                System.out.println(OCCUPIED_COORDINATE);
             }
         }
 

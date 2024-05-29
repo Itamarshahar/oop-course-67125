@@ -1,7 +1,13 @@
+/**
+ * the class represents a clever player with built in algorithm
+ */
 public class GeniusPlayer implements Player {
     private int coord = 0;
     private int diagonal = 0;
 
+    /**
+     * default constructor
+     */
     public GeniusPlayer() {
     }
 
