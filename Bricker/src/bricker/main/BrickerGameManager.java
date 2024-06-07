@@ -25,7 +25,7 @@ public class BrickerGameManager extends GameManager {
     private static final float LIVES_POSITION_X = 0;
     private static final float POSITION_DIST_Y = 30;
     public static final int MAX_NUM_LIFE = 3;
-//    public Vector2 dimension;
+    //    public Vector2 dimension;
     public static final int PADDLE_WIDTH = 100;
     private static final int LIFE_SIZE = 30;
 
@@ -120,13 +120,13 @@ public class BrickerGameManager extends GameManager {
         createBackground();
         createBricks();
         Vector2 lifeDim = new Vector2(LIFE_SIZE, LIFE_SIZE);
-        Renderable livesImage = imageReader.readImage("assets/heart.png", true);
+        Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
         livesCounter = new Counter(LIVES_START_COUNT);
-        createLives(livesImage, livesCounter,
+        createLives(livesImage,
+                livesCounter,
                 new Vector2(LIVES_POSITION_X, windowDimension.y() - POSITION_DIST_Y),
                 lifeDim,
                 gameObjects());
-
     }
 
     private void createLives(Renderable renderable,
@@ -134,19 +134,21 @@ public class BrickerGameManager extends GameManager {
                              Vector2 topLeftCorner,
                              Vector2 dimension,
                              GameObjectCollection gameObjectCollection) {
-        GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x() +
-                dimension.x() * MAX_NUM_LIFE, topLeftCorner.y()), dimension);
-        gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
-
-        GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
-                                                            dimension,
-                                                            livesCounter,
-                                                            renderable,
-                                                            gameObjectCollection,
-                                                            LIVES_START_COUNT,
-                                                            renderable,
-                                                            MAX_NUM_LIFE);
+        GameObject numericLives = new NumericLifeCounter(livesCounter,
+                topLeftCorner,
+                dimension);
+        GameObject graphicLives =
+                new GraphicLifeCounter(new Vector2(topLeftCorner.x() +
+                        dimension.x() + MAX_NUM_LIFE,
+                        topLeftCorner.y()),
+                        dimension,
+                        livesCounter,
+                        renderable,
+                        gameObjectCollection,
+                        LIVES_START_COUNT,
+                        MAX_NUM_LIFE);
         gameObjects().addGameObject(graphicLives, Layer.FOREGROUND);
+        gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
     }
 
     private void createBall() {
