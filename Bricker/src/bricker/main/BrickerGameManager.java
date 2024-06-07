@@ -134,7 +134,7 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-    private void createUserPaddle(ImageReader imageReader) {
+    private void createUserPaddle() {
         Renderable paddleImage = imageReader.readImage("/Users/itamar_shahar/IdeaProjects/oop-course-67125/Bricker/assets/paddle.png",
                 false);
         //create  user paddle
@@ -145,14 +145,14 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-    private void createBackground(ImageReader imageReader ) {
+    private void createBackground() {
       Renderable backgroundImage = imageReader.readImage("  /Users/itamar_shahar/IdeaProjects/oop-course-67125/Bricker/assets/DARK_BG2_small.jpeg", false);
         GameObject background = new GameObject(Vector2.ZERO, windowDimensions, backgroundImage);
         background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects().addGameObject(background, Layer.BACKGROUND);
     }
 
-    private void createBricks(ImageReader imageReader) {
+    private void createBricks() {
         brickCounter = new Counter(rows * cols);
 //        Renderable brickImage = imageReader.readImage("assets/brick.png", false);
         Renderable brickImage = imageReader.readImage("/Users/itamar_shahar/IdeaProjects/oop-course-67125/Bricker/assets/brick.png", false);
