@@ -1,7 +1,9 @@
 package Bricker.src.bricker.gameobjects;
 
 import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class GraphicLifeCounter extends GameObject {
@@ -17,5 +19,11 @@ public class GraphicLifeCounter extends GameObject {
      */
     public GraphicLifeCounter(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
         super(topLeftCorner, dimensions, renderable);
+    }
+
+    @Override
+    public void update(float deltaTime){
+        super.update(deltaTime);
+
     }
 }
