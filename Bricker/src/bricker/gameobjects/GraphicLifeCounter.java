@@ -9,10 +9,10 @@ import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class GraphicLifeCounter extends GameObject {
+    private final Renderable livesImage;
     private final int maxNumLives;
     private final Vector2 topLeftCorner;
     private final Vector2 dimensions;
-    private final Renderable renderable;
     private Counter livesCounter;
     private GameObjectCollection gameObjectsCollection;
     private int numOfLives;
@@ -37,15 +37,16 @@ public class GraphicLifeCounter extends GameObject {
             Renderable renderable,
             GameObjectCollection gameObjectCollection,
             int numOfLives,
+            Renderable livesImage,
             int maxNumLives) {
         super(topLeftCorner, dimensions, null);
         this.topLeftCorner = topLeftCorner;
         this.dimensions = dimensions;
         this.numOfLives = numOfLives;
         this.gameObjectCollection = gameObjectCollection;
+        this.livesImage = livesImage;
         this.maxNumLives = maxNumLives;
         this.livesArray = new GameObject[maxNumLives];
-        this.renderable = renderable;
         this.livesCounter = livesCounter;
 
         for (int i = 0; i < numOfLives; i++) {
@@ -82,7 +83,8 @@ public class GraphicLifeCounter extends GameObject {
             int i = livesCounter.value() - 1;
             livesArray[i] =
                     new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
-                            topLeftCorner.y()),dimensions, renderable);
+                            topLeftCorner.y())
+                            , dimensions, livesImage);
             gameObjectCollection.addGameObject(livesArray[i],
                     Layer.FOREGROUND);
             numOfLives++;
