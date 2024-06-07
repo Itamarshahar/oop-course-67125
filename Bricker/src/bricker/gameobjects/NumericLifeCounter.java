@@ -2,7 +2,7 @@ package Bricker.src.bricker.gameobjects;
 
 
 import danogl.GameObject;
-import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class NumericLifeCounter extends GameObject {
@@ -16,7 +16,7 @@ public class NumericLifeCounter extends GameObject {
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
      */
-    public NumericLifeCounter(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
+    public NumericLifeCounter(Counter topLeftCorner, Vector2 dimensions, Vector2 renderable) {
         super(topLeftCorner, dimensions, renderable);
     }
 }
