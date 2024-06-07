@@ -1,12 +1,7 @@
 package bricker.main;
 
-import bricker.brick_strategies.BasicCollisionStrategy;
-import bricker.brick_strategies.CollisionStrategy;
-import bricker.gameobjects.Brick;
-import bricker.gameobjects.Paddle;
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.*;
@@ -14,7 +9,6 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import bricker.gameobjects.Ball;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
