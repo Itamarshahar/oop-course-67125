@@ -115,8 +115,6 @@ public class BrickerGameManager extends GameManager {
         this.gameObjects().addGameObject(ball);
         createUserPaddle(imageReader);
 
-
-
         //create walls
         createWalls();
         createBackground(imageReader);
