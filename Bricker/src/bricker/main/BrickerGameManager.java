@@ -42,7 +42,7 @@ public class BrickerGameManager extends GameManager {
     private Vector2 windowDimensions;
     private ImageReader imageReader;
 
-//    private Counter livesCounter;
+    //    private Counter livesCounter;
 //    private Counter brickCounter;
     private Ball ball;
     private UserInputListener inputListener;
