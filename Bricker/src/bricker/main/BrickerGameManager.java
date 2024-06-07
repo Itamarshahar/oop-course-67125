@@ -36,7 +36,7 @@ public class BrickerGameManager extends GameManager {
     private static final String LIVES_IMAGE_PATH = "assets/heart.png";
     private static final String BRICK_IMAGE_PATH = "assets/brick.png";
     private static Counter brickCounter;
-    private static Counter livesCounter;
+    private Counter livesCounter;
     private int rows = 8;
     private int cols = 7;
     private Vector2 windowDimensions;
@@ -47,6 +47,7 @@ public class BrickerGameManager extends GameManager {
     private Ball ball;
     private UserInputListener inputListener;
     private WindowController windowController;
+    private SoundReader soundReader;
 
     public BrickerGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -98,6 +99,24 @@ public class BrickerGameManager extends GameManager {
         this.inputListener = inputListener;
         this.windowController = windowController;
         this.imageReader = imageReader;
+        this.soundReader = soundReader;
+        this.livesCounter = new Counter(LIVES_START_COUNT);
+
+        creatBall();
+        createUserPaddle();
+        createWalls();
+        createBackground();
+        createBricks();
+        createLives();
+
+    }
+
+    private void createLives() {
+        Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
+
+    }
+
+    private void creatBall() {
         Renderable ballImage = imageReader.readImage(BALL_IMAGE_PATH, true);
         Sound collisionSound = soundReader.readSound(COLLISION_SOUND_PATH);
         ball = new Ball(Vector2.ZERO, new Vector2(20, 20), ballImage, collisionSound);
@@ -116,17 +135,9 @@ public class BrickerGameManager extends GameManager {
         this.windowDimensions = windowController.getWindowDimensions();
         ball.setCenter(windowDimensions.mult(0.5f));
         this.gameObjects().addGameObject(ball);
-
-        createUserPaddle(imageReader);
-        createWalls(imageReader);
-        createBackground(imageReader);
-        createBricks(imageReader);
-
-        Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
-        livesCounter = new Counter(LIVES_START_COUNT);
     }
 
-    private void createUserPaddle(ImageReader imageReader) {
+    private void createUserPaddle() {
         Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
         GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15),
                 paddleImage, inputListener, WALL_WIDTH, windowDimensions);
@@ -134,14 +145,14 @@ public class BrickerGameManager extends GameManager {
         gameObjects().addGameObject(paddle);
     }
 
-    private void createBackground(ImageReader imageReader) {
+    private void createBackground() {
         Renderable backgroundImage = imageReader.readImage(BACKGROUND_IMAGE_PATH, false);
         GameObject background = new GameObject(Vector2.ZERO, windowDimensions, backgroundImage);
         background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects().addGameObject(background, Layer.BACKGROUND);
     }
 
-    private void createBricks(ImageReader imageReader) {
+    private void createBricks() {
         brickCounter = new Counter(rows * cols);
         Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH, false);
         CollisionStrategy basicStrategy = new BasicCollisionStrategy(gameObjects());
@@ -158,7 +169,7 @@ public class BrickerGameManager extends GameManager {
         }
     }
 
-    private void createWalls(ImageReader imageReader) {
+    private void createWalls() {
         Renderable rectangle = new RectangleRenderable(Color.RED);
         GameObject leftWall = new GameObject(Vector2.ZERO, new Vector2(WALL_WIDTH, windowDimensions.y()), rectangle);
         gameObjects().addGameObject(leftWall);
@@ -169,7 +180,11 @@ public class BrickerGameManager extends GameManager {
     }
 
     public static void main(String[] args) {
-        new BrickerGameManager("Bricker", new Vector2(700, 500)).run();
-        // TODO handle the cmd case (e.g - java BrickerGameManager 4 3)
+        if (args.length == 2) {
+            new BrickerGameManager("Bricker", new Vector2(700, 500),Integer.parseInt(args[0]), Integer.parseInt(args[1])).run();
+        }
+        else {
+            new BrickerGameManager("Bricker", new Vector2(700, 500)).run();
+        }
     }
 }
