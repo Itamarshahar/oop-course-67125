@@ -30,14 +30,15 @@ public class GraphicLifeCounter extends GameObject {
      *                      the GameObject will not be rendered.
      */
 
-    public GraphicLifeCounter(Vector2 topLeftCorner,
-                              Vector2 dimensions,
-                              Counter livesCounter,
-                              Renderable renderable,
-                              GameObjectCollection gameObjectCollection,
-                              int numOfLives,
-                              Renderable livesImage,
-                              int maxNumLives) {
+    public GraphicLifeCounter(
+            Vector2 topLeftCorner,
+            Vector2 dimensions,
+            Counter livesCounter,
+            Renderable renderable,
+            GameObjectCollection gameObjectCollection,
+            int numOfLives,
+            Renderable livesImage,
+            int maxNumLives) {
         super(topLeftCorner, dimensions, null);
         this.topLeftCorner = topLeftCorner;
         this.dimensions = dimensions;
@@ -46,6 +47,7 @@ public class GraphicLifeCounter extends GameObject {
         this.livesImage = livesImage;
         this.livesArray = new GameObject[maxNumLives];
         this.maxNumLives = maxNumLives;
+        this.livesCounter = livesCounter;
 
         for (int i = 0; i < numOfLives; i++) {
             if (i < livesCounter.value())

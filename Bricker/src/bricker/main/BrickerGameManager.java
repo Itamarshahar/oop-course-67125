@@ -5,6 +5,7 @@ import Bricker.src.bricker.brick_strategies.CollisionStrategy;
 import Bricker.src.bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.*;
@@ -20,10 +21,10 @@ import java.util.Random;
 public class BrickerGameManager extends GameManager {
     private static final float BALL_SPEED = 300;
     private static final int BRICK_DIST = 5;
-    private static final int LIVES_START_COUNT = 10000;
+    private static final int LIVES_START_COUNT = 3;
     private static final float LIVES_POSITION_X = 0;
     private static final float POSITION_DIST_Y = 30;
-    public static final int MAX_NUM_LIFE = 4;
+    public static final int MAX_NUM_LIFE = 3;
     public Vector2 dimension;
     public static final int PADDLE_WIDTH = 100;
     private static final int LIFE_SIZE = 30;
@@ -69,6 +70,13 @@ public class BrickerGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+//        GameObjectCollection gameObjects = gameObjects();
+//        for(GameObject obj : gameObjects){
+//            if (obj.getCenter().y() > windowDimension.y()){
+//                if (obj != ball)
+//                    gameObjects().removeGameObject(obj);
+//            }
+//        }
         checkForGameEnd();
     }
 
@@ -106,7 +114,7 @@ public class BrickerGameManager extends GameManager {
         this.imageReader = imageReader;
         this.soundReader = soundReader;
         this.livesCounter = new Counter(LIVES_START_COUNT);
-        creatBall();
+        createBall();
         createUserPaddle();
         createWalls();
         createBackground();
@@ -114,23 +122,30 @@ public class BrickerGameManager extends GameManager {
         Vector2 lifeDim = new Vector2(LIFE_SIZE, LIFE_SIZE);
         Renderable livesImage = imageReader.readImage("assets/heart.png", true);
         livesCounter = new Counter(LIVES_START_COUNT);
-        createLives(livesImage, livesCounter, new Vector2(LIVES_POSITION_X,
-                        windowDimension.y()- POSITION_DIST_Y),
-                lifeDim);
+        createLives(livesImage, livesCounter,
+                new Vector2(LIVES_POSITION_X, windowDimension.y()- POSITION_DIST_Y),
+                lifeDim,
+                gameObjects());
 
     }
 
-      private void createLives(Renderable renderable, Counter livesCounter, Vector2 topLeftCorner,
-                             Vector2 dimension) {
-        GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x()+
+    private void createLives(Renderable renderable, Counter livesCounter, Vector2 topLeftCorner,
+                             Vector2 dimension, GameObjectCollection gameObjectCollection) {
+         GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x()+
                 dimension.x()*MAX_NUM_LIFE, topLeftCorner.y()), dimension);
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
-        GameObject graphicLives = new GraphicLifeCounter(topLeftCorner, dimension, livesCounter, renderable,
-                this.gameObjects(), LIVES_START_COUNT, renderable, MAX_NUM_LIFE);
+        GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
+                                                            dimension,
+                                                            livesCounter,
+                                                            renderable,
+                                                            gameObjectCollection,
+                                                            LIVES_START_COUNT,
+                                                            renderable,
+                                                            MAX_NUM_LIFE);
         gameObjects().addGameObject(graphicLives);
     }
 
-    private void creatBall() {
+    private void createBall() {
         Renderable ballImage = imageReader.readImage(BALL_IMAGE_PATH, true);
         Sound collisionSound = soundReader.readSound(COLLISION_SOUND_PATH);
         ball = new Ball(Vector2.ZERO, new Vector2(20, 20), ballImage, collisionSound);
@@ -195,9 +210,8 @@ public class BrickerGameManager extends GameManager {
 
     public static void main(String[] args) {
         if (args.length == 2) {
-            new BrickerGameManager("Bricker", new Vector2(700, 500),Integer.parseInt(args[0]), Integer.parseInt(args[1])).run();
-        }
-        else {
+            new BrickerGameManager("Bricker", new Vector2(700, 500), Integer.parseInt(args[0]), Integer.parseInt(args[1])).run();
+        } else {
             new BrickerGameManager("Bricker", new Vector2(700, 500)).run();
         }
     }

@@ -23,10 +23,10 @@ public class NumericLifeCounter extends GameObject {
      * @param topLeftCorner Position of the object, in window coordinates (pixels).
      *                      Note that (0,0) is the top-left corner of the window.
      * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
+
      */
-    public NumericLifeCounter(Counter livesCounter,Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
+     public NumericLifeCounter(Counter livesCounter,
+                              Vector2 topLeftCorner, Vector2 dimensions) {
         super(topLeftCorner, dimensions, null);
         txtRenderer = new TextRenderable(Integer.toString(livesCounter.value()));
         txtRenderer.setColor(Color.green);
