@@ -71,7 +71,10 @@ public class BrickerGameManager extends GameManager {
     }
 
     @Override
-    public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
+    public void initializeGame(ImageReader imageReader,
+                               SoundReader soundReader,
+                               UserInputListener inputListener,
+                               WindowController windowController) {
         this.inputListener = inputListener;
         this.windowController = windowController;
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
