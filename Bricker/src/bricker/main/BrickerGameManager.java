@@ -9,12 +9,10 @@ import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.*;
-import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
@@ -46,14 +44,12 @@ public class BrickerGameManager extends GameManager {
     private int cols = 7;
     private Vector2 windowDimension;
     private ImageReader imageReader;
-
-    //    private Counter livesCounter;
-//    private Counter brickCounter;
     private Ball ball;
     private UserInputListener inputListener;
     private WindowController windowController;
     private SoundReader soundReader;
     private Vector2 topLeftCorner;
+    private Vector2 dimensions;
 
     public BrickerGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -70,13 +66,6 @@ public class BrickerGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-//        GameObjectCollection gameObjects = gameObjects();
-//        for(GameObject obj : gameObjects){
-//            if (obj.getCenter().y() > windowDimension.y()){
-//                if (obj != ball)
-//                    gameObjects().removeGameObject(obj);
-//            }
-//        }
         checkForGameEnd();
     }
 
@@ -114,34 +103,33 @@ public class BrickerGameManager extends GameManager {
         this.imageReader = imageReader;
         this.soundReader = soundReader;
         this.livesCounter = new Counter(LIVES_START_COUNT);
+        this.topLeftCorner = new Vector2(LIVES_POSITION_X,
+                windowDimension.y() - POSITION_DIST_Y);
+        this.dimensions = new Vector2(LIFE_SIZE, LIFE_SIZE);
+
         createBall();
         createUserPaddle();
         createWalls();
         createBackground();
         createBricks();
-        Vector2 lifeDim = new Vector2(LIFE_SIZE, LIFE_SIZE);
         Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
         livesCounter = new Counter(LIVES_START_COUNT);
         createLives(livesImage,
                 livesCounter,
-                new Vector2(LIVES_POSITION_X, windowDimension.y() - POSITION_DIST_Y),
-                lifeDim,
                 gameObjects());
     }
 
     private void createLives(Renderable renderable,
                              Counter livesCounter,
-                             Vector2 topLeftCorner,
-                             Vector2 dimension,
                              GameObjectCollection gameObjectCollection) {
         GameObject numericLives = new NumericLifeCounter(livesCounter,
-                topLeftCorner,
-                dimension);
+                                                        topLeftCorner,
+                                                        this.dimensions);
         GameObject graphicLives =
                 new GraphicLifeCounter(new Vector2(topLeftCorner.x() +
-                        dimension.x() + MAX_NUM_LIFE,
+                        dimensions.x() + MAX_NUM_LIFE,
                         topLeftCorner.y()),
-                        dimension,
+                        dimensions,
                         livesCounter,
                         renderable,
                         gameObjectCollection,
