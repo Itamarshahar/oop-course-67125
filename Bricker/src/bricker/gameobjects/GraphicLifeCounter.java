@@ -42,11 +42,11 @@ public class GraphicLifeCounter extends GameObject {
         super(topLeftCorner, dimensions, null);
         this.topLeftCorner = topLeftCorner;
         this.dimensions = dimensions;
-        this.gameObjectsCollection = gameObjectsCollection;
         this.numOfLives = numOfLives;
+        this.gameObjectCollection = gameObjectCollection;
         this.livesImage = livesImage;
-        this.livesArray = new GameObject[maxNumLives];
         this.maxNumLives = maxNumLives;
+        this.livesArray = new GameObject[maxNumLives];
         this.livesCounter = livesCounter;
 
         for (int i = 0; i < numOfLives; i++) {

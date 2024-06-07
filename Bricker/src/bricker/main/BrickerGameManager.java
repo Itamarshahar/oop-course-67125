@@ -25,7 +25,7 @@ public class BrickerGameManager extends GameManager {
     private static final float LIVES_POSITION_X = 0;
     private static final float POSITION_DIST_Y = 30;
     public static final int MAX_NUM_LIFE = 3;
-    public Vector2 dimension;
+//    public Vector2 dimension;
     public static final int PADDLE_WIDTH = 100;
     private static final int LIFE_SIZE = 30;
 
@@ -129,20 +129,24 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-    private void createLives(Renderable renderable, Counter livesCounter, Vector2 topLeftCorner,
-                             Vector2 dimension, GameObjectCollection gameObjectCollection) {
+    private void createLives(Renderable renderable,
+                             Counter livesCounter,
+                             Vector2 topLeftCorner,
+                             Vector2 dimension,
+                             GameObjectCollection gameObjectCollection) {
         GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x() +
                 dimension.x() * MAX_NUM_LIFE, topLeftCorner.y()), dimension);
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
+
         GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
-                dimension,
-                livesCounter,
-                renderable,
-                gameObjectCollection,
-                LIVES_START_COUNT,
-                renderable,
-                MAX_NUM_LIFE);
-        gameObjects().addGameObject(graphicLives);
+                                                            dimension,
+                                                            livesCounter,
+                                                            renderable,
+                                                            gameObjectCollection,
+                                                            LIVES_START_COUNT,
+                                                            renderable,
+                                                            MAX_NUM_LIFE);
+        gameObjects().addGameObject(graphicLives, Layer.FOREGROUND);
     }
 
     private void createBall() {
@@ -199,12 +203,12 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createWalls() {
-        Renderable rectangle = new RectangleRenderable(Color.RED);
-        GameObject leftWall = new GameObject(Vector2.ZERO, new Vector2(WALL_WIDTH, windowDimension.y()), rectangle);
+        GameObject leftWall = new GameObject(Vector2.ZERO,
+                new Vector2(WALL_WIDTH, windowDimension.y()), null);
         gameObjects().addGameObject(leftWall);
 
         GameObject rightWall = new GameObject(new Vector2(windowDimension.x() - WALL_WIDTH, 0), new Vector2(10,
-                windowDimension.y()), rectangle);
+                windowDimension.y()), null);
         gameObjects().addGameObject(rightWall);
     }
 
