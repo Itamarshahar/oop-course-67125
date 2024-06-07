@@ -123,7 +123,7 @@ public class BrickerGameManager extends GameManager {
         Renderable livesImage = imageReader.readImage("assets/heart.png", true);
         livesCounter = new Counter(LIVES_START_COUNT);
         createLives(livesImage, livesCounter,
-                new Vector2(LIVES_POSITION_X, windowDimension.y()- POSITION_DIST_Y),
+                new Vector2(LIVES_POSITION_X, windowDimension.y() - POSITION_DIST_Y),
                 lifeDim,
                 gameObjects());
 
@@ -131,17 +131,17 @@ public class BrickerGameManager extends GameManager {
 
     private void createLives(Renderable renderable, Counter livesCounter, Vector2 topLeftCorner,
                              Vector2 dimension, GameObjectCollection gameObjectCollection) {
-         GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x()+
-                dimension.x()*MAX_NUM_LIFE, topLeftCorner.y()), dimension);
+        GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x() +
+                dimension.x() * MAX_NUM_LIFE, topLeftCorner.y()), dimension);
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
         GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
-                                                            dimension,
-                                                            livesCounter,
-                                                            renderable,
-                                                            gameObjectCollection,
-                                                            LIVES_START_COUNT,
-                                                            renderable,
-                                                            MAX_NUM_LIFE);
+                dimension,
+                livesCounter,
+                renderable,
+                gameObjectCollection,
+                LIVES_START_COUNT,
+                renderable,
+                MAX_NUM_LIFE);
         gameObjects().addGameObject(graphicLives);
     }
 
