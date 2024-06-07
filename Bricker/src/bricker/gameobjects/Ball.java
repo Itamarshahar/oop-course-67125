@@ -1,13 +1,15 @@
-package bricker.gameobjects;
+package Bricker.src.bricker.gameobjects;
 
 import danogl.GameObject;
 import danogl.collisions.Collision;
+import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
-public class Brick extends GameObject {
+public class Ball extends GameObject {
 
-    private CollisionStrategy collisionStrategy;
+    private int collisionCounter;
+    private Sound collisionSound;
 
     /**
      * Construct a new GameObject instance.
@@ -18,15 +20,26 @@ public class Brick extends GameObject {
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
      */
-    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                 CollisionStrategy collisionStrategy) {
+    public Ball(Vector2 topLeftCorner,
+                Vector2 dimensions,
+                Renderable renderable,
+                Sound collisionSound) {
         super(topLeftCorner, dimensions, renderable);
-        this.collisionStrategy = collisionStrategy;
+        this.collisionSound = collisionSound;
+        this.collisionCounter = 0;
+    }
+
+    public int getCollisionCounter() {
+        return collisionCounter;
     }
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
+        collisionCounter++;
         super.onCollisionEnter(other, collision);
-        this.collisionStrategy.onCollision(this,other);
+        Vector2 newVel = getVelocity().flipped(collision.getNormal());
+        collisionSound.play();
+        setVelocity(newVel);
+
     }
 }
