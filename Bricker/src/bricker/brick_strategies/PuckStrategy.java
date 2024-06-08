@@ -4,8 +4,12 @@ import Bricker.src.bricker.main.BrickerGameManager;
 import danogl.GameObject;
 
 public class PuckStrategy implements CollisionStrategy {
-    public PuckStrategy(BrickerGameManager objectCollection) {
+    private final CollisionStrategy baseStrategy;
+    private final BrickerGameManager objectCollection;
 
+    public PuckStrategy(CollisionStrategy baseStrategy, BrickerGameManager objectCollection) {
+        this.objectCollection = objectCollection;
+        this.baseStrategy = baseStrategy;
     }
 
     @Override
