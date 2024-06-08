@@ -19,7 +19,7 @@ public class CollisionStrategyFactory {
         }
         switch (strategy) {
             case 0:
-                return new PuckStrategy(objectCollection);
+                return new PuckStrategy(baseStrategy, objectCollection);
 
             default:
                 return baseStrategy;
