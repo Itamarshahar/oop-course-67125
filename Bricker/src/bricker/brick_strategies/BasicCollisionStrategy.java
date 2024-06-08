@@ -2,7 +2,6 @@ package Bricker.src.bricker.brick_strategies;
 
 import Bricker.src.bricker.main.BrickerGameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.util.Counter;
 
 public class BasicCollisionStrategy implements CollisionStrategy {

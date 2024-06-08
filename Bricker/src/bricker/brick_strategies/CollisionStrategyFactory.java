@@ -13,16 +13,22 @@ public class CollisionStrategyFactory {
 
     public CollisionStrategy getCollisionStrategy(CollisionStrategy baseStrategy,
                                                   int strategy) {
-        return new BasicCollisionStrategy(objectCollection);
-//        if (baseStrategy == null) {
-//            baseStrategy = new BasicCollisionStrategy(objectCollection);
-//        }
-//        switch (strategy) {
-//            case 0:
-//                return new PuckStrategy(baseStrategy, objectCollection);
-//
-//            default:
-//                return baseStrategy;
-//        }
+        if (baseStrategy == null) {
+            baseStrategy = new BasicCollisionStrategy(objectCollection);
+        }
+        switch (strategy) {
+            case 0:
+                return new PuckStrategy(baseStrategy, objectCollection);
+
+//            case 1:
+//                return new
+//            case 2:
+//                return new CameraCollisionStrategy();
+            case 3:
+                return new CameraStrategy(baseStrategy, objectCollection);
+
+            default:
+                return baseStrategy;
+        }
     }
 }
