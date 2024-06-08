@@ -184,6 +184,7 @@ public class BrickerGameManager extends GameManager {
                new Vector2(WALL_WIDTH, windowDimension.y());
         GameObject rightWall = new GameObject(rightWallTopLeftCorner, rightWallDimensions, null);
         gameObjects().addGameObject(rightWall);
+
         Vector2 topWallTopLeftCorner = Vector2.ZERO;
         Vector2 topWallDimensions =
                 new Vector2(windowDimension.x() - WALL_WIDTH, WALL_WIDTH);
