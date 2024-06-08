@@ -23,7 +23,6 @@ public class BrickerGameManager extends GameManager {
     private static final float LIVES_POSITION_X = 0;
     private static final float POSITION_DIST_Y = 30;
     public static final int MAX_NUM_LIFE = 3;
-//    public Vector2 dimension;
     public static final int PADDLE_WIDTH = 100;
     private static final int LIFE_SIZE = 30;
 
@@ -49,7 +48,6 @@ public class BrickerGameManager extends GameManager {
     private WindowController windowController;
     private SoundReader soundReader;
     private Vector2 topLeftCorner;
-    private Vector2 dimensions;
 
     public BrickerGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -69,28 +67,6 @@ public class BrickerGameManager extends GameManager {
         checkForGameEnd();
     }
 
-    private void checkForGameEnd() {
-        double ballHeight = ball.getCenter().y();
-        String prompt = "";
-        if (brickCounter.value() == 0 || inputListener.isKeyPressed(KeyEvent.VK_W)) {
-            prompt = WIN_MESSAGE;
-        }
-        if (ballHeight > windowDimension.y()) {
-            if (livesCounter.value() > 1) {
-                livesCounter.decrement();
-                ball.setCenter(windowDimension.mult(0.5F));
-            } else {
-                prompt = LOSE_MESSAGE;
-            }
-        }
-        if (!prompt.isEmpty()) {
-            prompt += PLAY_AGAIN_PROMPT;
-            if (windowController.openYesNoDialog(prompt))
-                windowController.resetGame();
-            else
-                windowController.closeWindow();
-        }
-    }
 
     @Override
     public void initializeGame(ImageReader imageReader,
@@ -106,17 +82,17 @@ public class BrickerGameManager extends GameManager {
         this.windowDimension = windowController.getWindowDimensions();
         this.topLeftCorner = new Vector2(LIVES_POSITION_X,
                 windowDimension.y() - POSITION_DIST_Y);
-        Vector2 dimension = new Vector2(LIFE_SIZE, LIFE_SIZE);
+        Vector2 lifeDimensions = new Vector2(LIFE_SIZE, LIFE_SIZE);
 
         createBall();
         createUserPaddle();
         createWalls();
         createBackground();
         createBricks();
-        Renderable livesImage = imageReader.readImage("assets/heart.png", true);
+        Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
         livesCounter = new Counter(LIVES_START_COUNT);
         createLives(livesImage,
-                dimension,
+                lifeDimensions,
                 livesCounter,
                 gameObjects());
 
@@ -132,13 +108,13 @@ public class BrickerGameManager extends GameManager {
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
 
         GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
-                                                            dimension,
-                                                            livesCounter,
-                                                            renderable,
-                                                            gameObjectCollection,
-                                                            LIVES_START_COUNT,
-                                                            renderable,
-                                                            MAX_NUM_LIFE);
+                dimension,
+                livesCounter,
+                renderable,
+                gameObjectCollection,
+                LIVES_START_COUNT,
+                renderable,
+                MAX_NUM_LIFE);
         gameObjects().addGameObject(graphicLives, Layer.FOREGROUND);
     }
 
@@ -196,13 +172,47 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createWalls() {
-        GameObject leftWall = new GameObject(Vector2.ZERO,
-                new Vector2(WALL_WIDTH, windowDimension.y()), null);
+
+        Vector2 leftWallTopLeftCorner = Vector2.ZERO;
+        Vector2 leftWallDimensions = new Vector2(WALL_WIDTH, windowDimension.y());
+        GameObject leftWall = new GameObject(leftWallTopLeftCorner, leftWallDimensions, null);
         gameObjects().addGameObject(leftWall);
 
-        GameObject rightWall = new GameObject(new Vector2(windowDimension.x() - WALL_WIDTH, 0), new Vector2(10,
-                windowDimension.y()), null);
+        Vector2 rightWallTopLeftCorner =
+                new Vector2(windowDimension.x() - WALL_WIDTH, 0);
+        Vector2 rightWallDimensions =
+               new Vector2(WALL_WIDTH, windowDimension.y());
+        GameObject rightWall = new GameObject(rightWallTopLeftCorner, rightWallDimensions, null);
         gameObjects().addGameObject(rightWall);
+        Vector2 topWallTopLeftCorner = Vector2.ZERO;
+        Vector2 topWallDimensions =
+                new Vector2(windowDimension.x() - WALL_WIDTH, WALL_WIDTH);
+        GameObject topWall = new GameObject(topWallTopLeftCorner,
+                topWallDimensions, null);
+        gameObjects().addGameObject(topWall);
+    }   
+
+    private void checkForGameEnd() {
+        double ballHeight = ball.getCenter().y();
+        String prompt = "";
+        if (brickCounter.value() == 0 || inputListener.isKeyPressed(KeyEvent.VK_W)) {
+            prompt = WIN_MESSAGE;
+        }
+        if (ballHeight > windowDimension.y()) {
+            if (livesCounter.value() > 1) {
+                livesCounter.decrement();
+                ball.setCenter(windowDimension.mult(0.5F));
+            } else {
+                prompt = LOSE_MESSAGE;
+            }
+        }
+        if (!prompt.isEmpty()) {
+            prompt += PLAY_AGAIN_PROMPT;
+            if (windowController.openYesNoDialog(prompt))
+                windowController.resetGame();
+            else
+                windowController.closeWindow();
+        }
     }
 
     public static void main(String[] args) {
