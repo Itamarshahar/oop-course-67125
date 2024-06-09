@@ -150,11 +150,11 @@ public class BrickerGameManager extends GameManager {
     public void addHeart(Vector2 topLeftCorner) {
         Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
         Heart heart = new Heart(topLeftCorner,
-                windowDimension.mult(0.05f),
-                heartFig,
-                gameObjects(),
-                livesCounter,
-                windowController);
+                                windowDimension.mult(0.05f),
+                                heartFig,
+                                gameObjects(),
+                                livesCounter,
+                                windowController);
         gameObjectCollection.addGameObject(heart, Layer.FOREGROUND);
     }
 
