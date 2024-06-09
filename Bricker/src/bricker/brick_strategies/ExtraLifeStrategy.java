@@ -10,7 +10,8 @@ public class ExtraLifeStrategy implements CollisionStrategy {
     private final CollisionStrategy wrapped;
     private final BrickerGameManager brickerGameManager;
 
-    public ExtraLifeStrategy(CollisionStrategy wrapped, BrickerGameManager brickerGameManager) {
+    public ExtraLifeStrategy(CollisionStrategy wrapped,
+                             BrickerGameManager brickerGameManager) {
         this.wrapped = wrapped;
         this.brickerGameManager = brickerGameManager;
     }

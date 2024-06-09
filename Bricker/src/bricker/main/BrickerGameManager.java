@@ -106,7 +106,7 @@ public class BrickerGameManager extends GameManager {
         Vector2 lifeDimensions = new Vector2(LIFE_SIZE, LIFE_SIZE);
 
         createBall();
-        createUserPaddle();
+        createPrimeryPaddle();
         createWalls();
         createBackground();
         createBricks();
@@ -152,12 +152,12 @@ public class BrickerGameManager extends GameManager {
         Heart heart = new Heart(topLeftCorner,
                                 windowDimension.mult(0.05f),
                                 heartFig,
-                                gameObjects(),
+                               gameObjectCollection,
                                 livesCounter,
                                 windowController);
-        gameObjectCollection.addGameObject(heart, Layer.FOREGROUND);
+        heart.setVelocity(new Vector2(0, 100));
+        gameObjects().addGameObject(heart);
     }
-
 
 
     private void createLives(Renderable renderable,
@@ -201,11 +201,12 @@ public class BrickerGameManager extends GameManager {
         this.gameObjects().addGameObject(ball);
     }
 
-    private void createUserPaddle() {
+    private void createPrimeryPaddle() {
         Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
         GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15),
                 paddleImage, inputListener, WALL_WIDTH, windowDimension);
         paddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() - 25));
+        paddle.setTag(ORIGINAL_PADDLE_TAG);
         gameObjects().addGameObject(paddle);
     }
 
@@ -217,7 +218,8 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createBricks() {
-        CollisionStrategyFactory collisionStrategyFactory = new CollisionStrategyFactory(this);
+        CollisionStrategyFactory collisionStrategyFactory =
+                new CollisionStrategyFactory(this   );
         Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH, false);
 
         int brick_size =

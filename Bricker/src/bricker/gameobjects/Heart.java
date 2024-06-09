@@ -44,9 +44,9 @@ public class Heart extends GameObject {
                  Counter livesCounter,
                  WindowController windowController) {
         super(topLeftCorner, dimensions, renderable);
-        Heart.gameObjects = gameObjects;
-        Heart.livesCounter = livesCounter;
-        Heart.windowController = windowController;
+        this.gameObjects = gameObjects;
+        this.livesCounter = livesCounter;
+        this.windowController = windowController;
     }
 
     /**

@@ -14,11 +14,11 @@ public class CollisionStrategyFactory {
     public CollisionStrategy getCollisionStrategy(CollisionStrategy baseStrategy,
                                                   int strategy) {
         if (baseStrategy == null) {
-            baseStrategy = new BasicCollisionStrategy(objectCollection);
+            baseStrategy = new BasicCollisionStrategy(this.objectCollection);
         }
         switch (strategy) {
             case 0:
-                return new PuckStrategy(baseStrategy, objectCollection);
+                return new PuckStrategy(baseStrategy, this.objectCollection);
 
 //            case 1:
 //                return new
