@@ -277,15 +277,15 @@ public class BrickerGameManager extends GameManager {
         }
     }
 
-    public void addHeart(Vector2 topLeftCorner) {
-        Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
-        Heart heart = new Heart(topLeftCorner,
-                windowDimension.mult(0.05f),
-                heartFig,
-                ORIGINAL_PADDLE_TAG,
-                this,
-                windowDimension.y());
-        gameObjectCollection.addGameObject(heart, Layer.DEFAULT);
+//    public void addHeart(Vector2 topLeftCorner) {
+//        Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
+//        Heart heart = new Heart(topLeftCorner,
+//                windowDimension.mult(0.05f),
+//                heartFig,
+//                ORIGINAL_PADDLE_TAG,
+//                this,
+//                windowDimension.y());
+//        gameObjectCollection.addGameObject(heart, Layer.DEFAULT);
+//    }
     }
-    }
-}
+

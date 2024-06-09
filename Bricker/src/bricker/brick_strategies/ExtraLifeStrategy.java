@@ -18,7 +18,7 @@ public class ExtraLifeStrategy implements CollisionStrategy {
     @Override
     public void onCollision(GameObject obj1, GameObject obj2) {
         wrapped.onCollision(obj1,obj2);
-        brickerGameManager.addHeart(obj1.getCenter());
+//        brickerGameManager.addHeart(obj1.getCenter());
 
     }
 }
