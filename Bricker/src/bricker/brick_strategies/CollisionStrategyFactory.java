@@ -26,6 +26,8 @@ public class CollisionStrategyFactory {
 //                return new CameraCollisionStrategy();
             case 3:
                 return new CameraStrategy(baseStrategy, objectCollection);
+            case 4:
+                return new ExtraLifeStrategy(baseStrategy, objectCollection);
 
             default:
                 return baseStrategy;

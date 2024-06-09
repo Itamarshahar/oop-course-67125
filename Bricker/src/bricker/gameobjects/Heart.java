@@ -1,4 +1,4 @@
-package src.gameobjects;
+package Bricker.src.bricker.gameobjects;
 
 import danogl.GameManager;
 import danogl.GameObject;
@@ -8,6 +8,9 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
+
+import static Bricker.src.bricker.main.BrickerGameManager.MAX_NUM_LIFE;
+import static Bricker.src.bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
 //import src.bricker.main.BrickerGameManager;
 //import src.brick_strategies.HeartStrategy;
 
@@ -34,7 +37,8 @@ public class Heart extends GameObject {
     /**
      * constructor
      */
-    public Heart(Vector2 topLeftCorner, Vector2 dimensions,
+    public Heart(Vector2 topLeftCorner,
+                 Vector2 dimensions,
                  Renderable renderable,
                  GameObjectCollection gameObjects,
                  Counter livesCounter,
@@ -56,7 +60,7 @@ public class Heart extends GameObject {
 
     @Override
     public boolean shouldCollideWith(GameObject other) {
-        if (other.getTag().equals("paddle")) {
+        if (other.getTag().equals(ORIGINAL_PADDLE_TAG)) {
             return super.shouldCollideWith(other);
         }
         return false;
@@ -77,7 +81,7 @@ public class Heart extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         gameObjects.removeGameObject(this);
-        if (livesCounter.value() < 4){
+        if (livesCounter.value() <= MAX_NUM_LIFE){
             livesCounter.increment();
         }
     }

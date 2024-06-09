@@ -44,7 +44,7 @@ public class BrickerGameManager extends GameManager {
     private static final String BRICK_IMAGE_PATH = "assets/brick.png";
     private static final int NUM_OF_STRATEGIES = 10;
     private static final String ORIGINAL_BALL_TAG = "ORIGINAL_BALL";
-    private static final String ORIGINAL_PADDLE_TAG = "ORIGINAL_PADDLE";
+    public static final String ORIGINAL_PADDLE_TAG = "ORIGINAL_PADDLE";
     private Counter brickCounter;
     private Counter livesCounter;
     private int rows = 8;
@@ -147,6 +147,19 @@ public class BrickerGameManager extends GameManager {
         }
     }
 
+    public void addHeart(Vector2 topLeftCorner) {
+        Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
+        Heart heart = new Heart(topLeftCorner,
+                windowDimension.mult(0.05f),
+                heartFig,
+                gameObjects(),
+                livesCounter,
+                windowController);
+        gameObjectCollection.addGameObject(heart, Layer.FOREGROUND);
+    }
+
+
+
     private void createLives(Renderable renderable,
                              Vector2 dimension,
                              Counter livesCounter,
@@ -212,7 +225,7 @@ public class BrickerGameManager extends GameManager {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
 //                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-                int nextInt = 3;
+                int nextInt = 4; // TODO remove
                 CollisionStrategy currentCollisionStrategy = collisionStrategyFactory.getCollisionStrategy(null, nextInt);
                 Vector2 placement = new Vector2(BRICK_DIST * (row) + row * brick_size + WALL_WIDTH,
                         BRICK_DIST * (col) + col * BRICK_HEIGHT + WALL_WIDTH);
@@ -277,15 +290,6 @@ public class BrickerGameManager extends GameManager {
         }
     }
 
-//    public void addHeart(Vector2 topLeftCorner) {
-//        Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
-//        Heart heart = new Heart(topLeftCorner,
-//                windowDimension.mult(0.05f),
-//                heartFig,
-//                ORIGINAL_PADDLE_TAG,
-//                this,
-//                windowDimension.y());
-//        gameObjectCollection.addGameObject(heart, Layer.DEFAULT);
-//    }
+
     }
 
