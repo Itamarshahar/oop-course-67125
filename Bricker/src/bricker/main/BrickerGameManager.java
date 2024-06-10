@@ -21,9 +21,10 @@ public class BrickerGameManager extends GameManager {
     private static final float BALL_SPEED = 300;
     private static final int BRICK_DIST = 5;
     private static final int LIVES_START_COUNT = 3;
+    public static final int MAX_NUM_LIFE = LIVES_START_COUNT + 1;
+
     private static final float LIVES_POSITION_X = 0;
     private static final float POSITION_DIST_Y = 30;
-    public static final int MAX_NUM_LIFE = 3;
     public static final int PADDLE_WIDTH = 100;
     private static final int LIFE_SIZE = 30;
     /**
