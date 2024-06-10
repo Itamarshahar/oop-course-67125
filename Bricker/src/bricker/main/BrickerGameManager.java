@@ -298,6 +298,5 @@ public class BrickerGameManager extends GameManager {
         }
     }
 
-
-    }
+}
 
