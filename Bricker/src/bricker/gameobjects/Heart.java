@@ -7,8 +7,6 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 import static Bricker.src.bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
-//import src.bricker.main.BrickerGameManager;
-//import src.brick_strategies.HeartStrategy;
 
 public class Heart extends GameObject {
     /**
@@ -25,9 +23,6 @@ public class Heart extends GameObject {
      * it is outside the display
      */
 
-//    private final GameObjectCollection gameObjects;
-//    private final Counter livesCounter;
-//    private final WindowController windowController;
     private final String paddleTag;
     private final float minY;
     private final BrickerGameManager brickerGameManager;
@@ -94,8 +89,7 @@ public class Heart extends GameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-//        if (this.getCenter().y() > windowController.getWindowDimensions().y()) {
-        if (this.getCenter().y() > minY){
+        if (this.getCenter().y() > minY) {
             brickerGameManager.removeGameObjectHandler(this);
         }
     }
