@@ -39,22 +39,15 @@ public class Heart extends GameObject {
     public Heart(Vector2 topLeftCorner,
                  Vector2 dimensions,
                  Renderable renderable,
-//                 GameObjectCollection gameObjects,
-//                 Counter livesCounter,
-//                 WindowController windowController,
                  BrickerGameManager brickerGameManager,
                  String paddleTag,
                  float minY) {
         super(topLeftCorner, dimensions, renderable);
         this.brickerGameManager = brickerGameManager;
-
         this.paddleTag = paddleTag;
         this.minY = minY;
         this.setVelocity(new Vector2(0, 100)); // Set initial downward movement
-
-
     }
-
 
     /**
      * @param other     The GameObject with which a collision occurred.
