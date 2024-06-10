@@ -153,13 +153,18 @@ public class BrickerGameManager extends GameManager {
         Heart heart = new Heart(topLeftCorner,
                                 windowDimension.mult(0.05f),
                                 heartFig,
-                               gameObjectCollection,
-                                livesCounter,
-                                windowController);
+                this,
+                ORIGINAL_PADDLE_TAG,
+                windowDimension.y());
         heart.setVelocity(new Vector2(0, 100));
         gameObjects().addGameObject(heart);
     }
 
+    public void increaseLifeCounter() {
+        if (livesCounter.value() < MAX_NUM_LIFE) {
+            livesCounter.increment();
+        }
+    }
 
     private void createLives(Renderable renderable,
                              Vector2 dimension,
