@@ -33,7 +33,7 @@ public class BrickerGameManager extends GameManager {
      */
     private static final int BALLS_HIT_FOR_CAMERA = 4;
     private static final int BRICK_HEIGHT = 15;
-    private static final int WALL_WIDTH = 10;
+    private static final int WALL_WIDTH = 15;
     private static final String WIN_MESSAGE = "You win!";
     private static final String LOSE_MESSAGE = "You lose!";
     private static final String PLAY_AGAIN_PROMPT = " Play again?";
