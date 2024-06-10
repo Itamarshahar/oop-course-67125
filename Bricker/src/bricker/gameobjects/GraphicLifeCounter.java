@@ -79,11 +79,11 @@ public class GraphicLifeCounter extends GameObject {
             gameObjectCollection.removeGameObject(livesArray[numOfLives - 1],
                     Layer.FOREGROUND);
             numOfLives--;
-        } else if (livesCounter.value() > numOfLives) {
+        }
+        else if (maxNumLives >= livesCounter.value() && livesCounter.value() > numOfLives) {
             int i = livesCounter.value() - 1;
-            livesArray[i] =
-                    new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
-                            topLeftCorner.y())
+            livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
+                                                        topLeftCorner.y())
                             , dimensions, livesImage);
             gameObjectCollection.addGameObject(livesArray[i],
                     Layer.FOREGROUND);
