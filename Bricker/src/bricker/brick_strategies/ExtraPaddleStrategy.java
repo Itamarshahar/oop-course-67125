@@ -1,12 +1,12 @@
-/**
- * The ExtraPaddleStrategy class implements the CollisionStrategy interface and is responsible
- * for adding an extra paddle to the game when a collision occurs between two game objects.
- */
+
 package Bricker.src.bricker.brick_strategies;
 
 import Bricker.src.bricker.main.BrickerGameManager;
 import danogl.GameObject;
-
+/**
+ * The ExtraPaddleStrategy class implements the CollisionStrategy interface and is responsible
+ * for adding an extra paddle to the game when a collision occurs between two game objects.
+ */
 public class ExtraPaddleStrategy implements CollisionStrategy {
     private final CollisionStrategy wrappedCollision;
     private final BrickerGameManager brickerGameManager;
