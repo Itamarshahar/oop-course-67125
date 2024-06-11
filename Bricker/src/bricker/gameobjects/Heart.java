@@ -88,7 +88,7 @@ public class Heart extends GameObject {
      *                  and adding to the position/velocity:
      *                  velocity += deltaTime*acceleration
      *                  pos += deltaTime*velocity
-     *                  <p>
+     *
      *                  used to remove the heart from the window when it gets outside the display
      */
     @Override

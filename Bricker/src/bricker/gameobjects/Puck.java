@@ -11,7 +11,7 @@ import danogl.collisions.Layer;
 
 /**
  * Puck.java
- * <p>
+ *
  * This class represents a puck in the game, inheriting from the Ball class.
  * It handles removing itself from the game when it goes below a certain height.
  */

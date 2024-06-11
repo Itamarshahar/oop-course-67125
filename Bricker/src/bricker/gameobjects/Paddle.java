@@ -23,22 +23,31 @@ public class Paddle extends GameObject {
     /**
      * Construct a new Paddle instance.
      *
-     * @param topLeftCorner  Position of the paddle, in window coordinates (pixels).
-     * @param dimensions     Width and height of the paddle in window coordinates.
-     * @param renderable     The renderable representing the paddle's appearance.
+     * @param topLeftCorner  Position of the paddle, in window coordinates
+     *                       (pixels).
+     * @param dimensions     Width and height of the paddle in window
+     *                       coordinates.
+     *
+     * @param renderable     The renderable representing the paddle's
+     *                       appearance.
      * @param inputListener  The listener for user input to control the paddle.
      * @param wallWidth      The width of the wall surrounding the game area.
      * @param windowDimension The dimensions of the game window.
      */
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions,
-                  Renderable renderable, UserInputListener inputListener, int wallWidth, Vector2 windowDimension) {
+    public Paddle(Vector2 topLeftCorner,
+                  Vector2 dimensions,
+                  Renderable renderable,
+                  UserInputListener inputListener,
+                  int wallWidth,
+                  Vector2 windowDimension) {
         super(topLeftCorner, dimensions, renderable);
         this.inputListener = inputListener;
         this.wallWidth = wallWidth;
         this.windowDimension = windowDimension;
     }
     /**
-     * Update the paddle's position based on user input and the game window boundaries.
+     * Update the paddle's position based on user input and the game window
+     * boundaries.
      *
      * @param deltaTime The time elapsed, in seconds, since the last frame.
      */
@@ -51,10 +60,10 @@ public class Paddle extends GameObject {
             movmentDir = movmentDir.add(Vector2.LEFT.mult(MOVEMENT_SPEED));
         }
         if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT) &&
-                getTopLeftCorner().x() + getDimensions().x() + wallWidth < windowDimension.x()){
+                getTopLeftCorner().x() + getDimensions().x()
+                        + wallWidth < windowDimension.x()){
             movmentDir = movmentDir.add(Vector2.RIGHT.mult(MOVEMENT_SPEED));
         }
-
         setVelocity(movmentDir);
     }
 

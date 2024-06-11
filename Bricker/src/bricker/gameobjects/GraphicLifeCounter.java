@@ -28,14 +28,20 @@ public class GraphicLifeCounter extends GameObject {
 /**
      * Construct a new GraphicLifeCounter instance.
      *
-     * @param topLeftCorner       Position of the life counter, in window coordinates (pixels).
-     *                            Note that (0,0) is the top-left corner of the window.
-     * @param dimensions          Width and height of each life icon in window coordinates.
-     * @param livesCounter        The counter for tracking the number of lives.
+     * @param topLeftCorner       Position of the life counter, in window
+ *                            coordinates (pixels).
+     *                            Note that (0,0) is the top-left corner of
+ *                            the window.
+     * @param dimensions          Width and height of each life icon in
+ *                           window coordinates.
+     * @param livesCounter        The counter for tracking the number
+ *                           of lives.
      * @param renderable          The renderable representing each life icon.
-     * @param gameObjectCollection The collection of game objects to add the life icons to.
+     * @param gameObjectCollection The collection of game objects to
+ *                             add the life icons to.
      * @param numOfLives          The initial number of lives.
-     * @param livesImage          The renderable representing each life icon when displayed.
+     * @param livesImage          The renderable representing each life
+ *                            icon when displayed.
      * @param maxNumLives         The maximum number of lives allowed.
      */
     public GraphicLifeCounter(
@@ -84,9 +90,11 @@ public class GraphicLifeCounter extends GameObject {
                     Layer.FOREGROUND);
             numOfLives--;
         }
-        else if (maxNumLives >= livesCounter.value() && livesCounter.value() > numOfLives) {
+        else if (maxNumLives >= livesCounter.value() && livesCounter.value() >
+                numOfLives) {
             int i = livesCounter.value() - 1;
-            livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
+            livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() +
+                    (i * dimensions.x()),
                                                         topLeftCorner.y())
                             , dimensions, livesImage);
             gameObjectCollection.addGameObject(livesArray[i],
@@ -95,10 +103,4 @@ public class GraphicLifeCounter extends GameObject {
         }
     }
 }
-
-//    @Override
-//    public void update(float deltaTime){
-//        super.update(deltaTime);
-//
-//    }
 

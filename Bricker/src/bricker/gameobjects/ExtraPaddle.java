@@ -11,7 +11,7 @@ import danogl.util.Counter;
 
 /**
  * ExtraPaddle.java
- * <p>
+ *
  * This class represents an extra paddle in the game. It extends the Paddle
  * class
  * and handles collisions with other objects, removing itself from the game
