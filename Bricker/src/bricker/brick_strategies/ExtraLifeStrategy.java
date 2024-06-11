@@ -14,8 +14,10 @@ public class ExtraLifeStrategy implements CollisionStrategy {
     /**
      * Constructor to initialize the ExtraLifeStrategy.
      *
-     * @param wrappedCollision   The CollisionStrategy instance to be wrapped by this strategy.
-     * @param brickerGameManager The BrickerGameManager instance that manages the game.
+     * @param wrappedCollision   The CollisionStrategy instance to be wrapped
+     *                          by this strategy.
+     * @param brickerGameManager The BrickerGameManager instance that manages
+     *                          the game.
      */
     public ExtraLifeStrategy(CollisionStrategy wrappedCollision,
                              BrickerGameManager brickerGameManager) {
@@ -25,7 +27,8 @@ public class ExtraLifeStrategy implements CollisionStrategy {
 
     /**
      * Handles the collision between two game objects.
-     * It calls the wrapped collision strategy and then adds an extra life to the player.
+     * It calls the wrapped collision strategy and then adds an extra life
+     * to the player.
      *
      * @param obj1 The first game object involved in the collision.
      * @param obj2 The second game object involved in the collision.

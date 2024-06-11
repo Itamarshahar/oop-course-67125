@@ -1,6 +1,6 @@
 package Bricker.src.bricker.gameobjects;
 
-import  Bricker.src.bricker.main.BrickerGameManager;
+import Bricker.src.bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.Layer;
@@ -9,18 +9,25 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import danogl.collisions.Layer;
 
+/**
+ * Puck.java
+ *
+ * This class represents a puck in the game, inheriting from the Ball class.
+ * It handles removing itself from the game when it goes below a certain height.
+ */
 public class Puck extends Ball {
     private final float minHeight;
     private final BrickerGameManager brickerGameManager;
 
+
     /**
-     * Constructs a new `Puck` object, inheriting from the `Ball` class.
+     * Constructs a new Puck object, inheriting from the Ball class.
      *
-     * @param topLeftCorner Position of the puck in window coordinates (pixels).
-     * @param dimensions Width and height of the puck in window coordinates.
-     * @param renderable The renderable representing the puck's appearance.
-     * @param collisionSound The sound played when the puck collides with other objects.
-     * @param minHeight The minimum Y-coordinate the puck can reach before being removed.
+     * @param topLeftCorner      Position of the puck in window coordinates (pixels).
+     * @param dimensions         Width and height of the puck in window coordinates.
+     * @param renderable         The renderable representing the puck's appearance.
+     * @param collisionSound     The sound played when the puck collides with other objects.
+     * @param minHeight          The minimum Y-coordinate the puck can reach before being removed.
      * @param brickerGameManager Reference to the BrickerGameManager instance for game logic interaction.
      */
     public Puck(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound,
@@ -34,7 +41,7 @@ public class Puck extends Ball {
      * Handles collisions with other objects, calling the parent class's method first.
      * No specific behavior is added in this overridden method.
      *
-     * @param other The other object involved in the collision.
+     * @param other     The other object involved in the collision.
      * @param collision Collision object containing details about the collision.
      */
     @Override

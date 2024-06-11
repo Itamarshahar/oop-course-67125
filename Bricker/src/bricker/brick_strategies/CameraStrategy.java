@@ -17,8 +17,7 @@ public class CameraStrategy implements CollisionStrategy {
      * @param wrappedCollision   The CollisionStrategy instance to be wrapped by this strategy.
      * @param brickerGameManager The BrickerGameManager instance that manages the game.
      */
-    public CameraStrategy(CollisionStrategy wrappedCollision,
-                          BrickerGameManager brickerGameManager) {
+    public CameraStrategy(CollisionStrategy wrappedCollision, BrickerGameManager brickerGameManager) {
         this.wrappedCollision = wrappedCollision;
         this.brickerGameManager = brickerGameManager;
     }
