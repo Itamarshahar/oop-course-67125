@@ -66,6 +66,7 @@ public class BrickerGameManager extends GameManager {
     private GameObjectCollection gameObjectCollection;
     private MessageHandler messageHandler;
     private Counter cameraStartedCounter;
+    private boolean extraPaddleExist = false;
 
     public BrickerGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -165,6 +166,7 @@ public class BrickerGameManager extends GameManager {
         gameObjects().addGameObject(heart);
     }
 
+
     public void increaseLifeCounter() {
         if (livesCounter.value() < MAX_NUM_LIFE) {
             livesCounter.increment();
@@ -254,6 +256,20 @@ public class BrickerGameManager extends GameManager {
         paddle.setTag(ORIGINAL_PADDLE_TAG);
         gameObjects().addGameObject(paddle);
     }
+    public void addExtraPaddle(){
+        if(!extraPaddleExist) {
+            extraPaddleExist = true;
+            Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
+            GameObject extraPaddle = new ExtraPaddle(Vector2.ZERO, new Vector2(100, 15),
+                    paddleImage, inputListener, WALL_WIDTH, windowDimension, gameObjectCollection);
+            extraPaddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() / 2));
+            extraPaddle.setTag(ORIGINAL_PADDLE_TAG);
+            gameObjects().addGameObject(extraPaddle);
+        }
+        else{
+            return;
+        }
+    }
 
     private void createBackground() {
         Renderable backgroundImage = imageReader.readImage(BACKGROUND_IMAGE_PATH, false);
@@ -271,8 +287,8 @@ public class BrickerGameManager extends GameManager {
                 (int) (windowDimension.x() - (BRICK_DIST * (cols) + 2 * WALL_WIDTH)) / (rows);
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-//                int nextInt = 2; // TODO remove
+//                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
+                int nextInt = 1; // TODO remove
                 CollisionStrategy currentCollisionStrategy = collisionStrategyFactory.getCollisionStrategy(null, nextInt);
                 Vector2 placement = new Vector2(BRICK_DIST * (row) + row * brick_size + WALL_WIDTH,
                         BRICK_DIST * (col) + col * BRICK_HEIGHT + WALL_WIDTH);
