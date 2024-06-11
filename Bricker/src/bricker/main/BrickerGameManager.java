@@ -250,6 +250,7 @@ public class BrickerGameManager extends GameManager {
 
     private void createPrimaryPaddle() {
         Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
+
         GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15),
                 paddleImage, inputListener, WALL_WIDTH, windowDimension);
         paddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() - 25));
@@ -289,6 +290,7 @@ public class BrickerGameManager extends GameManager {
             for (int col = 0; col < cols; col++) {
 //                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
                 int nextInt = 1; // TODO remove
+//                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
                 CollisionStrategy currentCollisionStrategy = collisionStrategyFactory.getCollisionStrategy(null, nextInt);
                 Vector2 placement = new Vector2(BRICK_DIST * (row) + row * brick_size + WALL_WIDTH,
                         BRICK_DIST * (col) + col * BRICK_HEIGHT + WALL_WIDTH);
