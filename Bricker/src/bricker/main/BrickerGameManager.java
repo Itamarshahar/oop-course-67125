@@ -220,19 +220,6 @@ public class BrickerGameManager extends GameManager {
     }
 
     public void createPuck(Vector2 topLeftCorner) {
-
-//        float minHeight = windowDims.y() + 2* BRICK_HEIGHT;
-//        SoundReader soundReader = new SoundReader(messageHandler);
-//        Sound ballSound = soundReader.readSound(BLOP_CUT_SILENCED_WAV);
-//        Puck puck = new Puck(topLeftCorner, dims, puckRenderable, ballSound, minHeight, this);
-//        Random random = new Random();
-//        double angle = random.nextDouble() * Math.PI;
-//        float x = (float) Math.cos(angle) * BALL_SPEED;
-//        float y = (float) Math.sin(angle) * BALL_SPEED;
-//        puck.setVelocity(new Vector2(x, y));
-//        gameObjectCollection.addGameObject(puck);
-//    }
-
         Vector2 puckDimensions =
                 new Vector2(ORIGINAL_BALL_RADIUS*PUCK_SIZE_FACTOR,
                 ORIGINAL_BALL_RADIUS*PUCK_SIZE_FACTOR);
@@ -270,10 +257,7 @@ public class BrickerGameManager extends GameManager {
             extraPaddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() / 2));
             extraPaddle.setTag(ORIGINAL_PADDLE_TAG);
             gameObjects().addGameObject(extraPaddle);
-        }
-        else{
-            return;
-        }
+
     }
 
     private void createBackground() {
