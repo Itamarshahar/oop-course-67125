@@ -8,13 +8,14 @@ public class ExtraPaddleStrategy implements CollisionStrategy {
     private final BrickerGameManager brickerGameManager;
 
     ExtraPaddleStrategy(CollisionStrategy wrappedCollision,
-                        BrickerGameManager objectCollection){
+                        BrickerGameManager objectCollection) {
         this.wrappedCollision = wrappedCollision;
         this.brickerGameManager = objectCollection;
     }
+
     @Override
     public void onCollision(GameObject obj1, GameObject obj2) {
-        wrappedCollision.onCollision(obj1,obj2);
+        wrappedCollision.onCollision(obj1, obj2);
         brickerGameManager.addExtraPaddle();
     }
 }

@@ -589,6 +589,5 @@ public class BrickerGameManager extends GameManager {
             new BrickerGameManager("Bricker", new Vector2(700, 500)).run();
         }
     }
-
 }
 
