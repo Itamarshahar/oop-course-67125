@@ -9,7 +9,8 @@ import danogl.util.Vector2;
  * Brick.java
  *
  * This class represents a brick in the game. It extends the GameObject class
- * and handles collisions with other objects using a specified CollisionStrategy.
+ * and handles collisions with other objects using a specified
+ * CollisionStrategy.
  */
 public class Brick extends GameObject {
 
@@ -18,12 +19,18 @@ public class Brick extends GameObject {
     /**
      * Construct a new Brick instance.
      *
-     * @param topLeftCorner     Position of the brick, in window coordinates (pixels).
-     *                          Note that (0,0) is the top-left corner of the window.
-     * @param dimensions        Width and height of the brick in window coordinates.
-     * @param renderable        The renderable representing the brick. Can be null, in which case
+     * @param topLeftCorner     Position of the brick, in window coordinates
+     *                          (pixels).
+     *
+     *                          Note that (0,0) is the top-left corner of the
+     *                          window.
+     * @param dimensions        Width and height of the brick in window
+     *                          coordinates.
+     * @param renderable        The renderable representing the brick. Can
+     *                          be null, in which case
      *                          the Brick will not be rendered.
-     * @param collisionStrategy The strategy to handle collisions with this brick.
+     * @param collisionStrategy The strategy to handle collisions with this
+     *                         brick.
      */
     public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                  CollisionStrategy collisionStrategy) {
@@ -33,7 +40,8 @@ public class Brick extends GameObject {
     }
 
     /**
-     * Handles collision events with other objects by invoking the associated CollisionStrategy.
+     * Handles collision events with other objects by invoking the associated
+     * CollisionStrategy.
      *
      * @param other     The GameObject with which a collision occurred.
      * @param collision Information regarding this collision.

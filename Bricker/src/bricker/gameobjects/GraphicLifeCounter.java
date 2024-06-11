@@ -69,15 +69,6 @@ public class GraphicLifeCounter extends GameObject {
             gameObjectCollection.addGameObject(livesArray[i], Layer.FOREGROUND);
         }
     }
-//        int curX = (int)widgetTopLeftCorner.x();
-//
-//        for (int i = 0; i < numOfLives; i++) {
-//            GameObject heart = new GameObject(new Vector2(curX, widgetTopLeftCorner.y()),
-//                    widgetDimensions, widgetRenderable);
-//            curX += (int) (widgetDimensions.x() + 3);
-//            livesArray[i] = heart;
-//            gameObjectsCollection.addGameObject(livesArray[i], Layer.BACKGROUND);
-//        }
 
     /**
      * Updates the graphical representation of the life counter based on the current

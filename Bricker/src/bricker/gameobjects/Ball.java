@@ -20,10 +20,14 @@ public class Ball extends GameObject {
     /**
      * Construct a new Ball instance.
      *
-     * @param topLeftCorner  Position of the ball, in window coordinates (pixels).
-     *                       Note that (0,0) is the top-left corner of the window.
-     * @param dimensions     Width and height of the ball in window coordinates.
-     * @param renderable     The renderable representing the ball. Can be null, in which case
+     * @param topLeftCorner  Position of the ball, in window coordinates
+     *                       (pixels).
+     *                       Note that (0,0) is the top-left corner of
+     *                       the window.
+     * @param dimensions     Width and height of the ball in window
+     *                       coordinates.
+     * @param renderable     The renderable representing the ball.
+     *                       Can be null, in which case
      *                       the Ball will not be rendered.
      * @param collisionSound The sound to be played on collision.
      */
