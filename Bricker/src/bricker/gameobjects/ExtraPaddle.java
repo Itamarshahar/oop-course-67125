@@ -57,7 +57,6 @@ public class ExtraPaddle extends Paddle {
 
 
     }
-
     /**
      * Handles collision events with other objects. Increments a collision counter
      * and removes the paddle from the game after a certain number of collisions.
