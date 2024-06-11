@@ -259,6 +259,7 @@ public class BrickerGameManager extends GameManager {
             gameObjects().addGameObject(extraPaddle);
 
     }
+    }
 
     private void createBackground() {
         Renderable backgroundImage = imageReader.readImage(BACKGROUND_IMAGE_PATH, false);
