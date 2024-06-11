@@ -37,16 +37,28 @@ Added Classes:
 1. CollisionStrategyFactory
 Class: CollisionStrategyFactory
 Functionality:
-The CollisionStrategyFactory class acts as a factory for creating different collision strategies based on specified parameters.
-It contains methods for creating various collision strategies, including the option to wrap one strategy with another.
+The CollisionStrategyFactory class acts as a factory for creating different
+collision strategies based on specified parameters.
+It contains methods for creating various collision strategies, including the
+option to wrap one strategy with another.
 Initial Use of Decorator-like Design:
-At the core of the collision handling system is a decorator-like design pattern, where different collision behaviors can be combined and wrapped around each other to create complex interactions. This design allows for modular and extensible collision handling in the game.
+At the core of the collision handling system is a decorator-like design
+pattern,
+where different collision behaviors can be combined and wrapped around each
+other to create complex interactions. This design allows for modular and
+extensible collision handling in the game.
 How onCollision Functions Utilize Strategy Wrapping:
 Each onCollision function in the implemented classes follows this pattern:
 Invoke Wrapped Strategy:
-The function first invokes the onCollision method of the wrapped strategy. This ensures that the behavior defined by the wrapped strategy is executed before applying any additional behavior.
+The function first invokes the onCollision method of the wrapped strategy.
+This ensures that the behavior defined by the wrapped strategy is executed
+before applying any additional behavior.
 Execute Current Strategy's Behavior:
-After invoking the wrapped strategy's onCollision method, the current strategy's specific behavior is executed. This behavior could involve adding visual effects, spawning new game objects, or modifying game state based on the collision.
+After invoking the wrapped strategy's onCollision method, the current
+strategy's
+specific behavior is executed. This behavior could involve adding visual
+effects,
+spawning new game objects, or modifying game state based on the collision.
 2. BasicCollisionStrategy
 Class: BasicCollisionStrategy
 Implementation:
