@@ -255,7 +255,8 @@ public class BrickerGameManager extends GameManager {
     }
 
     /**
-     * Overrides the update method to check for game end conditions and update the camera position.
+     * Overrides the update method to check for game end conditions and update
+     * the camera position.
      *
      * @param deltaTime The time elapsed since the last frame update.
      */
@@ -275,15 +276,18 @@ public class BrickerGameManager extends GameManager {
      *
      * @param imageReader      The ImageReader object for loading images.
      * @param soundReader      The SoundReader object for loading sounds.
-     * @param inputListener    The UserInputListener object for handling user input.
-     * @param windowController The WindowController object for managing the game window.
+     * @param inputListener    The UserInputListener object for handling user
+     *                        input.
+     * @param windowController The WindowController object for managing the
+     *                         game window.
      */
     @Override
     public void initializeGame(ImageReader imageReader,
                                SoundReader soundReader,
                                UserInputListener inputListener,
                                WindowController windowController) {
-        super.initializeGame(imageReader, soundReader, inputListener, windowController);
+        super.initializeGame(imageReader, soundReader, inputListener,
+                windowController);
 
         this.inputListener = inputListener;
         this.windowController = windowController;
@@ -324,9 +328,11 @@ public class BrickerGameManager extends GameManager {
     }
 
     /**
-     * Removes a game object from the collection, handling special cases like the extra paddle.
+     * Removes a game object from the collection, handling special cases like
+     * the extra paddle.
      *
      * @param gameObjectToRemove The game object to be removed.
+     *
      * @return True if the game object was successfully removed, false otherwise.
      */
     public boolean removeGameObjectHandler(GameObject gameObjectToRemove) {
@@ -345,12 +351,13 @@ public class BrickerGameManager extends GameManager {
     public void startCamera(String ballTag) {
 //        ballTag = ORIGINAL_BALL_TAG; // todo  remove this line
         if (this.camera() == null && (ballTag.equals(ORIGINAL_BALL_TAG))) {
-            cameraStartedCounter.increaseBy(ball.getCollisionCounter() - cameraStartedCounter.value());
+            cameraStartedCounter.increaseBy(ball.getCollisionCounter()
+                    - cameraStartedCounter.value());
             setCamera(new Camera(
-                            ball, // Object to follow
-                            Vector2.ZERO, // Follow the center of the object
-                            windowController.getWindowDimensions().mult(1.2f), // Widen the frame a bit
-                            windowController.getWindowDimensions() // Share the window dimensions
+        ball, // Object to follow
+        Vector2.ZERO, // Follow the center of the object
+        windowController.getWindowDimensions().mult(1.2f),
+        windowController.getWindowDimensions() // Share the window dimensions
                     )
             );
         }
@@ -385,17 +392,21 @@ public class BrickerGameManager extends GameManager {
     /**
      * Creates and initializes the numeric and graphical life counters.
      *
-     * @param renderable           The renderable object for the graphical life counter.
-     * @param dimension            The dimensions of the life counter icons.
+     * @param renderable           The renderable object for the graphical
+     *                             life counter.
+     * @param dimension            The dimensions of the life counter icons
+     *                             .
      * @param livesCounter         The counter for the number of remaining lives.
-     * @param gameObjectCollection The collection of game objects to add the life counters to.
+     * @param gameObjectCollection The collection of game objects to add the
+     *                             life counters to.
      */
     private void createLives(Renderable renderable,
                              Vector2 dimension,
                              Counter livesCounter,
                              GameObjectCollection gameObjectCollection) {
 
-        GameObject numericLives = new NumericLifeCounter(livesCounter, new Vector2(topLeftCorner.x() +
+        GameObject numericLives = new NumericLifeCounter(livesCounter,
+                new Vector2(topLeftCorner.x() +
                 dimension.x() * MAX_NUM_LIFE, topLeftCorner.y()), dimension);
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
 
@@ -450,7 +461,8 @@ public class BrickerGameManager extends GameManager {
         float minHeight = windowDimension.y() + 2 * BRICK_HEIGHT;
 
         double angle = random.nextDouble() * Math.PI;
-        Puck puck = new Puck(topLeftCorner, puckDimensions, puckImage, puchCollisionSound, minHeight, this);
+        Puck puck = new Puck(topLeftCorner, puckDimensions, puckImage,
+                puchCollisionSound, minHeight, this);
 
         float velocityX = (float) Math.cos(angle) * BALL_SPEED;
         float velocityY = (float) Math.sin(angle) * BALL_SPEED;
@@ -468,7 +480,8 @@ public class BrickerGameManager extends GameManager {
 
         GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15),
                 paddleImage, inputListener, WALL_WIDTH, windowDimension);
-        paddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() - 25));
+        paddle.setCenter(new Vector2(windowDimension.x() / 2,
+                windowDimension.y() - 25));
         paddle.setTag(ORIGINAL_PADDLE_TAG);
         gameObjects().addGameObject(paddle);
     }
@@ -479,11 +492,14 @@ public class BrickerGameManager extends GameManager {
     public void addExtraPaddle() {
         if (!extraPaddleExist) {
             extraPaddleExist = true;
-            Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
-            GameObject extraPaddle = new ExtraPaddle(Vector2.ZERO, new Vector2(100, 15),
+            Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH,
+                    false);
+            GameObject extraPaddle = new ExtraPaddle(Vector2.ZERO,
+                    new Vector2(100, 15),
                     paddleImage, inputListener, WALL_WIDTH, windowDimension,
                     this);
-            extraPaddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() / 2));
+            extraPaddle.setCenter(new Vector2(windowDimension.x() / 2,
+                    windowDimension.y() / 2));
             extraPaddle.setTag(ORIGINAL_PADDLE_TAG);
             gameObjects().addGameObject(extraPaddle);
 
@@ -494,32 +510,42 @@ public class BrickerGameManager extends GameManager {
      * Creates and initializes the background object.
      */
     private void createBackground() {
-        Renderable backgroundImage = imageReader.readImage(BACKGROUND_IMAGE_PATH, false);
-        GameObject background = new GameObject(Vector2.ZERO, windowDimension, backgroundImage);
+        Renderable backgroundImage =
+                imageReader.readImage(BACKGROUND_IMAGE_PATH, false);
+        GameObject background = new GameObject(Vector2.ZERO, windowDimension,
+                backgroundImage);
         background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects().addGameObject(background, Layer.BACKGROUND);
     }
 
     /**
-     * Creates and initializes the brick objects with different collision strategies.
+     * Creates and initializes the brick objects with different collision
+     * strategies.
      */
     private void createBricks() {
         CollisionStrategyFactory collisionStrategyFactory =
                 new CollisionStrategyFactory(this);
-        Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH, false);
+        Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH,
+                false);
 
         int brick_size =
-                (int) (windowDimension.x() - (BRICK_DIST * (cols) + 2 * WALL_WIDTH)) / (rows);
+                (int) (windowDimension.x() - (BRICK_DIST * (cols) + 2
+                        * WALL_WIDTH)) / (rows);
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
+                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
+//                int nextInt = 2; // TODO remove
 //                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-                int nextInt = 2; // TODO remove
-//                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-                CollisionStrategy currentCollisionStrategy = collisionStrategyFactory.getCollisionStrategy(null, nextInt);
-                Vector2 placement = new Vector2(BRICK_DIST * (row) + row * brick_size + WALL_WIDTH,
-                        BRICK_DIST * (col) + col * BRICK_HEIGHT + WALL_WIDTH);
+                CollisionStrategy currentCollisionStrategy =
+                        collisionStrategyFactory.getCollisionStrategy(null,
+                                nextInt);
+                Vector2 placement = new Vector2(BRICK_DIST *
+                        (row) + row * brick_size + WALL_WIDTH,
+                        BRICK_DIST * (col) + col * BRICK_HEIGHT
+                                + WALL_WIDTH);
                 GameObject brick = new Brick(placement,
-                        new Vector2(brick_size, BRICK_HEIGHT), brickImage, currentCollisionStrategy);
+                        new Vector2(brick_size, BRICK_HEIGHT), brickImage,
+                        currentCollisionStrategy);
                 gameObjects().addGameObject(brick);
             }
         }
@@ -531,15 +557,18 @@ public class BrickerGameManager extends GameManager {
     private void createWalls() {
 
         Vector2 leftWallTopLeftCorner = Vector2.ZERO;
-        Vector2 leftWallDimensions = new Vector2(WALL_WIDTH, windowDimension.y());
-        GameObject leftWall = new GameObject(leftWallTopLeftCorner, leftWallDimensions, null);
+        Vector2 leftWallDimensions =
+                new Vector2(WALL_WIDTH, windowDimension.y());
+        GameObject leftWall = new GameObject(leftWallTopLeftCorner,
+                leftWallDimensions, null);
         gameObjects().addGameObject(leftWall);
 
         Vector2 rightWallTopLeftCorner =
                 new Vector2(windowDimension.x() - WALL_WIDTH, 0);
         Vector2 rightWallDimensions =
                 new Vector2(WALL_WIDTH, windowDimension.y());
-        GameObject rightWall = new GameObject(rightWallTopLeftCorner, rightWallDimensions, null);
+        GameObject rightWall = new GameObject(rightWallTopLeftCorner,
+                rightWallDimensions, null);
         gameObjects().addGameObject(rightWall);
 
         Vector2 topWallTopLeftCorner = Vector2.ZERO;
@@ -551,13 +580,15 @@ public class BrickerGameManager extends GameManager {
     }
 
     /**
-     * Checks for game end conditions (winning or losing) and prompts the player to play again.
+     * Checks for game end conditions (winning or losing) and prompts
+     * the player to play again.
      */
     private void checkForGameEnd() {
         // TODO fix the win case
         double ballHeight = ball.getCenter().y();
         String prompt = "";
-        if (brickCounter.value() == 0 || inputListener.isKeyPressed(KeyEvent.VK_W)) {
+        if (brickCounter.value() == 0 ||
+                inputListener.isKeyPressed(KeyEvent.VK_W)) {
             prompt = WIN_MESSAGE;
         }
         if (ballHeight > windowDimension.y()) {
@@ -584,9 +615,13 @@ public class BrickerGameManager extends GameManager {
      */
     public static void main(String[] args) {
         if (args.length == 2) {
-            new BrickerGameManager("Bricker", new Vector2(700, 500), Integer.parseInt(args[0]), Integer.parseInt(args[1])).run();
+            new BrickerGameManager("Bricker",
+                    new Vector2(700, 500),
+                    Integer.parseInt(args[0]),
+                    Integer.parseInt(args[1])).run();
         } else {
-            new BrickerGameManager("Bricker", new Vector2(700, 500)).run();
+            new BrickerGameManager("Bricker",
+                    new Vector2(700, 500)).run();
         }
     }
 }
