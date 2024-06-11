@@ -16,7 +16,10 @@ import danogl.util.Vector2;
 
 import java.awt.event.KeyEvent;
 import java.util.Random;
-
+/**
+ * The BrickerGameManager class extends the GameManager class and is responsible for managing
+ * the game objects, collisions, and game logic in the Bricker game.
+ */
 public class BrickerGameManager extends GameManager {
     /**
      * The speed of the ball.
