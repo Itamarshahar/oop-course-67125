@@ -22,8 +22,8 @@ public class CollisionStrategyFactory {
 
 //            case 1:
 //                return new
-//            case 2:
-//                return new CameraCollisionStrategy();
+            case 2:
+                return new PuckStrategy(baseStrategy, objectCollection);
             case 3:
                 return new CameraStrategy(baseStrategy, objectCollection);
             case 4:

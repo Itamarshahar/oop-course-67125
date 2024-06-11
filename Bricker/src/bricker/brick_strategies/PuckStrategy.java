@@ -14,6 +14,8 @@ public class PuckStrategy implements CollisionStrategy {
 
     @Override
     public void onCollision(GameObject obj1, GameObject obj2) {
-        // TODO
+        baseStrategy.onCollision(obj1, obj2);
+        objectCollection.createPuck(obj1.getCenter());
+        objectCollection.createPuck(obj1.getCenter());
     }
 }
