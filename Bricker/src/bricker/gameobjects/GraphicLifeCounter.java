@@ -102,5 +102,5 @@ public class GraphicLifeCounter extends GameObject {
             numOfLives++;
         }
     }
-
+}
 

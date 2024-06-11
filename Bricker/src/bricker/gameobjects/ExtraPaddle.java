@@ -75,6 +75,4 @@ public class ExtraPaddle extends Paddle {
         }
 
     }
-
-
 }
