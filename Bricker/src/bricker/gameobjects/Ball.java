@@ -5,9 +5,10 @@ import danogl.collisions.Collision;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+
 /**
  * Ball.java
- *
+ * <p>
  * This class represents a ball in the game. It extends the GameObject class
  * and handles collisions with other objects, updating its velocity and playing
  * a sound effect.
@@ -15,7 +16,7 @@ import danogl.util.Vector2;
 public class Ball extends GameObject {
 
     private int collisionCounter;
-    private Sound collisionSound;
+    private final Sound collisionSound;
 
     /**
      * Construct a new Ball instance.
@@ -31,15 +32,14 @@ public class Ball extends GameObject {
      *                       the Ball will not be rendered.
      * @param collisionSound The sound to be played on collision.
      */
-    public Ball(Vector2 topLeftCorner,
-                Vector2 dimensions,
-                Renderable renderable,
-                Sound collisionSound) {
+    public Ball(Vector2 topLeftCorner, Vector2 dimensions,
+                Renderable renderable, Sound collisionSound) {
         super(topLeftCorner, dimensions, renderable);
         this.collisionSound = collisionSound;
         this.collisionCounter = 0;
     }
-     /**
+
+    /**
      * Gets the current collision counter for the ball.
      *
      * @return The current collision counter.
@@ -47,9 +47,12 @@ public class Ball extends GameObject {
     public int getCollisionCounter() {
         return collisionCounter;
     }
- /**
-     * Handles collision events with other objects. Increments the collision counter,
-     * flips the velocity based on the collision normal, and plays the collision sound.
+
+    /**
+     * Handles collision events with other objects. Increments the collision
+     * counter,
+     * flips the velocity based on the collision normal, and plays the
+     * collision sound.
      *
      * @param other     The GameObject with which a collision occurred.
      * @param collision Information regarding this collision.

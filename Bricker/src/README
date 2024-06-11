@@ -3,7 +3,7 @@ itamarshahar2, amirt97
 
 We have chosen to manage the deletion of game objects through the
 BrickerGameManager class. This involves passing the BrickerGameManager instance
-to the BasicCollisionStrategy constructor and using BrickerGameManager
+ to the BasicCollisionStrategy constructor and using BrickerGameManager
 methods to delete game objects.
 Advantages
 Centralized Control: Simplifies tracking and managing game objects.
@@ -42,10 +42,9 @@ collision strategies based on specified parameters.
 It contains methods for creating various collision strategies, including the
 option to wrap one strategy with another.
 Initial Use of Decorator-like Design:
-At the core of the collision handling system is a decorator-like design
-pattern,
-where different collision behaviors can be combined and wrapped around each
-other to create complex interactions. This design allows for modular and
+At the core of the collision handling system is a decorator-like design pattern,
+where different collision behaviors can be combined and wrapped around each o
+ther to create complex interactions. This design allows for modular and
 extensible collision handling in the game.
 How onCollision Functions Utilize Strategy Wrapping:
 Each onCollision function in the implemented classes follows this pattern:
@@ -55,10 +54,9 @@ This ensures that the behavior defined by the wrapped strategy is executed
 before applying any additional behavior.
 Execute Current Strategy's Behavior:
 After invoking the wrapped strategy's onCollision method, the current
-strategy's
-specific behavior is executed. This behavior could involve adding visual
-effects,
-spawning new game objects, or modifying game state based on the collision.
+strategy's specific behavior is executed. This behavior could involve adding
+visual effects, spawning new game objects, or modifying game state based on
+the collision.
 2. BasicCollisionStrategy
 Class: BasicCollisionStrategy
 Implementation:
@@ -98,76 +96,41 @@ It wraps another CollisionStrategy.
 Role of the Class:
 ExtraPaddleStrategy implements the CollisionStrategy interface and wraps
 another strategy. It extends the base strategy's behavior by adding an extra
-paddle to the game. To implement this class we created another class that
-extend Paddle class: ExtraPaddle. It has the same functions of the paddle.
-We just changed it's spawning location and it also has a counter that keep
-track on the amount of collision it has endured. If it gets to the max we
-remove it from the game.
+paddle to the game. To implement this class we created another class that extend
+Paddle class: ExtraPaddle.
+ It has the same functions of the paddle.
+ We just changed it's spawning location and it also has a counter that keep
+ track on the amount of collision it has endured. If it gets to the max we
+ remove it from the game.
 6. PuckStrategy
 Class: PuckStrategy
 Implementation:
-This strategy creates two new pucks at the collision position when a collision
-occurs.
+This strategy creates two new pucks at the collision position when a collision occurs.
 It wraps another CollisionStrategy.
 Role of the Class:
-PuckStrategy implements the CollisionStrategy interface and wraps another
-strategy. It extends the base strategy's behavior by creating two new pucks at
-the location of the collision.We created another class that extends the ball
-class. It has the same function of the ball besides losing lives when it goes
-out of the screen.
-This design ensures that all collision strategies contribute to the collision
-resolution process simultaneously, allowing for complex and dynamic
-interactions
-between game objects. Each strategy's behavior is executed concurrently,
-leading to combined effects on the game state.
+PuckStrategy implements the CollisionStrategy interface and wraps another strategy. It extends the base strategy's behavior by creating two new pucks at the location of the collision.We created another class that extends the ball class. It has the same function of the ball besides losing lives when it goes out of the screen.
+This design ensures that all collision strategies contribute to the collision resolution process simultaneously, allowing for complex and dynamic interactions between game objects. Each strategy's behavior is executed concurrently, leading to combined effects on the game state.
 
 DoubleStragedy Design Overview:
-The CollisionStrategyFactory is responsible for creating different collision
-strategies based on specified parameters.
-It follows a factory pattern, allowing the creation of various collision
-strategies using a unified interface.
+The CollisionStrategyFactory is responsible for creating different collision strategies based on specified parameters.
+It follows a factory pattern, allowing the creation of various collision strategies using a unified interface.
 Implementation:
-In the getCollisionStrategy method, a switch-case statement determines
-which strategy to create based on the provided strategy number.
-When the strategy number is 4, indicating the need for a double behavior,
-the doubleBehaviorHandler method is called.
+In the getCollisionStrategy method, a switch-case statement determines which strategy to create based on the provided strategy number.
+When the strategy number is 4, indicating the need for a double behavior, the doubleBehaviorHandler method is called.
 Double Behavior Handling:
-The doubleBehaviorHandler method generates a random first and second
-strategy number.
-If the first number equals 4, indicating the need for a triple behavior
-(which is not implemented in this code snippet), it generates two additional
-random numbers for the third and fourth strategies.
-Then, it recursively calls getCollisionStrategy to create instances of
-the selected strategies.
-If the first number is not 4, it simply creates two strategies based on the
-randomly generated numbers.
-Finally, it returns the combination of strategies, where each subsequent
-strategy wraps the previous one.
+The doubleBehaviorHandler method generates a random first and second strategy number.
+If the first number equals 4, indicating the need for a triple behavior (which is not implemented in this code snippet), it generates two additional random numbers for the third and fourth strategies.
+Then, it recursively calls getCollisionStrategy to create instances of the selected strategies.
+If the first number is not 4, it simply creates two strategies based on the randomly generated numbers.
+Finally, it returns the combination of strategies, where each subsequent strategy wraps the previous one.
 Limitation on Behaviors:
-The code limits the number of behaviors to a predefined set of options
-(0 to 4 in this case).
-If the strategy number exceeds the defined range, it defaults to returning
-the base strategy without any additional behavior.
-Here's how the code snippet accomplishes the implementation of the double
-behavior within the CollisionStrategyFactory. It dynamically combines two
-collision strategies based on randomly generated numbers, allowing for varied
-and unpredictable collision interactions in the game.
+The code limits the number of behaviors to a predefined set of options (0 to 4 in this case).
+If the strategy number exceeds the defined range, it defaults to returning the base strategy without any additional behavior.
+Here's how the code snippet accomplishes the implementation of the double behavior within the CollisionStrategyFactory. It dynamically combines two collision strategies based on randomly generated numbers, allowing for varied and unpredictable collision interactions in the game.
 
-Our code is designed to facilitate maintenance and expansion of functionality
-across all components. We aimed for a high level of generality, ensuring that
-additional strategies can be seamlessly integrated into the codebase.
-The API remains consistent throughout, following the principles established
-in the initial implementation.
+Our code is designed to facilitate maintenance and expansion of functionality across all components. We aimed for a high level of generality, ensuring that additional strategies can be seamlessly integrated into the codebase. The API remains consistent throughout, following the principles established in the initial implementation.
 
-To maintain flexibility, we opted to pass the counter to the strategies.
-This decision stems from the strategy's responsibility to decrement the counter
-upon collision, as outlined in the exercise guidelines. While it would have
-been preferable to directly manipulate an object within each strategy,
-we chose to adhere to the existing API for onCollision without introducing
-significant changes. Thus, passing the counter as an argument to the
-strategies
-allows us to achieve the desired functionality without deviating from
-the prescribed guidelines.
+To maintain flexibility, we opted to pass the counter to the strategies. This decision stems from the strategy's responsibility to decrement the counter upon collision, as outlined in the exercise guidelines. While it would have been preferable to directly manipulate an object within each strategy, we chose to adhere to the existing API for onCollision without introducing significant changes. Thus, passing the counter as an argument to the strategies allows us to achieve the desired functionality without deviating from the prescribed guidelines.
 
 
 

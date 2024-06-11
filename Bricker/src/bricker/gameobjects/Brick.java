@@ -32,7 +32,8 @@ public class Brick extends GameObject {
      * @param collisionStrategy The strategy to handle collisions with this
      *                         brick.
      */
-    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+    public Brick(Vector2 topLeftCorner, Vector2 dimensions,
+                 Renderable renderable,
                  CollisionStrategy collisionStrategy) {
 
         super(topLeftCorner, dimensions, renderable);
