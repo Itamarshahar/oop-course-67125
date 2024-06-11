@@ -213,6 +213,7 @@ public class BrickerGameManager extends GameManager {
         ball.setTag(ORIGINAL_BALL_TAG);
         this.gameObjects().addGameObject(ball);
     }
+
     public void createPuck(Vector2 topLeftCorner) {
 
 //        float minHeight = windowDims.y() + 2* BRICK_HEIGHT;
@@ -245,7 +246,6 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-
     private void createPrimaryPaddle() {
         Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
         GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15),
@@ -271,8 +271,8 @@ public class BrickerGameManager extends GameManager {
                 (int) (windowDimension.x() - (BRICK_DIST * (cols) + 2 * WALL_WIDTH)) / (rows);
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-//                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-                int nextInt = 2; // TODO remove
+                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
+//                int nextInt = 2; // TODO remove
                 CollisionStrategy currentCollisionStrategy = collisionStrategyFactory.getCollisionStrategy(null, nextInt);
                 Vector2 placement = new Vector2(BRICK_DIST * (row) + row * brick_size + WALL_WIDTH,
                         BRICK_DIST * (col) + col * BRICK_HEIGHT + WALL_WIDTH);
