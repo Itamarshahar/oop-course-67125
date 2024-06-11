@@ -7,7 +7,12 @@ import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-
+/**
+ * GraphicLifeCounter.java
+ *
+ * This class represents a graphical life counter in the game. It displays a
+ * set of renderable objects (e.g., hearts) based on the current life count.
+ */
 public class GraphicLifeCounter extends GameObject {
     private final Renderable livesImage;
     private final int maxNumLives;
@@ -20,16 +25,19 @@ public class GraphicLifeCounter extends GameObject {
     private final GameObject[] livesArray;
     private GameObjectCollection gameObjectCollection;
 
-    /**
-     * Construct a new GameObject instance.
+/**
+     * Construct a new GraphicLifeCounter instance.
      *
-     * @param topLeftCorner Position of the object, in window coordinates (pixels).
-     *                      Note that (0,0) is the top-left corner of the window.
-     * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
+     * @param topLeftCorner       Position of the life counter, in window coordinates (pixels).
+     *                            Note that (0,0) is the top-left corner of the window.
+     * @param dimensions          Width and height of each life icon in window coordinates.
+     * @param livesCounter        The counter for tracking the number of lives.
+     * @param renderable          The renderable representing each life icon.
+     * @param gameObjectCollection The collection of game objects to add the life icons to.
+     * @param numOfLives          The initial number of lives.
+     * @param livesImage          The renderable representing each life icon when displayed.
+     * @param maxNumLives         The maximum number of lives allowed.
      */
-
     public GraphicLifeCounter(
             Vector2 topLeftCorner,
             Vector2 dimensions,
@@ -71,7 +79,12 @@ public class GraphicLifeCounter extends GameObject {
 //            gameObjectsCollection.addGameObject(livesArray[i], Layer.BACKGROUND);
 //        }
 
-
+    /**
+     * Updates the graphical representation of the life counter based on the current
+     * life count. Adds or removes life icons as necessary.
+     *
+     * @param deltaTime The time elapsed, in seconds, since the last frame.
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

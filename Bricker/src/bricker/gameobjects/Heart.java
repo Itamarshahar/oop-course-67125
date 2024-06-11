@@ -7,20 +7,27 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 import static Bricker.src.bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
-
+/**
+ * Heart.java
+ *
+ * This class represents a heart (life) object in the game. It extends the GameObject class
+ * and handles collisions with the paddle, increasing the player's life count and removing
+ * itself from the game.
+ */
 public class Heart extends GameObject {
-    /**
-     * Construct a new GameObject instance.
+       /**
+     * Construct a new Heart instance.
      *
-     * @param topLeftCorner Position of the object, in window coordinates (pixels).
-     * Note that (0,0) is the top-left corner of the window.
-     * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     * the GameObject will not be rendered.
-     * @param gameObjects all the objects on the window
-     * @param livesCounter counts the number of the users lives
-     * @param used to get the dimensoin of the window, for removing the heart from the gameObjects when
-     * it is outside the display
+     * @param topLeftCorner     Position of the heart, in window coordinates (pixels).
+     *                          Note that (0,0) is the top-left corner of the window.
+     * @param dimensions        Width and height of the heart in window coordinates.
+     * @param renderable        The renderable representing the heart. Can be null, in which case
+     *                          the Heart will not be rendered.
+     * @param gameObjects       The collection of game objects to remove the heart from.
+     * @param livesCounter      The counter for tracking the number of lives.
+     * @param minY              The minimum Y-coordinate for the heart to be removed from the game.
+     * @param brickerGameManager The game manager instance for handling game object removal.
+     * @param paddleTag         The tag of the paddle object for collision detection.
      */
 
     private final String paddleTag;
@@ -43,15 +50,12 @@ public class Heart extends GameObject {
         this.minY = minY;
         this.setVelocity(new Vector2(0, 100)); // Set initial downward movement
     }
-
-    /**
+     /**
+     * Handles collision events with other objects. Increases the life count and
+     * removes the heart from the game when colliding with the paddle.
+     *
      * @param other     The GameObject with which a collision occurred.
      * @param collision Information regarding this collision.
-     *                  A reasonable elastic behavior can be achieved with:
-     *                  setVelocity(getVelocity().flipped(collision.getNormal()));
-     *                  <p>
-     *                  this function removes the heart from the board if it hits the paddle and
-     *                  make increment of the users lives
      */
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
@@ -62,11 +66,12 @@ public class Heart extends GameObject {
 
     }
 
-    /**
-     * @param other The other GameObject- that we could collide with.
-     * @return boolean - true if collision will execute, false if not
-     * <p>
-     * checks if collision should be executed
+/**
+     * Determines whether a collision with the given GameObject should be executed.
+     * Only collides with the paddle.
+     *
+     * @param other The other GameObject to check for collision.
+     * @return True if collision should be executed, false otherwise.
      */
     @Override
     public boolean shouldCollideWith(GameObject other) {

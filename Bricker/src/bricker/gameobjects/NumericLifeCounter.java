@@ -8,7 +8,13 @@ import danogl.util.Counter;
 import danogl.util.Vector2;
 
 import java.awt.*;
-
+/**
+ * NumericLifeCounter.java
+ *
+ * This class represents a numeric life counter in the game. It displays the
+ * number of lives remaining and changes the text color based on the current
+ * life count.
+ */
 public class NumericLifeCounter extends GameObject {
     private static final int GREEN = 3;
     private static final int YELLOW = 2;
@@ -18,12 +24,11 @@ public class NumericLifeCounter extends GameObject {
     private final TextRenderable txtRenderer;
     private int currentLives;
     /**
-     * Construct a new GameObject instance.
+     * Construct a new NumericLifeCounter instance.
      *
-     * @param topLeftCorner Position of the object, in window coordinates (pixels).
-     *                      Note that (0,0) is the top-left corner of the window.
-     * @param dimensions    Width and height in window coordinates.
-
+     * @param livesCounter   The counter for tracking the number of lives.
+     * @param topLeftCorner  Position of the life counter, in window coordinates (pixels).
+     * @param dimensions     Width and height of the life counter in window coordinates.
      */
      public NumericLifeCounter(Counter livesCounter,
                               Vector2 topLeftCorner, Vector2 dimensions) {
@@ -38,13 +43,10 @@ public class NumericLifeCounter extends GameObject {
     }
 
     /**
-     * Update the numeric lives according to current lives count.
-     * @param deltaTime The time elapsed, in seconds, since the last frame. Can
-     *                  be used to determine a new position/velocity by multiplying
-     *                  this delta with the velocity/acceleration respectively
-     *                  and adding to the position/velocity:
-     *                  velocity += deltaTime*acceleration
-     *                  pos += deltaTime*velocity
+     * Update the numeric life counter display based on the current life count.
+     * Changes the text color based on the number of lives remaining.
+     *
+     * @param deltaTime The time elapsed, in seconds, since the last frame.
      */
     @Override
     public void update(float deltaTime) {
