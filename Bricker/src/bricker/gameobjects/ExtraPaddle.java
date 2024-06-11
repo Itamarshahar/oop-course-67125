@@ -1,4 +1,5 @@
 package Bricker.src.bricker.gameobjects;
+import Bricker.src.bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Collision;
@@ -8,13 +9,13 @@ import danogl.util.Vector2;
 import danogl.util.Counter;
 
 public class ExtraPaddle extends Paddle{
-    private final GameObjectCollection gameObjectCollection;
+    private final BrickerGameManager gameObjectCollection;
     private final Counter collisionCounter;
-    private int paddleLives = 4;
+    private int paddleLives = 2;
 
     public ExtraPaddle(Vector2 topLeftCorner, Vector2 dimensions,
                        Renderable renderable, UserInputListener inputListener, int wallWidth, Vector2 windowDimension
-                        ,GameObjectCollection gameObjectCollection){
+                        , BrickerGameManager gameObjectCollection){
         super(topLeftCorner,dimensions,renderable,inputListener,wallWidth,windowDimension);
         this.collisionCounter = new Counter();
         this.gameObjectCollection = gameObjectCollection;
@@ -29,7 +30,7 @@ public class ExtraPaddle extends Paddle{
             collisionCounter.increment();
         }
         if(collisionCounter.value() == paddleLives){
-            gameObjectCollection.removeGameObject(this);
+            gameObjectCollection.removeGameObjectHandler(this);
         }
 
     }

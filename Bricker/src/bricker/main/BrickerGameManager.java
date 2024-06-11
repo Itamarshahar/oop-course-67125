@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager {
-    private static final float BALL_SPEED = 300;
+    private static final float BALL_SPEED = 100;
     private static final int BRICK_DIST = 5;
     private static final int LIVES_START_COUNT = 3;
     public static final int MAX_NUM_LIFE = LIVES_START_COUNT + 1;
@@ -137,6 +137,9 @@ public class BrickerGameManager extends GameManager {
 
     public boolean removeGameObjectHandler(GameObject gameObjectToRemove) {
         // TODO maybe add layer?
+        if (gameObjectToRemove instanceof ExtraPaddle){
+            extraPaddleExist = false;
+        }
         return gameObjects().removeGameObject(gameObjectToRemove);
     }
 
@@ -262,7 +265,8 @@ public class BrickerGameManager extends GameManager {
             extraPaddleExist = true;
             Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, false);
             GameObject extraPaddle = new ExtraPaddle(Vector2.ZERO, new Vector2(100, 15),
-                    paddleImage, inputListener, WALL_WIDTH, windowDimension, gameObjectCollection);
+                    paddleImage, inputListener, WALL_WIDTH, windowDimension,
+                    this);
             extraPaddle.setCenter(new Vector2(windowDimension.x() / 2, windowDimension.y() / 2));
             extraPaddle.setTag(ORIGINAL_PADDLE_TAG);
             gameObjects().addGameObject(extraPaddle);
