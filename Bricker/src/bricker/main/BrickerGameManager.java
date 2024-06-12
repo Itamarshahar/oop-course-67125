@@ -79,7 +79,7 @@ public class BrickerGameManager extends GameManager {
     /**
      * The width of the walls.
      */
-    private static final int WALL_WIDTH = 15;
+    private static final int WALL_WIDTH = 20;
 
     /**
      * The message to display when the player wins.
@@ -320,7 +320,6 @@ public class BrickerGameManager extends GameManager {
         createLives(livesImage,
                 livesCounter,
                 gameObjects());
-
     }
 
     /**
@@ -427,10 +426,11 @@ public class BrickerGameManager extends GameManager {
      * Creates and initializes the main ball object.
      */
     private void createBall() {
+         Vector2 ballDimensions = new Vector2(ORIGINAL_BALL_RADIUS,
+                ORIGINAL_BALL_RADIUS);
         Renderable ballImage = imageReader.readImage(BALL_IMAGE_PATH, true);
         Sound collisionSound = soundReader.readSound(COLLISION_SOUND_PATH);
-        Vector2 ballDimensions = new Vector2(ORIGINAL_BALL_RADIUS,
-                ORIGINAL_BALL_RADIUS);
+
         ball = new Ball(Vector2.ZERO, ballDimensions, ballImage, collisionSound);
 
         float ballVelX = BALL_SPEED;
@@ -586,7 +586,6 @@ public class BrickerGameManager extends GameManager {
      * the player to play again.
      */
     private void checkForGameEnd() {
-        // TODO fix the win case
         double ballHeight = ball.getCenter().y();
         String prompt = "";
         if (brickCounter.value() == 0 ||
@@ -596,7 +595,14 @@ public class BrickerGameManager extends GameManager {
         if (ballHeight > windowDimension.y()) {
             if (livesCounter.value() > 1) {
                 livesCounter.decrement();
+                float ballVelX = BALL_SPEED;
+                if (random.nextBoolean()) {
+                     ballVelX *= -1;
+                }
+                ball.setVelocity(new Vector2(ballVelX, BALL_SPEED));
+                this.windowDimension = windowController.getWindowDimensions();
                 ball.setCenter(windowDimension.mult(0.5F));
+                ball.setTag(ORIGINAL_BALL_TAG);
             } else {
                 prompt = LOSE_MESSAGE;
             }
