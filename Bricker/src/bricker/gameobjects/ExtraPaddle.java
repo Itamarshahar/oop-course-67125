@@ -20,7 +20,7 @@ import danogl.util.Counter;
 public class ExtraPaddle extends Paddle {
     private final BrickerGameManager gameObjectCollection;
     private final Counter collisionCounter;
-    private int paddleLives = 2;
+    private int paddleLives = 4;
 
     /**
      * Construct a new ExtraPaddle instance.
@@ -57,6 +57,7 @@ public class ExtraPaddle extends Paddle {
 
 
     }
+
     /**
      * Handles collision events with other objects. Increments a collision counter
      * and removes the paddle from the game after a certain number of collisions.
