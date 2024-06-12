@@ -9,7 +9,6 @@ import danogl.util.Vector2;
 
 /**
  * Puck.java
- *
  * This class represents a puck in the game, inheriting from the Ball class.
  * It handles removing itself from the game when it goes below a certain height.
  */

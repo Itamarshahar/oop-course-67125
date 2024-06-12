@@ -1,6 +1,7 @@
 package bricker.gameobjects;
 
 import bricker.main.BrickerGameManager;
+import bricker.gameobjects.*;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.UserInputListener;

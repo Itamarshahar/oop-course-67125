@@ -51,10 +51,6 @@ public class BrickerGameManager extends GameManager {
      */
     private static final float POSITION_DIST_Y = 30;
 
-    /**
-     * The width of the paddle.
-     */
-    public static final int PADDLE_WIDTH = 100;
 
     /**
      * The size of the life icon.
@@ -215,15 +211,6 @@ public class BrickerGameManager extends GameManager {
      */
     private Random random;
 
-    /**
-     * The GameObjectCollection for managing game objects.
-     */
-    private GameObjectCollection gameObjectCollection;
-
-    /**
-     * The MessageHandler object for handling game messages.
-     */
-    private MessageHandler messageHandler;
 
     /**
      * The counter for the number of collisions when the camera starts following the ball.
@@ -299,8 +286,6 @@ public class BrickerGameManager extends GameManager {
 
         this.inputListener = inputListener;
         this.windowController = windowController;
-        this.messageHandler = new MessageHandler(windowController);
-        this.gameObjectCollection = new GameObjectCollection(messageHandler);
         this.imageReader = imageReader;
         this.soundReader = soundReader;
         this.livesCounter = new Counter(LIVES_START_COUNT);
@@ -378,7 +363,6 @@ public class BrickerGameManager extends GameManager {
                 lifeDimensions,
                 heartFig,
                 this,
-                ORIGINAL_PADDLE_TAG,
                 windowDimension.y());
         heart.setVelocity(new Vector2(0, 100));
         gameObjects().addGameObject(heart);
@@ -415,7 +399,6 @@ public class BrickerGameManager extends GameManager {
                 lifeDimensions,
                 livesCounter,
                 renderable,
-                gameObjectCollection,
                 LIVES_START_COUNT,
                 renderable,
                 MAX_NUM_LIFE);
@@ -536,8 +519,6 @@ public class BrickerGameManager extends GameManager {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 int nextInt = random.nextInt(NUM_OF_STRATEGIES);
-//                int nextInt = 2; // TODO remove
-//                int nextInt = random.nextInt(NUM_OF_STRATEGIES);
                 CollisionStrategy currentCollisionStrategy =
                         collisionStrategyFactory.getCollisionStrategy(null,
                                 nextInt);

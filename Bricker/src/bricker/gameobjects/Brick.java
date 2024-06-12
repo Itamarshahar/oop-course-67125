@@ -7,7 +7,6 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 /**
  * Brick.java
- *
  * This class represents a brick in the game. It extends the GameObject class
  * and handles collisions with other objects using a specified
  * CollisionStrategy.
@@ -21,7 +20,6 @@ public class Brick extends GameObject {
      *
      * @param topLeftCorner     Position of the brick, in window coordinates
      *                          (pixels).
-     *
      *                          Note that (0,0) is the top-left corner of the
      *                          window.
      * @param dimensions        Width and height of the brick in window

@@ -37,20 +37,14 @@ public class CollisionStrategyFactory {
         if (baseStrategy == null) {
             baseStrategy = new BasicCollisionStrategy(this.objectCollection);
         }
-        switch (strategy) {
-            case 0:
-                return new PuckStrategy(baseStrategy, objectCollection);
-            case 1:
-                return new ExtraPaddleStrategy(baseStrategy, objectCollection);
-            case 2:
-                return new CameraStrategy(baseStrategy, objectCollection);
-            case 3:
-                return new ExtraLifeStrategy(baseStrategy, objectCollection);
-            case 4:
-                return doubleBehaviorHandler(baseStrategy);
-            default:
-                return baseStrategy;
-        }
+        return switch (strategy) {
+            case 0 -> new PuckStrategy(baseStrategy, objectCollection);
+            case 1 -> new ExtraPaddleStrategy(baseStrategy, objectCollection);
+            case 2 -> new CameraStrategy(baseStrategy, objectCollection);
+            case 3 -> new ExtraLifeStrategy(baseStrategy, objectCollection);
+            case 4 -> doubleBehaviorHandler(baseStrategy);
+            default -> baseStrategy;
+        };
     }
 
     /**
@@ -66,7 +60,7 @@ public class CollisionStrategyFactory {
     private CollisionStrategy doubleBehaviorHandler(CollisionStrategy
                                                             baseStrategy) {
         Random rand = new Random();
-        int first = rand.nextInt(4);
+        int first = rand.nextInt(5);
         int second = rand.nextInt(3);
 
         if (first == 4) { // triple case

@@ -9,7 +9,6 @@ import danogl.util.Vector2;
 import java.awt.*;
 /**
  * NumericLifeCounter.java
- *
  * This class represents a numeric life counter in the game. It displays the
  * number of lives remaining and changes the text color based on the current
  * life count.

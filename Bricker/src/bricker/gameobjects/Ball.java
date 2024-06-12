@@ -8,7 +8,6 @@ import danogl.util.Vector2;
 
 /**
  * Ball.java
- *
  * This class represents a ball in the game. It extends the GameObject class
  * and handles collisions with other objects, updating its velocity and playing
  * a sound effect.
@@ -64,6 +63,5 @@ public class Ball extends GameObject {
         Vector2 newVel = getVelocity().flipped(collision.getNormal());
         collisionSound.play();
         setVelocity(newVel);
-
     }
 }

@@ -3,7 +3,6 @@ package bricker.brick_strategies;
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.util.Counter;
-import bricker.brick_strategies.CollisionStrategy;
 
 /**
  * This class implements the basic collision strategy for the game.

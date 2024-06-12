@@ -8,7 +8,6 @@ import danogl.util.Vector2;
 import java.awt.event.KeyEvent;
 /**
  * Paddle.java
- *
  * This class represents the paddle in the game. It handles user input for
  * moving the paddle left and right within the game window boundaries.
  */
@@ -66,6 +65,4 @@ public class Paddle extends GameObject {
         }
         setVelocity(movmentDir);
     }
-
-
 }

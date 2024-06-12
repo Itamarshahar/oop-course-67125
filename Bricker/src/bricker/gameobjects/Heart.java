@@ -10,44 +10,43 @@ import static bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
 
 /**
  * Heart.java
- *
- * This class represents a heart (life) object in the game. It extends the GameObject class
- * and handles collisions with the paddle, increasing the player's life count and removing
+ * This class represents a heart (life) object in the game.
+ * It extends the GameObject class
+ * and handles collisions with the paddle,
+ * increasing the player's life count and removing
  * itself from the game.
  */
 public class Heart extends GameObject {
-       /**
-     * Construct a new Heart instance.
-     *
-     * @param topLeftCorner     Position of the heart, in window coordinates (pixels).
-     *                          Note that (0,0) is the top-left corner of the window.
-     * @param dimensions        Width and height of the heart in window coordinates.
-     * @param renderable        The renderable representing the heart. Can be null, in which case
-     *                          the Heart will not be rendered.
-     * @param gameObjects       The collection of game objects to remove the heart from.
-     * @param livesCounter      The counter for tracking the number of lives.
-     * @param minY              The minimum Y-coordinate for the heart to be removed from the game.
-     * @param brickerGameManager The game manager instance for handling game object removal.
-     * @param paddleTag         The tag of the paddle object for collision detection.
-     */
 
-    private final String paddleTag;
+
     private final float minY;
     private final BrickerGameManager brickerGameManager;
 
 
     /**
-     * constructor
+     * Construct a new Heart instance.
+     *
+     * @param topLeftCorner     Position of the heart, in window coordinates
+     *                          (pixels).
+     *                          Note that (0,0) is the top-left corner of
+     *                          the window.
+     * @param dimensions        Width and height of the heart in window
+     *                          coordinates.
+     * @param renderable        The renderable representing the heart.
+     *                          Can be null, in which case
+     *                          the Heart will not be rendered.
+     * @param minY              The minimum Y-coordinate for the heart
+     *                          to be removed from the game.
+     * @param brickerGameManager The game manager instance for handling
+     *                           game object removal.
      */
     public Heart(Vector2 topLeftCorner,
                  Vector2 dimensions,
                  Renderable renderable,
                  BrickerGameManager brickerGameManager,
-                 String paddleTag,
                  float minY) {
         super(topLeftCorner, dimensions, renderable);
         this.brickerGameManager = brickerGameManager;
-        this.paddleTag = paddleTag;
         this.minY = minY;
     }
      /**
@@ -85,7 +84,8 @@ public class Heart extends GameObject {
      *                  velocity += deltaTime*acceleration
      *                  pos += deltaTime*velocity
      *
-     *                  used to remove the heart from the window when it gets outside the display
+     *                  used to remove the heart from the window when it
+     *                  gets] outside the display
      */
     @Override
     public void update(float deltaTime) {
