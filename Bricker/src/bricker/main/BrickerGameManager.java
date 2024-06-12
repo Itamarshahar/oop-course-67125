@@ -233,6 +233,7 @@ public class BrickerGameManager extends GameManager {
      * A flag indicating if an extra paddle exists in the game.
      */
     private boolean extraPaddleExist = false;
+    private final Vector2 lifeDimensions = new Vector2(LIFE_SIZE, LIFE_SIZE);
 
     /**
      * Constructs a new BrickerGameManager with the specified window title and dimensions.
@@ -308,8 +309,6 @@ public class BrickerGameManager extends GameManager {
         this.brickCounter = new Counter(rows * cols);
         this.random = new Random();
         cameraStartedCounter = new Counter();
-        Vector2 lifeDimensions = new Vector2(LIFE_SIZE, LIFE_SIZE);
-
         createBall();
         createPrimaryPaddle();
         createWalls();
@@ -318,7 +317,6 @@ public class BrickerGameManager extends GameManager {
         Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
         livesCounter = new Counter(LIVES_START_COUNT);
         createLives(livesImage,
-                lifeDimensions,
                 livesCounter,
                 gameObjects());
 
@@ -377,7 +375,7 @@ public class BrickerGameManager extends GameManager {
     public void addHeart(Vector2 topLeftCorner) {
         Renderable heartFig = imageReader.readImage(LIVES_IMAGE_PATH, true);
         Heart heart = new Heart(topLeftCorner,
-                windowDimension.mult(0.05f),
+                lifeDimensions,
                 heartFig,
                 this,
                 ORIGINAL_PADDLE_TAG,
@@ -400,24 +398,21 @@ public class BrickerGameManager extends GameManager {
      *
      * @param renderable           The renderable object for the graphical
      *                             life counter.
-     * @param dimension            The dimensions of the life counter icons
-     *                             .
      * @param livesCounter         The counter for the number of remaining lives.
      * @param gameObjectCollection The collection of game objects to add the
      *                             life counters to.
      */
     private void createLives(Renderable renderable,
-                             Vector2 dimension,
                              Counter livesCounter,
                              GameObjectCollection gameObjectCollection) {
 
         GameObject numericLives = new NumericLifeCounter(livesCounter,
                 new Vector2(topLeftCorner.x() +
-                dimension.x() * MAX_NUM_LIFE, topLeftCorner.y()), dimension);
+                lifeDimensions.x() * MAX_NUM_LIFE, topLeftCorner.y()), lifeDimensions);
         gameObjects().addGameObject(numericLives, Layer.FOREGROUND);
 
         GameObject graphicLives = new GraphicLifeCounter(topLeftCorner,
-                dimension,
+                lifeDimensions,
                 livesCounter,
                 renderable,
                 gameObjectCollection,

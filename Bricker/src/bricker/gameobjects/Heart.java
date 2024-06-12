@@ -49,7 +49,7 @@ public class Heart extends GameObject {
         this.brickerGameManager = brickerGameManager;
         this.paddleTag = paddleTag;
         this.minY = minY;
-        this.setVelocity(new Vector2(0, 100)); // Set initial downward movement
+//        this.setVelocity(new Vector2(0, 100)); // Set initial downward movement
     }
      /**
      * Handles collision events with other objects. Increases the life count and
@@ -63,8 +63,6 @@ public class Heart extends GameObject {
         super.onCollisionEnter(other, collision);
         brickerGameManager.increaseLifeCounter();
         brickerGameManager.removeGameObjectHandler(this);
-
-
     }
 
 /**
