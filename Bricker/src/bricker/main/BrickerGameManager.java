@@ -145,8 +145,9 @@ public class BrickerGameManager extends GameManager {
      * The tag for the original paddle.
      */
     public static final String ORIGINAL_PADDLE_TAG = "ORIGINAL_PADDLE";
-
-
+     /**
+     * The tag for the Secondary paddle.
+     */
     private static final String SECONDARY_PADDLE_TAG  = "Secondary " +
         "Paddle";
     /**
