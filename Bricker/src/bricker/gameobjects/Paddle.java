@@ -1,4 +1,4 @@
-package Bricker.src.bricker.gameobjects;
+package bricker.gameobjects;
 
 import danogl.GameObject;
 import danogl.gui.UserInputListener;

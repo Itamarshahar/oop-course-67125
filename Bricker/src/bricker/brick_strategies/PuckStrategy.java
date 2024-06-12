@@ -1,6 +1,6 @@
-package Bricker.src.bricker.brick_strategies;
+package bricker.brick_strategies;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 
 /**
@@ -8,7 +8,7 @@ import danogl.GameObject;
  * when a collision occurs between two game objects.
  */
 public class PuckStrategy implements CollisionStrategy {
-    private final CollisionStrategy baseStrategy;
+    private final bricker.brick_strategies.CollisionStrategy baseStrategy;
     private final BrickerGameManager objectCollection;
 
     /**
@@ -19,7 +19,7 @@ public class PuckStrategy implements CollisionStrategy {
      * @param objectCollection The BrickerGameManager instance that manages
      *                         the game objects.
      */
-    public PuckStrategy(CollisionStrategy baseStrategy, BrickerGameManager
+    public PuckStrategy(bricker.brick_strategies.CollisionStrategy baseStrategy, BrickerGameManager
             objectCollection) {
         this.objectCollection = objectCollection;
         this.baseStrategy = baseStrategy;

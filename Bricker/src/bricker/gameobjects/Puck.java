@@ -1,13 +1,11 @@
-package Bricker.src.bricker.gameobjects;
+package bricker.gameobjects;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
-import danogl.collisions.Layer;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import danogl.collisions.Layer;
 
 /**
  * Puck.java

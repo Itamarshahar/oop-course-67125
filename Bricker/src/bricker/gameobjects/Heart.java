@@ -1,12 +1,13 @@
-package Bricker.src.bricker.gameobjects;
+package bricker.gameobjects;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
-import static Bricker.src.bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
+import static bricker.main.BrickerGameManager.ORIGINAL_PADDLE_TAG;
+
 /**
  * Heart.java
  *

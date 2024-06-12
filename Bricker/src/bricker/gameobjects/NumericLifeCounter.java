@@ -1,8 +1,7 @@
-package Bricker.src.bricker.gameobjects;
+package bricker.gameobjects;
 
 
 import danogl.GameObject;
-import danogl.gui.rendering.Renderable;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
