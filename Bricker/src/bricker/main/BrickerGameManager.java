@@ -1,8 +1,8 @@
-package Bricker.src.bricker.main;
+package bricker.main;
 
-import Bricker.src.bricker.brick_strategies.CollisionStrategy;
-import Bricker.src.bricker.brick_strategies.CollisionStrategyFactory;
-import Bricker.src.bricker.gameobjects.*;
+import bricker.brick_strategies.CollisionStrategy;
+import bricker.brick_strategies.CollisionStrategyFactory;
+import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -146,6 +146,9 @@ public class BrickerGameManager extends GameManager {
      */
     public static final String ORIGINAL_PADDLE_TAG = "ORIGINAL_PADDLE";
 
+
+    private static final String SECONDARY_PADDLE_TAG  = "Secondary " +
+        "Paddle";
     /**
      * The size factor for the puck (small ball) relative to the original ball.
      */
@@ -503,7 +506,7 @@ public class BrickerGameManager extends GameManager {
                     this);
             extraPaddle.setCenter(new Vector2(windowDimension.x() / 2,
                     windowDimension.y() / 2));
-            extraPaddle.setTag(ORIGINAL_PADDLE_TAG);
+            extraPaddle.setTag(SECONDARY_PADDLE_TAG);
             gameObjects().addGameObject(extraPaddle);
 
         }

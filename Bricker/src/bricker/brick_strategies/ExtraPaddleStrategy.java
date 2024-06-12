@@ -1,7 +1,7 @@
 
-package Bricker.src.bricker.brick_strategies;
+package bricker.brick_strategies;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 /**
  * The ExtraPaddleStrategy class implements the CollisionStrategy interface and is responsible
@@ -35,7 +35,6 @@ public class ExtraPaddleStrategy implements CollisionStrategy {
     public void onCollision(GameObject obj1, GameObject obj2) {
         // Call the wrapped collision strategy's onCollision method
         wrappedCollision.onCollision(obj1, obj2);
-
         // Add an extra paddle to the game
         brickerGameManager.addExtraPaddle();
     }

@@ -1,8 +1,9 @@
-package Bricker.src.bricker.brick_strategies;
+package bricker.brick_strategies;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.util.Counter;
+import bricker.brick_strategies.CollisionStrategy;
 
 /**
  * This class implements the basic collision strategy for the game.

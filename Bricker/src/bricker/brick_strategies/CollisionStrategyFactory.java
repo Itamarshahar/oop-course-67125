@@ -1,6 +1,6 @@
-package Bricker.src.bricker.brick_strategies;
+package bricker.brick_strategies;
 
-import Bricker.src.bricker.main.BrickerGameManager;
+import bricker.main.BrickerGameManager;
 
 import java.util.Random;
 

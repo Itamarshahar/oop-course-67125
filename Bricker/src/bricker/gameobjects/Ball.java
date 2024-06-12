@@ -1,4 +1,4 @@
-package Bricker.src.bricker.gameobjects;
+package bricker.gameobjects;
 
 import danogl.GameObject;
 import danogl.collisions.Collision;
@@ -8,7 +8,7 @@ import danogl.util.Vector2;
 
 /**
  * Ball.java
- * <p>
+ *
  * This class represents a ball in the game. It extends the GameObject class
  * and handles collisions with other objects, updating its velocity and playing
  * a sound effect.
