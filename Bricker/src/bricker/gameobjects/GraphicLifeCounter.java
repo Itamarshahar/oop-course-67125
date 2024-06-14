@@ -1,9 +1,9 @@
 package bricker.gameobjects;
 
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
-import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
@@ -14,10 +14,6 @@ import danogl.util.Vector2;
  * set of renderable objects (e.g., hearts) based on the current life count.
  */
 public class GraphicLifeCounter extends GameObject {
-    private final Renderable livesImage;
-    private final int maxNumLives;
-    private final Vector2 topLeftCorner;
-    private final Vector2 dimensions;
     private Counter livesCounter;
     private int numOfLives;
 
@@ -39,9 +35,6 @@ public class GraphicLifeCounter extends GameObject {
      * @param gameObjectCollection The collection of game objects to
  *                             add the life icons to.
      * @param numOfLives          The initial number of lives.
-     * @param livesImage          The renderable representing each life
- *                            icon when displayed.
-     * @param maxNumLives         The maximum number of lives allowed.
      */
     public GraphicLifeCounter(
             Vector2 topLeftCorner,
@@ -50,29 +43,26 @@ public class GraphicLifeCounter extends GameObject {
             Renderable renderable,
             GameObjectCollection gameObjectCollection,
             int numOfLives,
-            Renderable livesImage,
-            int maxNumLives) {
+            int minY,
+            BrickerGameManager brickerGameManager) {
         super(topLeftCorner, dimensions, null);
-        this.topLeftCorner = topLeftCorner;
-        this.dimensions = dimensions;
         this.numOfLives = numOfLives;
         this.gameObjectCollection = gameObjectCollection;
-        this.livesImage = livesImage;
-        this.maxNumLives = maxNumLives;
-        this.livesArray = new GameObject[maxNumLives];
         this.livesCounter = livesCounter;
+        Heart heart1 = new Heart(topLeftCorner, dimensions, renderable, brickerGameManager,minY);
+        Heart heart2 = new Heart(topLeftCorner.add(Vector2.RIGHT.mult(dimensions.x())),
+                        dimensions, renderable, brickerGameManager,minY);
+        Heart heart3 = new Heart(topLeftCorner.add(Vector2.RIGHT.mult(dimensions.x()*2)),
+                        dimensions, renderable, brickerGameManager,minY);
+        Heart heart4 =
+                new Heart(topLeftCorner.add(Vector2.RIGHT.mult(dimensions.x()*3)),
+                        dimensions, renderable, brickerGameManager,minY);
 
-        for (int i = 0; i < numOfLives; i++) {
-            if (i < livesCounter.value())
-                livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
-                        topLeftCorner.y())
-                        , dimensions, renderable);
-            else
-                livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() + (i * dimensions.x()),
-                        topLeftCorner.y())
-                        , dimensions, null);
-            gameObjectCollection.addGameObject(livesArray[i], Layer.FOREGROUND);
+        this.livesArray = new GameObject[]{heart1,heart2, heart3, heart4};
+        for (int i = 0; i < numOfLives; i++){
+            gameObjectCollection.addGameObject(livesArray[i], Layer.UI);
         }
+
     }
 
     /**
@@ -84,20 +74,12 @@ public class GraphicLifeCounter extends GameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (livesCounter.value() < numOfLives) {
-            gameObjectCollection.removeGameObject(livesArray[numOfLives - 1],
-                    Layer.FOREGROUND);
+        if (livesCounter.value() < numOfLives){
+            gameObjectCollection.removeGameObject(livesArray[livesCounter.value()], Layer.UI);
             numOfLives--;
         }
-        else if (maxNumLives >= livesCounter.value() && livesCounter.value() >
-                numOfLives) {
-            int i = livesCounter.value() - 1;
-            livesArray[i] = new GameObject(new Vector2(topLeftCorner.x() +
-                    (i * dimensions.x()),
-                                                        topLeftCorner.y())
-                            , dimensions, livesImage);
-            gameObjectCollection.addGameObject(livesArray[i],
-                    Layer.FOREGROUND);
+        if (livesCounter.value() > numOfLives){
+            gameObjectCollection.addGameObject(livesArray[numOfLives], Layer.UI);
             numOfLives++;
         }
     }
