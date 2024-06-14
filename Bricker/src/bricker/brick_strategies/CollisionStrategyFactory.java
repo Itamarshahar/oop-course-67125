@@ -61,11 +61,11 @@ public class CollisionStrategyFactory {
                                                             baseStrategy) {
         Random rand = new Random();
         int first = rand.nextInt(5);
-        int second = rand.nextInt(3);
+        int second = rand.nextInt(4);
 
         if (first == 4) { // triple case
-            int third = rand.nextInt(3);
-            int fourth = rand.nextInt(3);
+            int third = rand.nextInt(4);
+            int fourth = rand.nextInt(4);
             CollisionStrategy tmp = getCollisionStrategy(baseStrategy, second);
             CollisionStrategy tmp1 = getCollisionStrategy(tmp, third);
             return getCollisionStrategy(tmp1, fourth);
