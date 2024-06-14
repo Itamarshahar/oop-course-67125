@@ -5,7 +5,6 @@ import bricker.brick_strategies.CollisionStrategyFactory;
 import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.*;
@@ -34,12 +33,12 @@ public class BrickerGameManager extends GameManager {
     /**
      * The initial number of lives the player starts with.
      */
-    private static final int LIVES_START_COUNT = 3;
+    private static final int LIFES_START_COUNT = 3;
 
     /**
      * The maximum number of lives the player can have.
      */
-    public static final int MAX_NUM_LIFE = LIVES_START_COUNT + 1;
+    public static final int MAX_NUM_LIFE = LIFES_START_COUNT + 1;
 
     /**
      * The x-coordinate of the top-left corner of the lives display.
@@ -211,7 +210,6 @@ public class BrickerGameManager extends GameManager {
      */
     private Random random;
 
-
     /**
      * The counter for the number of collisions when the camera starts following the ball.
      */
@@ -258,7 +256,7 @@ public class BrickerGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         int cameraDif = ball.getCollisionCounter() - cameraStartedCounter.value();
-        if (cameraDif >= BALLS_HIT_FOR_CAMERA) {
+        if (this.camera() != null && cameraDif >= BALLS_HIT_FOR_CAMERA ) {
             this.setCamera(null);
         }
         super.update(deltaTime);
@@ -288,7 +286,7 @@ public class BrickerGameManager extends GameManager {
         this.windowController = windowController;
         this.imageReader = imageReader;
         this.soundReader = soundReader;
-        this.livesCounter = new Counter(LIVES_START_COUNT);
+        this.livesCounter = new Counter(LIFES_START_COUNT);
         this.windowDimension = windowController.getWindowDimensions();
         this.topLeftCorner = new Vector2(LIVES_POSITION_X,
                 windowDimension.y() - POSITION_DIST_Y);
@@ -300,11 +298,10 @@ public class BrickerGameManager extends GameManager {
         createWalls();
         createBackground();
         createBricks();
-        Renderable livesImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
-        livesCounter = new Counter(LIVES_START_COUNT);
-        createLives(livesImage,
-                livesCounter,
-                gameObjects());
+        Renderable lifeImage = imageReader.readImage(LIVES_IMAGE_PATH, true);
+        livesCounter = new Counter(LIFES_START_COUNT);
+        createLives(lifeImage,
+                livesCounter);
     }
 
     /**
@@ -383,13 +380,9 @@ public class BrickerGameManager extends GameManager {
      * @param renderable           The renderable object for the graphical
      *                             life counter.
      * @param livesCounter         The counter for the number of remaining lives.
-     * @param gameObjectCollection The collection of game objects to add the
-     *                             life counters to.
      */
     private void createLives(Renderable renderable,
-                             Counter livesCounter,
-                             GameObjectCollection gameObjectCollection) {
-
+                             Counter livesCounter){
         GameObject numericLives = new NumericLifeCounter(livesCounter,
                 new Vector2(topLeftCorner.x() +
                 lifeDimensions.x() * MAX_NUM_LIFE, topLeftCorner.y()), lifeDimensions);
@@ -399,7 +392,8 @@ public class BrickerGameManager extends GameManager {
                 lifeDimensions,
                 livesCounter,
                 renderable,
-                LIVES_START_COUNT,
+                gameObjects(),
+                LIFES_START_COUNT,
                 renderable,
                 MAX_NUM_LIFE);
         gameObjects().addGameObject(graphicLives, Layer.FOREGROUND);
@@ -422,9 +416,9 @@ public class BrickerGameManager extends GameManager {
         if (random.nextBoolean()) {
             ballVelX *= -1;
         }
-        if (random.nextBoolean()) {
-            ballVelY *= -1;
-        }
+//        if (random.nextBoolean()) {
+//            ballVelY *= -1;
+//        }
         ball.setVelocity(new Vector2(ballVelX, ballVelY));
         this.windowDimension = windowController.getWindowDimensions();
         ball.setCenter(windowDimension.mult(0.5f));

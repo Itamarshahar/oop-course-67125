@@ -3,11 +3,13 @@ package bricker.gameobjects;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
+import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 /**
  * GraphicLifeCounter.java
+ *
  * This class represents a graphical life counter in the game. It displays a
  * set of renderable objects (e.g., hearts) based on the current life count.
  */
@@ -34,6 +36,8 @@ public class GraphicLifeCounter extends GameObject {
      * @param livesCounter        The counter for tracking the number
  *                           of lives.
      * @param renderable          The renderable representing each life icon.
+     * @param gameObjectCollection The collection of game objects to
+ *                             add the life icons to.
      * @param numOfLives          The initial number of lives.
      * @param livesImage          The renderable representing each life
  *                            icon when displayed.
@@ -44,6 +48,7 @@ public class GraphicLifeCounter extends GameObject {
             Vector2 dimensions,
             Counter livesCounter,
             Renderable renderable,
+            GameObjectCollection gameObjectCollection,
             int numOfLives,
             Renderable livesImage,
             int maxNumLives) {
