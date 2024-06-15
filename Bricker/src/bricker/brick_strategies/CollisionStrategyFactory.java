@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class CollisionStrategyFactory {
     private final BrickerGameManager objectCollection;
-
+    private final int numberOfSpecialStrategiesNoDouble = 4;
 
     /**
      * Constructor to initialize the CollisionStrategyFactory.
@@ -61,17 +61,26 @@ public class CollisionStrategyFactory {
                                                             baseStrategy) {
         Random rand = new Random();
         int first = rand.nextInt(5);
-        int second = rand.nextInt(4);
+        int second = rand.nextInt(numberOfSpecialStrategiesNoDouble);
 
         if (first == 4) { // triple case
-            int third = rand.nextInt(4);
-            int fourth = rand.nextInt(4);
-            CollisionStrategy tmp = getCollisionStrategy(baseStrategy, second);
-            CollisionStrategy tmp1 = getCollisionStrategy(tmp, third);
-            return getCollisionStrategy(tmp1, fourth);
+            int third = rand.nextInt(numberOfSpecialStrategiesNoDouble);
+            while (third == second){
+                third = rand.nextInt(numberOfSpecialStrategiesNoDouble);
+            }
+            int fourth = rand.nextInt(numberOfSpecialStrategiesNoDouble);
+            while (fourth == third || fourth == second){
+                fourth = rand.nextInt(numberOfSpecialStrategiesNoDouble);
+            }
+            CollisionStrategy firstCollisionStrategy = getCollisionStrategy(baseStrategy, second);
+            CollisionStrategy secondCollisionStrategy = getCollisionStrategy(firstCollisionStrategy, third);
+            return getCollisionStrategy(secondCollisionStrategy, fourth);
         } else {
-            CollisionStrategy tmp = getCollisionStrategy(baseStrategy, first);
-            return getCollisionStrategy(tmp, second);
+            while (second == first){
+                second = rand.nextInt(numberOfSpecialStrategiesNoDouble);
+            }
+            CollisionStrategy firstCollisionStrategy = getCollisionStrategy(baseStrategy, first);
+            return getCollisionStrategy(firstCollisionStrategy, second);
         }
     }
 }
