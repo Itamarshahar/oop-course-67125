@@ -394,8 +394,8 @@ public class BrickerGameManager extends GameManager {
                 renderable,
                 gameObjects(),
                 LIFES_START_COUNT,
-                renderable,
-                MAX_NUM_LIFE);
+                (int)windowDimension.y(),
+                this);
         gameObjects().addGameObject(graphicLives, Layer.FOREGROUND);
     }
 
