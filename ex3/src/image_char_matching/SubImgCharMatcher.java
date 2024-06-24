@@ -2,20 +2,18 @@ package image_char_matching;
 
 import java.util.*;
 
-// TODO add doc
-class SubImgCharMatcher {
+
+public class SubImgCharMatcher {
+
     private final HashMap<Character, Double> brightness;
     private final HashSet<Character> maxChars;
     private final HashSet<Character> minChars;
-    private final boolean reGenerateTree;
     private final TreeMap<Double, Character> normalizedBrightness;
-    // TODO add doc
-    TreeSet<Character> charSet;
     private double maxBrightness;
     private double minBrightness;
+    TreeSet<Character> charSet;
+    private boolean reGenerateTree;
 
-    // TODO ADD doc
-    // TODO ADD doc
     public SubImgCharMatcher(char[] charset) {
         charSet = new TreeSet<Character>();
         for (char c : charset) {
@@ -26,16 +24,11 @@ class SubImgCharMatcher {
         this.brightness = new HashMap<>();
         this.normalizedBrightness = new TreeMap<>();
         this.reGenerateTree = true;
-
+        generateBrightness(charset);
+        this.maxBrightness = Double.MIN_VALUE;
+        this.minBrightness = Double.MAX_VALUE;
     }
 
-
-    /**
-     * Adds a character to the character set and updates the maximum and minimum brightness values.
-     * If the character already exists in the set, it does nothing.
-     *
-     * @param c the character to add
-     */
     public void addChar(char c) {
         if (charSet.contains(c)) {
             return;
@@ -45,63 +38,103 @@ class SubImgCharMatcher {
         updateMax(c, charBrightness);
         updateMin(c, charBrightness);
         this.brightness.put(c, charBrightness);
+        this.reGenerateTree = true;
     }
 
-    /**
-     * Removes a character from the character set and updates the maximum and minimum brightness values if necessary.
-     * If the character does not exist in the set, it does nothing.
-     *
-     * @param c the character to remove
-     */
-    public void removeChar(char c) {
-        // TODO finish impl
+    public void removeChar(char c){
+        if (!charSet.contains(c)) {
+            return;
+        }
         charSet.remove(c);
+        Double cBrightness = calculateBrightness(c);
+
+        this.brightness.remove(c); // TODO why this?
+        if (cBrightness == maxBrightness) {
+            maxChars.remove(c);
+            if (maxChars.isEmpty()) {
+                recalculateMaxMinBrightness();
+            }
+        } else if (cBrightness == minBrightness) {
+            minChars.remove(c);
+            if (minChars.isEmpty()) {
+                recalculateMaxMinBrightness();
+            }
+        }
+        this.reGenerateTree = true;
+    }
+
+    private void recalculateMaxMinBrightness() {
+        maxBrightness = Double.MIN_VALUE;
+        minBrightness = Double.MAX_VALUE;
+        maxChars.clear();
+        minChars.clear();
+        for (char c : charSet) {
+            double charBrightness = calculateBrightness(c);
+            updateMax(c, charBrightness);
+            updateMin(c, charBrightness);
+        }
     }
 
     private double calculateNormalizedBrightness(char c, double min, double max) {
         return (brightness.get(c) - min) / (max - min);
     }
 
-
     private double calculateBrightness(char c) {
-        return brightness.computeIfAbsent(c, key -> {
-            boolean[][] boolArray = CharConverter.convertToBoolArray(key);
-            return Arrays.stream(boolArray).flatMap(Arrays::stream).filter(Boolean::booleanValue).count() / (double) (boolArray.length * boolArray[0].length);
-        });
-    }
+    return brightness.computeIfAbsent(c, key -> {
+        boolean[][] boolArray = CharConverter.convertToBoolArray(key);
+        int count = 0;
+        int totalPixels = boolArray.length * boolArray[0].length;
+
+        for (boolean[] row : boolArray) {
+            for (boolean pixel : row) {
+                if (pixel) {
+                    count++;
+                }
+            }
+        }
+
+        return count / (double) totalPixels;
+    });
+}
+
 
     private void updateMax(char c, double charBrightness) {
+        if (charBrightness > maxBrightness) {
+            maxBrightness = charBrightness;
+            maxChars.clear();
+        }
         if (charBrightness >= maxBrightness) {
-            if (charBrightness > maxBrightness) {
-                maxBrightness = charBrightness;
-                maxChars.clear();
-            }
             maxChars.add(c);
         }
     }
 
     private void updateMin(char c, double charBrightness) {
+        if (charBrightness < minBrightness) {
+            minBrightness = charBrightness;
+            minChars.clear();
+        }
         if (charBrightness <= minBrightness) {
-            if (charBrightness < minBrightness) {
-                minBrightness = charBrightness;
-                minChars.clear();
-            }
             minChars.add(c);
         }
     }
 
-
     public char getCharByImageBrightness(double brightness) {
-        Map.Entry<Double, Character> floorEntry = normalizedBrightness.ceilingEntry(brightness);
+        if (reGenerateTree){
+            generateTree();  // Ensure the TreeMap is
+        }
+        // up-to-date
+
+        Map.Entry<Double, Character> floorEntry = normalizedBrightness.floorEntry(brightness);
         Map.Entry<Double, Character> ceilingEntry = normalizedBrightness.ceilingEntry(brightness);
 
+//        if (floorEntry == null && ceilingEntry == null) {
+//            return '\0'; // No keys in the map
         if ((floorEntry == null) && (ceilingEntry!=null)) {
             return ceilingEntry.getValue();
-        } else if ((ceilingEntry == null) && (floorEntry!=null) ) {
+        } else if ((ceilingEntry == null) && (floorEntry!=null)) {
             return floorEntry.getValue();
         } else {
-             double floorDiff = Math.abs(floorEntry.getKey() - brightness);
-             // TODO error handling
+            double floorDiff = Math.abs(floorEntry.getKey() - brightness);
             double ceilingDiff = Math.abs(ceilingEntry.getKey() - brightness);
             return (floorDiff <= ceilingDiff) ? floorEntry.getValue() : ceilingEntry.getValue();
         }
@@ -117,8 +150,26 @@ class SubImgCharMatcher {
                 }
                 normalizedBrightness.put(curNormal, c);
             }
-            this.toRemakeTree = false;
+        }
+        this.reGenerateTree = false;
+    }
+    private void generateBrightness(char[] charset) {
+        for (char c: charset){
+            double cNum = calculateBrightness(c);
+            this.brightness.put(c, cNum);
+            if (cNum > maxBrightness){
+                maxBrightness = cNum;
+                maxChars.clear();
+                maxChars.add(c);
+            } if (cNum == maxBrightness){
+                maxChars.add(c);
+            } if (cNum < minBrightness){
+                minBrightness = cNum;
+                minChars.clear();
+                minChars.add(c);
+            } if (cNum == minBrightness){
+                minChars.add(c);
+            }
         }
     }
 }
-
