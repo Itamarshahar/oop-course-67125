@@ -36,7 +36,6 @@ public class AsciiArtAlgorithm {
                 Image subImage = subImages.get(row * resolution + col); // Get sub-image from the list
                 int index = col + row * asciiArt[0].length;
                 double brightness =
-
                         GrayScaleConverter.calculateBrightness(subImages.get(index));
                 asciiArt[row][col] = matcher.getCharByImageBrightness(brightness);
             }
