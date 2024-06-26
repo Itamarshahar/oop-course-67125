@@ -24,9 +24,9 @@ public class SubImgCharMatcher {
         this.brightness = new HashMap<>();
         this.normalizedBrightness = new TreeMap<>();
         this.reGenerateTree = true;
-        generateBrightness(charset);
         this.maxBrightness = Double.MIN_VALUE;
         this.minBrightness = Double.MAX_VALUE;
+        generateBrightness(charset);
     }
 
     public void addChar(char c) {
@@ -161,9 +161,11 @@ public class SubImgCharMatcher {
                 maxBrightness = cNum;
                 maxChars.clear();
                 maxChars.add(c);
-            } if (cNum == maxBrightness){
+            }
+            if (cNum == maxBrightness){
                 maxChars.add(c);
-            } if (cNum < minBrightness){
+            }
+            if (cNum < minBrightness){
                 minBrightness = cNum;
                 minChars.clear();
                 minChars.add(c);

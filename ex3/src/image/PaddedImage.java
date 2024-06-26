@@ -23,7 +23,7 @@ public class PaddedImage {
         for (int y = 0; y < newHeight; y++) {
             for (int x = 0; x < newWidth; x++) {
                 if (x < originalWidth && y < originalHeight) {
-                    paddedPixels[y][x] = image.getPixel(x, y);
+                    paddedPixels[y][x] = image.getPixel(y, x);
                 } else {
                     paddedPixels[y][x] = Color.WHITE; // White padding
                 }

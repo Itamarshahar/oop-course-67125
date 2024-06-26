@@ -14,7 +14,7 @@ public class GrayScaleConverter {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Color color = image.getPixel(x, y);
+                Color color = image.getPixel(y, x);
                 double grayPixel = color.getRed() * 0.2126 + color.getGreen() * 0.7152 + color.getBlue() * 0.0722;
                 totalBrightness += grayPixel / 255.0;
             }
