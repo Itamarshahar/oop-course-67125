@@ -1,0 +1,29 @@
+ 2. Java Data Structures used in our code:
+        - HashMap.
+            Insert, delete and search are O(1) operations. The memory complexity is O(n).
+            We used a HashMap to store the brightnessUnNormalized of each Char in the SubImageCharMatcher
+            class.
+        - HashSet.
+            Insert, delete and search are O(1) operations. The memory complexity is O(n).
+            We used a HashSet to store the chars with min or max brightness in the SubImageCharMatcher class.
+            HashSet is best for this use case because we don't need to keep the chars sorted by their ascii
+            value, and we don't need to keep the chars sorted by their brightnessNormalized value. We only
+            need to keep the chars in a set, and check if a char is in the set, and add a char to the set.
+
+        - TreeSet.
+            Insert, delete and search are O(log(n)) operations. The memory complexity is O(n).
+            We used a TreeSet to store the chars in the SubImageCharMatcher class. We used the TreeSet and not
+            a HashSet because we wanted to keep the chars sorted by their ascii value, so we can print them in
+            the correct order. We pay in time complexity for the ability to print the chars in the correct
+            order. It would have taken O(n) time to print the chars in the correct order, if we would have
+            used a HashSet, or an ArrayList.
+
+        - TreeMap.
+            Insert, delete and search are O(log(n)) operations. The memory complexity is O(n).
+            We used a TreeMap to store the brightnessNormalized of each Char in the SubImageCharMatcher
+            class. We used the TreeMap and not a HashMap because we wanted to keep the chars sorted by their
+            brightnessUnNormalized value, so we can find the char with the closset value, and get the minimal
+            ascii value if tied in brightness. We pay in time complexity for the ability to find the char with
+            the closest brightness value, and get the minimal ascii value if tied in brightness. It would have
+            taken O(n) time to find the char with the closest brightness value, and get the minimal ascii
+            value if tied in brightness, if we would have used a HashMap.
