@@ -11,7 +11,7 @@ public class SubImgCharMatcher {
     private final TreeMap<Double, Character> normalizedBrightness;
     private double maxBrightness;
     private double minBrightness;
-    TreeSet<Character> charSet;
+    private TreeSet<Character> charSet;
     private boolean reGenerateTree;
 
     public SubImgCharMatcher(char[] charset) {
@@ -63,6 +63,7 @@ public class SubImgCharMatcher {
         this.reGenerateTree = true;
     }
 
+    public TreeSet<Character> getCharSet() {return charSet;}
     private void recalculateMaxMinBrightness() {
         maxBrightness = Double.MIN_VALUE;
         minBrightness = Double.MAX_VALUE;
@@ -153,23 +154,24 @@ public class SubImgCharMatcher {
         }
         this.reGenerateTree = false;
     }
-    private void generateBrightness(char[] charset) {
+    private void generateBrightness(char[] charset) { // TODO ITAMAR EDIT
+        // and change the logic
         for (char c: charset){
-            double cNum = calculateBrightness(c);
-            this.brightness.put(c, cNum);
-            if (cNum > maxBrightness){
-                maxBrightness = cNum;
+            double charBrightness = calculateBrightness(c);
+            this.brightness.put(c, charBrightness);
+            if (charBrightness > maxBrightness){
+                maxBrightness = charBrightness;
                 maxChars.clear();
                 maxChars.add(c);
             }
-            if (cNum == maxBrightness){
+            if (charBrightness == maxBrightness){
                 maxChars.add(c);
             }
-            if (cNum < minBrightness){
-                minBrightness = cNum;
+            if (charBrightness < minBrightness){
+                minBrightness = charBrightness;
                 minChars.clear();
                 minChars.add(c);
-            } if (cNum == minBrightness){
+            } if (charBrightness == minBrightness){
                 minChars.add(c);
             }
         }

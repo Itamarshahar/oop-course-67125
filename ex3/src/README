@@ -1,22 +1,37 @@
  2. Java Data Structures used in our code:
-        - HashMap.
-            Insert, delete and search are O(1) operations. The memory complexity is O(n).
-            We used a HashMap to store the brightnessUnNormalized of each Char in the SubImageCharMatcher
-            class.
-        - HashSet.
-            Insert, delete and search are O(1) operations. The memory complexity is O(n).
+    * HashMap - Raw brightness values from the SubImageCharMatcher class. Maps
+     Character to it's Double value
+        * Insert: O(1)
+        * Delete O(1)
+        * Search O(1)
+        * Space O(n)
+
+    * HashSet - Stores the char/s with the current min/max brightness value.
+
             We used a HashSet to store the chars with min or max brightness in the SubImageCharMatcher class.
             HashSet is best for this use case because we don't need to keep the chars sorted by their ascii
             value, and we don't need to keep the chars sorted by their brightnessNormalized value. We only
             need to keep the chars in a set, and check if a char is in the set, and add a char to the set.
+        * Insert: O(1)
+        * Delete O(1)
+        * Search O(1)
+        * Space O(n)
 
-        - TreeSet.
-            Insert, delete and search are O(log(n)) operations. The memory complexity is O(n).
-            We used a TreeSet to store the chars in the SubImageCharMatcher class. We used the TreeSet and not
-            a HashSet because we wanted to keep the chars sorted by their ascii value, so we can print them in
-            the correct order. We pay in time complexity for the ability to print the chars in the correct
-            order. It would have taken O(n) time to print the chars in the correct order, if we would have
-            used a HashSet, or an ArrayList.
+    * TreeSet - Tree of all chars from SubImageCharMatcher class
+        We utilized the TreeSet data structure, since we wanted to store the
+        char
+        sorted by their ascii value.
+
+
+    We used a TreeSet to store the chars in the SubImageCharMatcher class. We used the TreeSet and not
+    a HashSet because we wanted to keep the chars sorted by their ascii value, so we can print them in
+    the correct order. We pay in time complexity for the ability to print the chars in the correct
+    order. It would have taken O(n) time to print the chars in the correct order, if we would have
+    used a HashSet, or an ArrayList.
+        * Insert: O(log(n))
+        * Delete O(log(n))
+        * Search O(log(n))
+        * Space O(n)
 
         - TreeMap.
             Insert, delete and search are O(log(n)) operations. The memory complexity is O(n).
@@ -27,3 +42,8 @@
             the closest brightness value, and get the minimal ascii value if tied in brightness. It would have
             taken O(n) time to find the char with the closest brightness value, and get the minimal ascii
             value if tied in brightness, if we would have used a HashMap.
+
+
+
+
+SubImgCharMatcher we add the public methods:
