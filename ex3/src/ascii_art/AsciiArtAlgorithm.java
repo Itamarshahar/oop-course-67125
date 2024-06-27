@@ -6,7 +6,6 @@ import image.SubImage;
 import image.GrayScaleConverter;
 import image_char_matching.SubImgCharMatcher;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,13 +30,13 @@ public class AsciiArtAlgorithm {
         SubImage subImageProcessor = new SubImage(paddedImage);
         List<Image> subImages = subImageProcessor.divideImage(subImageSize);
 
-        for (int row = 0; row < resolution; row++) {
-            for (int col = 0; col < resolution; col++) {
-                Image subImage = subImages.get(row * resolution + col); // Get sub-image from the list
-                int index = col + row * asciiArt[0].length;
+        for (int col = 0; col < resolution; col++) {
+            for (int row = 0; row < resolution; row++) {
+                int index = row + col * asciiArt[0].length;
                 double brightness =
                         GrayScaleConverter.calculateBrightness(subImages.get(index));
-                asciiArt[row][col] = matcher.getCharByImageBrightness(brightness);
+                asciiArt[row][col] =
+                        matcher.getCharByImageBrightness(brightness);
             }
         }
 
