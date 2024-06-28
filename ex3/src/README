@@ -1,4 +1,32 @@
- 2. Java Data Structures used in our code:
+1. UML diagram:
+    * The Image class:
+        represents an image.
+    * The SubImageCharMatcher class:
+        represents a char matcher between sub image and a char.
+    * The AsciiArtAlgorithm class:
+        represents an algorithm that generates an ascii art
+          from an image, holds an Image object, by composition.
+    * The KeyBoardInput class:
+        gets input from the user.
+    * The AsciiOutput interface:
+        represents an output of an ascii art.
+    * The ConsoleAsciiOutput:
+        implements the AsciiOutput interface. represents an output of an ascii
+        art to the console.
+    * The HtmlAsciiOutput class:
+        implements the AsciiOutput interface, represents an output of an
+        ascii art to an html file,
+    * The PaddedImage class:
+        represents a class that hold a Image object and can generate padded
+        version of the Image object.
+    * The CharConverter class:
+        converts char to a binary "image" (2D array of booleans).
+    * The SubImage class:
+        represents a class that hold a Image object and can generate List of
+        sub images representing the original image.
+
+
+ 2. Java Data Structures we used:
     * HashMap - Raw brightness values from the SubImageCharMatcher class. Maps
      Character to it's Double value
         * Insert: O(1)
@@ -7,7 +35,6 @@
         * Space O(n)
 
     * HashSet - Stores the char/s with the current min/max brightness value.
-
             We used a HashSet to store the chars with min or max brightness in the SubImageCharMatcher class.
             HashSet is best for this use case because we don't need to keep the chars sorted by their ascii
             value, and we don't need to keep the chars sorted by their brightnessNormalized value. We only
@@ -18,32 +45,29 @@
         * Space O(n)
 
     * TreeSet - Tree of all chars from SubImageCharMatcher class
-        We utilized the TreeSet data structure, since we wanted to store the
-        char
-        sorted by their ascii value.
-
-
-    We used a TreeSet to store the chars in the SubImageCharMatcher class. We used the TreeSet and not
-    a HashSet because we wanted to keep the chars sorted by their ascii value, so we can print them in
-    the correct order. We pay in time complexity for the ability to print the chars in the correct
-    order. It would have taken O(n) time to print the chars in the correct order, if we would have
-    used a HashSet, or an ArrayList.
+        We utilized the TreeSet data structure, to help us save the chars
+        ordered according to their asssci values. This allows us to easy print
+        the char by thier order latter in the user interface
+        * Insert: O(log(n))
+        * Delete O(log(n))
+        * Search O(log(n))
+        * Space O(n)
+        We will notice here that since the allowed values are char with asccii
+        value of 32-126, so n is constant and all operation over the TreeSet
+        are O(1).
+    * TreeMap - Maps the normalized brightness value to the char, and order
+        by the brightness value (the raw values).
+        The TreeMap help us to efficiently find the char with the closest value
+        in case the char doesn't exist within the chars set.
+        brightness value
         * Insert: O(log(n))
         * Delete O(log(n))
         * Search O(log(n))
         * Space O(n)
 
-        - TreeMap.
-            Insert, delete and search are O(log(n)) operations. The memory complexity is O(n).
-            We used a TreeMap to store the brightnessNormalized of each Char in the SubImageCharMatcher
-            class. We used the TreeMap and not a HashMap because we wanted to keep the chars sorted by their
-            brightnessUnNormalized value, so we can find the char with the closset value, and get the minimal
-            ascii value if tied in brightness. We pay in time complexity for the ability to find the char with
-            the closest brightness value, and get the minimal ascii value if tied in brightness. It would have
-            taken O(n) time to find the char with the closest brightness value, and get the minimal ascii
-            value if tied in brightness, if we would have used a HashMap.
-
-
-
-
-SubImgCharMatcher we add the public methods:
+3. Exception part
+4. Changes in the API of SubImageCharMatcher class:
+    * public TreeSet<Character> getCharSet()
+        getter for the charSet. Used in the "chars" command.
+    * double calculateImageBrightness(Image image)
+        calculate the brightness of the image
