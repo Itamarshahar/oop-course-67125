@@ -187,8 +187,8 @@ public class SubImgCharMatcher {
         this.reGenerateTree = false;
     }
 
-    private void generateBrightness(char[] charset) { // TODO ITAMAR EDIT
-        // and change the logic
+    private void generateBrightness(char[] charset) {
+
         for (char c : charset) {
             double charBrightness = calculateBrightness(c);
             this.brightness.put(c, charBrightness);

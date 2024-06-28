@@ -1,6 +1,5 @@
 package ascii_art;
 
-import image.GrayScaleConverter;
 import image.Image;
 import image.PaddedImage;
 import image.SubImage;
@@ -45,17 +44,16 @@ public class AsciiArtAlgorithm {
         SubImgCharMatcher matcher = new SubImgCharMatcher(charset);
         char[][] asciiArt = new char[resolution][resolution];
 
-        SubImage subImageProcessor = new SubImage(paddedImage);
-        List<Image> subImages = subImageProcessor.divideImage(subImageSize);
+        SubImage subImage = new SubImage(paddedImage);
+        List<Image> subImages = subImage.divideImage(subImageSize);
 
         for (int col = 0; col < resolution; col++) {
             for (int row = 0; row < resolution; row++) {
                 int index = row + col * asciiArt[0].length;
-                double brightness = GrayScaleConverter.calculateGrayScaleBrightness(subImages.get(index));
+                double brightness = image.calculateImageBrightness(subImages.get(index));
                 asciiArt[row][col] = matcher.getCharByImageBrightness(brightness);
             }
         }
-
         return asciiArt;
     }
 
