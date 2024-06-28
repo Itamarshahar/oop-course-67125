@@ -3,7 +3,10 @@ package image;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The SubImage class is responsible for dividing a given image into smaller sub-images.
+ * This is useful for processing or analyzing smaller parts of a large image independently.
+ */
 public class SubImage {
     private Image image;
 
