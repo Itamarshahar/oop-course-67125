@@ -1,33 +1,54 @@
 package ascii_art;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import ascii_art.ascii_exception.AsciiException;
-import ascii_art.ascii_exception.InvalidInputException;
+import ascii_art.ascii_exception.*;
+import image.Image;
+import image.PaddedImage;
 import image_char_matching.SubImgCharMatcher;
 
 public class Shell {
     private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format."; // Constant for add error message
     private static final String REMOVE_ERROR_MESSAGE = "Did not remove due to incorrect format."; // Constant for remove error message
+    private static final String RES_ERROR_MESSAGE = "Did not change resolution due to %s."; // Constant for res error message
+    private static final String RESOLUTION_FORMAT = "Resolution set to %d."; // Format for resolution message
+    private static final String RESOLUTION_BOUNDARY_ERROR = "exceeding boundaries."; // Constant for resolution boundary error
+    private static final String RESOLUTION_FORMAT_ERROR = "incorrect format"; // Resolution format error
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
     private static final String ADD = "add";
-    private static final String REMOVE = "remove"; // New command: remove
+    private static final String REMOVE = "remove";
+    private static final String RES = "res"; // New command: res
+    private static final String UP = "up";
+    private static final String DOWN = "down";
     private static final String ALL = "all";
     private static final String SPACE = "space";
     private static final int START_ASCII_ALL = 32;
     private static final int END_ASCII_ALL = 126;
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
+    private static final int INITIAL_RESOLUTION = 128; // Initial number of characters per line
+    private static final String DEF_IMAGE = "C:\\Users\\amirt\\IdeaProjects\\oop-course-67125\\ex3\\src\\examples\\cat.jpeg";
 
     // New char set instance
     private SubImgCharMatcher charSet = new SubImgCharMatcher(new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'});
 
-    public Shell() {
+    private int currentResolution = INITIAL_RESOLUTION; // Track current resolution
+    private Image img;
+
+
+    public Shell() throws IOException {
+        setImage(DEF_IMAGE);
+    }
+    private void setImage(String fileName) throws IOException{
+        Image imageToPad = new Image(fileName);
+        PaddedImage paddedImage = new PaddedImage(imageToPad);
+        this.img = paddedImage.padToPowerOfTwo();
     }
 
     public void run() {
@@ -36,9 +57,13 @@ public class Shell {
         while (!input.get(0).equals(EXIT)) {
             try {
                 manageInput(input);
-            } catch (AsciiException e) {
+            }
+            catch (AsciiException e) {
                 System.out.println(e.getMessage());
             }
+//            catch (IOException e) {
+//                System.out.println(e.getMessage());
+//            }
             System.out.print(DEF_STRING);
             input = readString();
         }
@@ -52,8 +77,11 @@ public class Shell {
             case ADD:
                 addCommandHandler(input);
                 break;
-            case REMOVE: // Handle remove command
+            case REMOVE:
                 removeCommandHandler(input);
+                break;
+            case RES: // Handle res command
+                resCommandHandler(input);
                 break;
             default:
                 throw new InvalidInputException("Unknown command: " + input.get(0));
@@ -96,6 +124,50 @@ public class Shell {
             removeAllAsciiCharacters();
         } else {
             throw new InvalidInputException(REMOVE_ERROR_MESSAGE);
+        }
+    }
+
+    private void resCommandHandler(List<String> input) throws AsciiException {
+        if (input.size() > 2) {
+            throw new InvalidInputException(String.format(RES_ERROR_MESSAGE, RESOLUTION_FORMAT_ERROR));
+        }
+
+        String subCommand = (input.size() == 1) ? "" : input.get(1);
+
+        switch (subCommand) {
+            case "":
+                System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
+                break;
+            case UP:
+                increaseResolution();
+                break;
+            case DOWN:
+                decreaseResolution();
+                break;
+            default:
+                throw new InvalidInputException(String.format(RES_ERROR_MESSAGE, RESOLUTION_FORMAT_ERROR));
+        }
+    }
+
+    private void increaseResolution() throws AsciiException {
+        int newResolution = currentResolution * 2;
+        validateResolution(newResolution);
+        currentResolution = newResolution;
+        System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
+    }
+
+    private void decreaseResolution() throws AsciiException {
+        int newResolution = currentResolution / 2;
+        validateResolution(newResolution);
+        currentResolution = newResolution;
+        System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
+    }
+
+    private void validateResolution(int resolution) throws AsciiException {
+        int min_resolution = Math.max(1, img.getWidth()/img.getHeight());
+        int max_resolution = this.img.getWidth();
+        if (resolution < min_resolution || resolution > max_resolution) {
+            throw new ExceedingBoundaryException(String.format(RES_ERROR_MESSAGE, RESOLUTION_BOUNDARY_ERROR));
         }
     }
 
@@ -156,7 +228,7 @@ public class Shell {
         return c >= START_ASCII_ALL && c <= END_ASCII_ALL;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Shell shell = new Shell();
         shell.run();
     }
