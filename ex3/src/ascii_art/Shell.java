@@ -18,6 +18,7 @@ public class Shell {
     private static final String RESOLUTION_FORMAT = "Resolution set to %d."; // Format for resolution message
     private static final String RESOLUTION_BOUNDARY_ERROR = "exceeding boundaries."; // Constant for resolution boundary error
     private static final String RESOLUTION_FORMAT_ERROR = "incorrect format"; // Resolution format error
+    private static final String IMAGE_FORMAT_ERROR = "Did not change image method due to incorrect format."; // Image format error.
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
@@ -156,7 +157,10 @@ public class Shell {
         }
     }
 
-    private void imageCommandHandler(List<String> input) throws IOException{
+    private void imageCommandHandler(List<String> input) throws IOException, InvalidInputException{
+        if (input.size() < 2) {
+            throw new InvalidInputException(IMAGE_FORMAT_ERROR);
+        }
         setImage(input.get(1));
         if(currentResolution > max_resolution){
             currentResolution = 2;
