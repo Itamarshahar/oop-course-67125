@@ -28,18 +28,22 @@ public class Shell {
     private static final String DOWN = "down";
     private static final String ALL = "all";
     private static final String SPACE = "space";
+    private static final String IMAGE = "image";
     private static final int START_ASCII_ALL = 32;
     private static final int END_ASCII_ALL = 126;
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
     private static final int INITIAL_RESOLUTION = 128; // Initial number of characters per line
     private static final String DEF_IMAGE = "C:\\Users\\amirt\\IdeaProjects\\oop-course-67125\\ex3\\src\\examples\\cat.jpeg";
+    private static final char[] DEF_CHARS = new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     // New char set instance
-    private SubImgCharMatcher charSet = new SubImgCharMatcher(new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'});
+    private SubImgCharMatcher charSet = new SubImgCharMatcher(DEF_CHARS);
 
     private int currentResolution = INITIAL_RESOLUTION; // Track current resolution
     private Image img;
+    int min_resolution = Math.max(1, img.getWidth()/img.getHeight());
+    int max_resolution = this.img.getWidth();
 
 
     public Shell() throws IOException {
@@ -61,15 +65,15 @@ public class Shell {
             catch (AsciiException e) {
                 System.out.println(e.getMessage());
             }
-//            catch (IOException e) {
-//                System.out.println(e.getMessage());
-//            }
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
             System.out.print(DEF_STRING);
             input = readString();
         }
     }
 
-    private void manageInput(List<String> input) throws AsciiException {
+    private void manageInput(List<String> input) throws AsciiException, IOException {
         switch (input.get(0)) {
             case CHARS:
                 charsCommandHandler();
@@ -82,6 +86,9 @@ public class Shell {
                 break;
             case RES: // Handle res command
                 resCommandHandler(input);
+                break;
+            case IMAGE:
+                imageCommandHandler(input);
                 break;
             default:
                 throw new InvalidInputException("Unknown command: " + input.get(0));
@@ -128,11 +135,11 @@ public class Shell {
     }
 
     private void resCommandHandler(List<String> input) throws AsciiException {
-        if (input.size() > 2) {
-            throw new InvalidInputException(String.format(RES_ERROR_MESSAGE, RESOLUTION_FORMAT_ERROR));
-        }
 
         String subCommand = (input.size() == 1) ? "" : input.get(1);
+        if (!subCommand.equals(UP) && !subCommand.equals(DOWN)) {
+            subCommand = "";
+        }
 
         switch (subCommand) {
             case "":
@@ -149,6 +156,12 @@ public class Shell {
         }
     }
 
+    private void imageCommandHandler(List<String> input) throws IOException{
+        setImage(input.get(1));
+        if(currentResolution > max_resolution){
+            currentResolution = 2;
+        }
+    }
     private void increaseResolution() throws AsciiException {
         int newResolution = currentResolution * 2;
         validateResolution(newResolution);
@@ -164,8 +177,6 @@ public class Shell {
     }
 
     private void validateResolution(int resolution) throws AsciiException {
-        int min_resolution = Math.max(1, img.getWidth()/img.getHeight());
-        int max_resolution = this.img.getWidth();
         if (resolution < min_resolution || resolution > max_resolution) {
             throw new ExceedingBoundaryException(String.format(RES_ERROR_MESSAGE, RESOLUTION_BOUNDARY_ERROR));
         }
