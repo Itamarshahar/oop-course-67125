@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import ascii_art.ascii_exception.AsciiException;
 import ascii_art.ascii_exception.InvalidInputException;
 import image_char_matching.SubImgCharMatcher;
 
 public class Shell {
-    private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format."; // Constant for error message
+    private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format."; // Constant for add error message
+    private static final String REMOVE_ERROR_MESSAGE = "Did not remove due to incorrect format."; // Constant for remove error message
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
     private static final String ADD = "add";
+    private static final String REMOVE = "remove"; // New command: remove
     private static final String ALL = "all";
     private static final String SPACE = "space";
     private static final int START_ASCII_ALL = 32;
@@ -21,6 +24,7 @@ public class Shell {
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
 
+    // New char set instance
     private SubImgCharMatcher charSet = new SubImgCharMatcher(new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'});
 
     public Shell() {
@@ -32,7 +36,7 @@ public class Shell {
         while (!input.get(0).equals(EXIT)) {
             try {
                 manageInput(input);
-            } catch (InvalidInputException e) {
+            } catch (AsciiException e) {
                 System.out.println(e.getMessage());
             }
             System.out.print(DEF_STRING);
@@ -40,7 +44,7 @@ public class Shell {
         }
     }
 
-    private void manageInput(List<String> input) throws InvalidInputException {
+    private void manageInput(List<String> input) throws AsciiException {
         switch (input.get(0)) {
             case CHARS:
                 charsCommandHandler();
@@ -48,10 +52,15 @@ public class Shell {
             case ADD:
                 addCommandHandler(input);
                 break;
+            case REMOVE: // Handle remove command
+                removeCommandHandler(input);
+                break;
+            default:
+                throw new InvalidInputException("Unknown command: " + input.get(0));
         }
     }
 
-    private void addCommandHandler(List<String> input) throws InvalidInputException {
+    private void addCommandHandler(List<String> input) throws AsciiException {
         if (input.size() < 2) {
             throw new InvalidInputException(ADD_ERROR_MESSAGE);
         }
@@ -75,7 +84,22 @@ public class Shell {
         }
     }
 
-    private void handleRangeAddition(String range) throws InvalidInputException {
+    private void removeCommandHandler(List<String> input) throws AsciiException {
+        if (input.size() < 2) {
+            throw new InvalidInputException(REMOVE_ERROR_MESSAGE);
+        }
+
+        String subCommand = input.get(1);
+        if (subCommand.length() == 1 && isValidAsciiChar(subCommand.charAt(0))) {
+            charSet.removeChar(subCommand.charAt(0));
+        } else if (subCommand.equals(ALL)) {
+            removeAllAsciiCharacters();
+        } else {
+            throw new InvalidInputException(REMOVE_ERROR_MESSAGE);
+        }
+    }
+
+    private void handleRangeAddition(String range) throws AsciiException {
         String[] rangeParts = range.split(HYPHEN_CHAR);
         if (rangeParts.length != 2 || rangeParts[0].length() != 1 || rangeParts[1].length() != 1) {
             throw new InvalidInputException(ADD_ERROR_MESSAGE);
@@ -104,6 +128,12 @@ public class Shell {
     private void addAllAsciiCharacters() {
         for (int i = START_ASCII_ALL; i <= END_ASCII_ALL; i++) {
             charSet.addChar((char) i);
+        }
+    }
+
+    private void removeAllAsciiCharacters() {
+        for (int i = START_ASCII_ALL; i <= END_ASCII_ALL; i++) {
+            charSet.removeChar((char) i);
         }
     }
 
