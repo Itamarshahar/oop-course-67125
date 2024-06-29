@@ -1,12 +1,15 @@
 package ascii_art;
-import java.util.Arrays;
-import java.util.Set;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import ascii_art.ascii_exception.InvalidInputException;
 import image_char_matching.SubImgCharMatcher;
 
-import java.util.List;
-
 public class Shell {
+    private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format."; // Constant for error message
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
@@ -17,85 +20,113 @@ public class Shell {
     private static final int END_ASCII_ALL = 126;
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
-    private static final char[] DEF_CHARS = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    private SubImgCharMatcher charSet = new SubImgCharMatcher(DEF_CHARS);
+    private SubImgCharMatcher charSet = new SubImgCharMatcher(new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'});
 
-    public Shell(){
+    public Shell() {
     }
-    public void run(){
+
+    public void run() {
         System.out.print(DEF_STRING);
         List<String> input = readString();
-        while (!input.equals(EXIT)){
-            manageInput(input);
+        while (!input.get(0).equals(EXIT)) {
+            try {
+                manageInput(input);
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
             System.out.print(DEF_STRING);
             input = readString();
         }
-
     }
 
-    private void manageInput(List<String> input){
-        switch (input.get(0)){
-            case  CHARS:
+    private void manageInput(List<String> input) throws InvalidInputException {
+        switch (input.get(0)) {
+            case CHARS:
                 charsCommandHandler();
                 break;
             case ADD:
                 addCommandHandler(input);
                 break;
+        }
+    }
 
+    private void addCommandHandler(List<String> input) throws InvalidInputException {
+        if (input.size() < 2) {
+            throw new InvalidInputException(ADD_ERROR_MESSAGE);
         }
 
-    }
-    private void addCommandHandler(List<String> input) {
         String subCommand = input.get(1);
-        if (subCommand.length() == 1 && subCommand.charAt(0) >= 32 && subCommand.charAt(0) <= 126) {
-            // Case 2.4.1: add followed by a single character
-            charSet.addChar(subCommand.charAt(0));
-        } else if (subCommand.equals(ALL)) {
-            // Case 2.4.2: add followed by "all"
-            for (char c = START_ASCII_ALL; c <= END_ASCII_ALL; c++) {
-                charSet.addChar(c);
-            }
-        } else if (subCommand.equals(SPACE)) {
-            // Case 2.4.3: add followed by "space"
-            charSet.addChar(SPACE_CHAR);
-        } else if (subCommand.contains(HYPHEN_CHAR)) {
-            // Case 2.4.4: add followed by a range of characters
-            String[] range = subCommand.split(HYPHEN_CHAR);
-            if (range.length == 2 && range[0].length() == 1 && range[1].length() == 1) {
-                char start = range[0].charAt(0);
-                char end = range[1].charAt(0);
-                if (start >= START_ASCII_ALL && start <= END_ASCII_ALL && end >= START_ASCII_ALL && end <= END_ASCII_ALL) {
-                    if (start < end) {
-                        for (char c = start; c <= end; c++) {
-                            charSet.addChar(c);
-                        }
-                    } else {
-                        for (char c = start; c >= end; c--) {
-                            charSet.addChar(c);
-                        }
-                    }
+        switch (subCommand) {
+            case ALL:
+                addAllAsciiCharacters();
+                break;
+            case SPACE:
+                charSet.addChar(SPACE_CHAR);
+                break;
+            default:
+                if (subCommand.length() == 1 && isValidAsciiChar(subCommand.charAt(0))) {
+                    charSet.addChar(subCommand.charAt(0));
+                } else if (subCommand.contains(HYPHEN_CHAR)) {
+                    handleRangeAddition(subCommand);
+                } else {
+                    throw new InvalidInputException(ADD_ERROR_MESSAGE);
                 }
+        }
+    }
+
+    private void handleRangeAddition(String range) throws InvalidInputException {
+        String[] rangeParts = range.split(HYPHEN_CHAR);
+        if (rangeParts.length != 2 || rangeParts[0].length() != 1 || rangeParts[1].length() != 1) {
+            throw new InvalidInputException(ADD_ERROR_MESSAGE);
+        }
+
+        char start = rangeParts[0].charAt(0);
+        char end = rangeParts[1].charAt(0);
+
+        if (!isValidAsciiChar(start) || !isValidAsciiChar(end)) {
+            throw new InvalidInputException(ADD_ERROR_MESSAGE);
+        }
+
+        int startInt = start;
+        int endInt = end;
+        if (startInt > endInt) {
+            for (int i = startInt; i >= endInt; i--) {
+                charSet.addChar((char) i);
+            }
+        } else {
+            for (int i = startInt; i <= endInt; i++) {
+                charSet.addChar((char) i);
             }
         }
     }
-    private void charsCommandHandler(){
-        StringBuilder result = new StringBuilder();
-        Set<Character> chars = charSet.getCharSet();
-        for (Character ch : chars) {
-            result.append(ch).append(SPACE_CHAR);
+
+    private void addAllAsciiCharacters() {
+        for (int i = START_ASCII_ALL; i <= END_ASCII_ALL; i++) {
+            charSet.addChar((char) i);
         }
-        System.out.println(result.toString().trim());
     }
 
+    private void charsCommandHandler() {
+        Set<Character> characters = charSet.getCharSet();
+        if (!characters.isEmpty()) {
+            String result = characters.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(" "));
+            System.out.println(result);
+        }
+    }
 
-
-    private List<String> readString(){
+    private List<String> readString() {
         String input = KeyboardInput.readLine();
         return Arrays.asList(input.split(" "));
     }
 
-    public static void main(String[] args){
+    private boolean isValidAsciiChar(char c) {
+        return c >= START_ASCII_ALL && c <= END_ASCII_ALL;
+    }
+
+    public static void main(String[] args) {
         Shell shell = new Shell();
         shell.run();
     }
