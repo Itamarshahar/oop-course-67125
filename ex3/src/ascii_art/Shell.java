@@ -7,6 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import ascii_art.ascii_exception.*;
+import ascii_output.AsciiOutput;
+import ascii_output.ConsoleAsciiOutput;
+import ascii_output.HtmlAsciiOutput;
+import ascii_output.OutputType;
 import image.Image;
 import image.PaddedImage;
 import image_char_matching.SubImgCharMatcher;
@@ -19,6 +23,9 @@ public class Shell {
     private static final String RESOLUTION_BOUNDARY_ERROR = "exceeding boundaries."; // Constant for resolution boundary error
     private static final String RESOLUTION_FORMAT_ERROR = "incorrect format"; // Resolution format error
     private static final String IMAGE_FORMAT_ERROR = "Did not change image method due to incorrect format."; // Image format error.
+    private static final String IMAGE_LOADING_ERROR = "Did not execute due to problem with image file."; // Image loading error.
+    private static final String OUTPUT_EXCEPTION = "Did not change output method due to incorrect format.";
+    private static final String EMPTY_CHARSET_EXCEPTION = "Did not execute. Charset is too small.";
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
@@ -30,10 +37,17 @@ public class Shell {
     private static final String ALL = "all";
     private static final String SPACE = "space";
     private static final String IMAGE = "image";
+    private static final String OUTPUT = "output";
+    private static final String HTML = "html";
+    private static final String CONSOLE = "console";
+    private static final String ASCII_ART = "asciiArt";
+    private static final String FONT = "Courier New";
     private static final int START_ASCII_ALL = 32;
     private static final int END_ASCII_ALL = 126;
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
+    private static final String IMAGE_SUFFIX = ".jpeg";
+    private static final String OUT_FORMAT = "out.html";
     private static final int INITIAL_RESOLUTION = 128; // Initial number of characters per line
     private static final String DEF_IMAGE = "C:\\Users\\amirt\\IdeaProjects\\oop-course-67125\\ex3\\src\\examples\\cat.jpeg";
     private static final char[] DEF_CHARS = new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -42,9 +56,10 @@ public class Shell {
     private SubImgCharMatcher charSet = new SubImgCharMatcher(DEF_CHARS);
 
     private int currentResolution = INITIAL_RESOLUTION; // Track current resolution
+    OutputType output = OutputType.CONSOLE;
     private Image img;
-    int min_resolution = Math.max(1, img.getWidth()/img.getHeight());
-    int max_resolution = this.img.getWidth();
+    int minResolution;
+    int maxResolution;
 
 
     public Shell() throws IOException {
@@ -54,6 +69,8 @@ public class Shell {
         Image imageToPad = new Image(fileName);
         PaddedImage paddedImage = new PaddedImage(imageToPad);
         this.img = paddedImage.padToPowerOfTwo();
+        this.minResolution = Math.max(1, img.getWidth()/img.getHeight());
+        this.maxResolution = this.img.getWidth();
     }
 
     public void run() {
@@ -91,11 +108,48 @@ public class Shell {
             case IMAGE:
                 imageCommandHandler(input);
                 break;
+            case OUTPUT:
+                outputCommandHandler(input);
+                break;
+            case ASCII_ART:
+                asciiArtCommandHandler(input);
+                break;
             default:
                 throw new InvalidInputException("Unknown command: " + input.get(0));
         }
     }
+    private void asciiArtCommandHandler(List<String> input) throws InvalidCallException, IOException{
+        if (this.charSet.getCharSet().size() < 1){
+            throw new InvalidCallException(EMPTY_CHARSET_EXCEPTION);
+        }
+        AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(this.img, this.charSet.getCharSet(),this.currentResolution);
+        if (!this.artCollection.contains(algorithm)) {
+            this.artCollection.addToCache(algorithm);
+        }
+        algorithm = this.artCollection.getAsciiAlgorithm(algorithm);
+        AsciiOutput output;
+        switch (this.output){
+            case CONSOLE:
+                output = new ConsoleAsciiOutput();
+                break;
+            default:
+                output = new HtmlAsciiOutput(OUT_FORMAT, FONT);
+                break;
+        }
+        output.out(algorithm.run());
+    }
+    private void outputCommandHandler(List<String> input) throws InvalidInputException{
+        switch (input.get(1)){
+            case HTML:
+                this.output = OutputType.HTML;
+                return;
+            case CONSOLE:
+                this.output = OutputType.CONSOLE;
+                return;
+        }
+        throw new InvalidInputException(OUTPUT_EXCEPTION);
 
+    }
     private void addCommandHandler(List<String> input) throws AsciiException {
         if (input.size() < 2) {
             throw new InvalidInputException(ADD_ERROR_MESSAGE);
@@ -157,13 +211,27 @@ public class Shell {
         }
     }
 
-    private void imageCommandHandler(List<String> input) throws IOException, InvalidInputException{
+    private void imageCommandHandler(List<String> input) throws InvalidInputException, IOException {
         if (input.size() < 2) {
             throw new InvalidInputException(IMAGE_FORMAT_ERROR);
         }
-        setImage(input.get(1));
-        if(currentResolution > max_resolution){
-            currentResolution = 2;
+
+        String fileName = input.get(1);
+        if (!fileName.endsWith(IMAGE_SUFFIX)) {
+            throw new InvalidInputException(IMAGE_FORMAT_ERROR);
+        }
+        try {
+            setImage(fileName);
+//            int minResolution = Math.max(1, img.getWidth() / img.getHeight());
+//            int maxResolution = img.getWidth();
+
+            if (currentResolution > maxResolution) {
+                currentResolution = 2;
+                System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
+            }
+
+        } catch (IOException e) {
+            throw new IOException(IMAGE_LOADING_ERROR);
         }
     }
     private void increaseResolution() throws AsciiException {
@@ -181,7 +249,7 @@ public class Shell {
     }
 
     private void validateResolution(int resolution) throws AsciiException {
-        if (resolution < min_resolution || resolution > max_resolution) {
+        if (resolution < minResolution || resolution > maxResolution) {
             throw new ExceedingBoundaryException(String.format(RES_ERROR_MESSAGE, RESOLUTION_BOUNDARY_ERROR));
         }
     }
