@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import java.util.TreeSet;
 import ascii_art.ascii_exception.*;
 import ascii_output.AsciiOutput;
 import ascii_output.ConsoleAsciiOutput;
@@ -15,23 +15,32 @@ import image.Image;
 import image.PaddedImage;
 import image_char_matching.SubImgCharMatcher;
 
+/**
+ * The Shell class handles the user interface operations for the ASCII art application.
+ * It translates user commands and executes them.
+ */
 public class Shell {
-    private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format."; // Constant for add error message
-    private static final String REMOVE_ERROR_MESSAGE = "Did not remove due to incorrect format."; // Constant for remove error message
-    private static final String RES_ERROR_MESSAGE = "Did not change resolution due to %s."; // Constant for res error message
-    private static final String RESOLUTION_FORMAT = "Resolution set to %d."; // Format for resolution message
-    private static final String RESOLUTION_BOUNDARY_ERROR = "exceeding boundaries."; // Constant for resolution boundary error
-    private static final String RESOLUTION_FORMAT_ERROR = "incorrect format"; // Resolution format error
-    private static final String IMAGE_FORMAT_ERROR = "Did not change image method due to incorrect format."; // Image format error.
-    private static final String IMAGE_LOADING_ERROR = "Did not execute due to problem with image file."; // Image loading error.
+
+    // Error and message constants
+    private static final String ADD_ERROR_MESSAGE = "Did not add due to incorrect format.";
+    private static final String REMOVE_ERROR_MESSAGE = "Did not remove due to incorrect format.";
+    private static final String RES_ERROR_MESSAGE = "Did not change resolution due to %s.";
+    private static final String RESOLUTION_FORMAT = "Resolution set to %d.";
+    private static final String RESOLUTION_BOUNDARY_ERROR = "exceeding boundaries.";
+    private static final String RESOLUTION_FORMAT_ERROR = "incorrect format";
+    private static final String IMAGE_FORMAT_ERROR = "Did not change image method due to incorrect format.";
+    private static final String IMAGE_LOADING_ERROR = "Did not execute due to problem with image file.";
     private static final String OUTPUT_EXCEPTION = "Did not change output method due to incorrect format.";
     private static final String EMPTY_CHARSET_EXCEPTION = "Did not execute. Charset is too small.";
+    private static final String INVALID_COMMAND_EXCEPTION = "Did not execute due to incorrect command.";
+
+    // Command constants
     private static final String DEF_STRING = ">>> ";
     private static final String EXIT = "exit";
     private static final String CHARS = "chars";
     private static final String ADD = "add";
     private static final String REMOVE = "remove";
-    private static final String RES = "res"; // New command: res
+    private static final String RES = "res";
     private static final String UP = "up";
     private static final String DOWN = "down";
     private static final String ALL = "all";
@@ -41,31 +50,44 @@ public class Shell {
     private static final String HTML = "html";
     private static final String CONSOLE = "console";
     private static final String ASCII_ART = "asciiArt";
+
+    // Miscellaneous constants
     private static final String FONT = "Courier New";
     private static final int START_ASCII_ALL = 32;
     private static final int END_ASCII_ALL = 126;
     private static final char SPACE_CHAR = ' ';
     private static final String HYPHEN_CHAR = "-";
+    private static final String EMPTY = "";
     private static final String IMAGE_SUFFIX = ".jpeg";
     private static final String OUT_FORMAT = "out.html";
     private static final int INITIAL_RESOLUTION = 128; // Initial number of characters per line
     private static final String DEF_IMAGE = "C:\\Users\\amirt\\IdeaProjects\\oop-course-67125\\ex3\\src\\examples\\cat.jpeg";
     private static final char[] DEF_CHARS = new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    // New char set instance
+    // Character set instance
     private SubImgCharMatcher charSet = new SubImgCharMatcher(DEF_CHARS);
 
-    private int currentResolution = INITIAL_RESOLUTION; // Track current resolution
+    // Tracks the current resolution
+    private int currentResolution = INITIAL_RESOLUTION;
+
+    // Output type
     OutputType output = OutputType.CONSOLE;
+
+    // Image and resolution limits
     private Image img;
     int minResolution;
     int maxResolution;
 
-
+    /**
+     * Constructor initializes the Shell with the default image.
+     * @throws IOException if there is an issue loading the default image.
+     */
     public Shell() throws IOException {
         setImage(DEF_IMAGE);
     }
-    private void setImage(String fileName) throws IOException{
+
+    // Set the image the algorithm is currently working on
+    private void setImage(String fileName) throws IOException {
         Image imageToPad = new Image(fileName);
         PaddedImage paddedImage = new PaddedImage(imageToPad);
         this.img = paddedImage.padToPowerOfTwo();
@@ -73,17 +95,18 @@ public class Shell {
         this.maxResolution = this.img.getWidth();
     }
 
+    /**
+     * Starts the Shell and processes user commands.
+     */
     public void run() {
         System.out.print(DEF_STRING);
         List<String> input = readString();
         while (!input.get(0).equals(EXIT)) {
             try {
                 manageInput(input);
-            }
-            catch (AsciiException e) {
+            } catch (AsciiException e) {
                 System.out.println(e.getMessage());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
             System.out.print(DEF_STRING);
@@ -91,6 +114,7 @@ public class Shell {
         }
     }
 
+    // Manage the user input and run to relevant command.
     private void manageInput(List<String> input) throws AsciiException, IOException {
         switch (input.get(0)) {
             case CHARS:
@@ -102,7 +126,7 @@ public class Shell {
             case REMOVE:
                 removeCommandHandler(input);
                 break;
-            case RES: // Handle res command
+            case RES:
                 resCommandHandler(input);
                 break;
             case IMAGE:
@@ -115,18 +139,15 @@ public class Shell {
                 asciiArtCommandHandler(input);
                 break;
             default:
-                throw new InvalidInputException("Unknown command: " + input.get(0));
+                throw new InvalidCommandException(INVALID_COMMAND_EXCEPTION);
         }
     }
     private void asciiArtCommandHandler(List<String> input) throws InvalidCallException, IOException{
         if (this.charSet.getCharSet().size() < 1){
             throw new InvalidCallException(EMPTY_CHARSET_EXCEPTION);
         }
-        AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(this.img, this.charSet.getCharSet(),this.currentResolution);
-        if (!this.artCollection.contains(algorithm)) {
-            this.artCollection.addToCache(algorithm);
-        }
-        algorithm = this.artCollection.getAsciiAlgorithm(algorithm);
+        char[] charSet = convertToCharArray(this.charSet.getCharSet());
+        AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(this.img,charSet,this.currentResolution);
         AsciiOutput output;
         switch (this.output){
             case CONSOLE:
@@ -138,6 +159,16 @@ public class Shell {
         }
         output.out(algorithm.run());
     }
+    // Convert TreeSet<Char> to a char array.
+    private static char[] convertToCharArray(TreeSet<Character> treeSet) {
+        char[] charArray = new char[treeSet.size()];
+        int i = 0;
+        for (Character c : treeSet) {
+            charArray[i++] = c;
+        }
+        return charArray;
+    }
+    // Handle output command
     private void outputCommandHandler(List<String> input) throws InvalidInputException{
         switch (input.get(1)){
             case HTML:
@@ -150,6 +181,7 @@ public class Shell {
         throw new InvalidInputException(OUTPUT_EXCEPTION);
 
     }
+    // Handle add command
     private void addCommandHandler(List<String> input) throws AsciiException {
         if (input.size() < 2) {
             throw new InvalidInputException(ADD_ERROR_MESSAGE);
@@ -173,7 +205,7 @@ public class Shell {
                 }
         }
     }
-
+    // Handle remove command.
     private void removeCommandHandler(List<String> input) throws AsciiException {
         if (input.size() < 2) {
             throw new InvalidInputException(REMOVE_ERROR_MESSAGE);
@@ -188,16 +220,16 @@ public class Shell {
             throw new InvalidInputException(REMOVE_ERROR_MESSAGE);
         }
     }
-
+    // Handle resolution command.
     private void resCommandHandler(List<String> input) throws AsciiException {
 
-        String subCommand = (input.size() == 1) ? "" : input.get(1);
+        String subCommand = (input.size() == 1) ? EMPTY : input.get(1);
         if (!subCommand.equals(UP) && !subCommand.equals(DOWN)) {
-            subCommand = "";
+            subCommand = EMPTY;
         }
 
         switch (subCommand) {
-            case "":
+            case EMPTY:
                 System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
                 break;
             case UP:
@@ -210,7 +242,7 @@ public class Shell {
                 throw new InvalidInputException(String.format(RES_ERROR_MESSAGE, RESOLUTION_FORMAT_ERROR));
         }
     }
-
+    // Handle image command.
     private void imageCommandHandler(List<String> input) throws InvalidInputException, IOException {
         if (input.size() < 2) {
             throw new InvalidInputException(IMAGE_FORMAT_ERROR);
@@ -222,9 +254,6 @@ public class Shell {
         }
         try {
             setImage(fileName);
-//            int minResolution = Math.max(1, img.getWidth() / img.getHeight());
-//            int maxResolution = img.getWidth();
-
             if (currentResolution > maxResolution) {
                 currentResolution = 2;
                 System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
@@ -234,26 +263,27 @@ public class Shell {
             throw new IOException(IMAGE_LOADING_ERROR);
         }
     }
+    // Handle resolution increasement.
     private void increaseResolution() throws AsciiException {
         int newResolution = currentResolution * 2;
         validateResolution(newResolution);
         currentResolution = newResolution;
         System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
     }
-
+    // Handle resolution decreasement.
     private void decreaseResolution() throws AsciiException {
         int newResolution = currentResolution / 2;
         validateResolution(newResolution);
         currentResolution = newResolution;
         System.out.println(String.format(RESOLUTION_FORMAT, currentResolution));
     }
-
+    // Check the resolution is valid
     private void validateResolution(int resolution) throws AsciiException {
         if (resolution < minResolution || resolution > maxResolution) {
             throw new ExceedingBoundaryException(String.format(RES_ERROR_MESSAGE, RESOLUTION_BOUNDARY_ERROR));
         }
     }
-
+    // Add range of characters
     private void handleRangeAddition(String range) throws AsciiException {
         String[] rangeParts = range.split(HYPHEN_CHAR);
         if (rangeParts.length != 2 || rangeParts[0].length() != 1 || rangeParts[1].length() != 1) {
@@ -279,38 +309,43 @@ public class Shell {
             }
         }
     }
-
+    // Add all the ASCII characters
     private void addAllAsciiCharacters() {
         for (int i = START_ASCII_ALL; i <= END_ASCII_ALL; i++) {
             charSet.addChar((char) i);
         }
     }
-
+    // remove all the ASCII characters
     private void removeAllAsciiCharacters() {
         for (int i = START_ASCII_ALL; i <= END_ASCII_ALL; i++) {
             charSet.removeChar((char) i);
         }
     }
-
+    // Handle chars command
     private void charsCommandHandler() {
         Set<Character> characters = charSet.getCharSet();
         if (!characters.isEmpty()) {
             String result = characters.stream()
                     .map(String::valueOf)
-                    .collect(Collectors.joining(" "));
+                    .collect(Collectors.joining(Character.toString(SPACE_CHAR)));
             System.out.println(result);
         }
     }
-
+    // Parse the input and put each command part as a different list entry.
     private List<String> readString() {
         String input = KeyboardInput.readLine();
-        return Arrays.asList(input.split(" "));
+        return Arrays.asList(input.split(Character.toString(SPACE_CHAR)));
     }
-
+    // Checks a character is in within the ASCII characters range
     private boolean isValidAsciiChar(char c) {
         return c >= START_ASCII_ALL && c <= END_ASCII_ALL;
     }
-
+    /**
+     * The main method serves as the entry point for the program.
+     * It creates an instance of the Shell class and starts the user interface by calling the run method.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) throws Exception{
         Shell shell = new Shell();
         shell.run();
