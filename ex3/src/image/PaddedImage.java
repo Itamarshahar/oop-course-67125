@@ -1,9 +1,10 @@
 package image;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
- * Represents an image that can be padded to have dimensions that are powers of two.
+ * Represents an image that can be padded to have dimensions that are
+ * powers of two.
  */
 public class PaddedImage {
 
@@ -19,7 +20,8 @@ public class PaddedImage {
     }
 
     /**
-     * Finds the closest power of two greater than or equal to the specified number.
+     * Finds the closest power of two greater than or equal to the
+     * specified number.
      *
      * @param num The number to find the closest power of two for.
      * @return The closest power of two greater than or equal to num.
@@ -32,7 +34,8 @@ public class PaddedImage {
      * Pads the image to have dimensions that are powers of two.
      * The padding is done with white color.
      *
-     * @return A new Image object with dimensions padded to the next power of two.
+     * @return A new Image object with dimensions padded to the next power
+     * of two.
      */
     public Image padToPowerOfTwo() {
         int originalWidth = image.getWidth();
@@ -47,11 +50,14 @@ public class PaddedImage {
         // Create a new Color[][] array for padded pixels
         Color[][] paddedPixels = new Color[newHeight][newWidth];
 
-        // Copy original pixels into paddedPixels, fill with white where necessary
+        // Copy original pixels into paddedPixels, fill with white where
+        // necessary
         for (int y = 0; y < newHeight; y++) {
             for (int x = 0; x < newWidth; x++) {
-                if (y >= padTop && y < padTop + originalHeight && x >= padLeft && x < padLeft + originalWidth) {
-                    paddedPixels[y][x] = image.getPixel(y - padTop, x - padLeft);
+                if (y >= padTop && y < padTop + originalHeight && x >=
+                        padLeft && x < padLeft + originalWidth) {
+                    paddedPixels[y][x] = image.getPixel(y - padTop, x -
+                            padLeft);
                 } else {
                     paddedPixels[y][x] = Color.WHITE; // White padding
                 }

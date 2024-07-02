@@ -2,7 +2,13 @@ package image_char_matching;
 
 import java.util.*;
 
-
+/**
+ * SubImgCharMatcher class is responsible for matching characters to
+ * sub-images based on their brightness levels.
+ * It manages a set of characters and their associated brightness values,
+ * and provides mechanisms for normalizing
+ * and comparing brightness levels.
+ */
 public class SubImgCharMatcher {
 
     private final HashMap<Character, Double> brightness;
@@ -16,7 +22,8 @@ public class SubImgCharMatcher {
 
     /**
      * Constructs a SubImgCharMatcher with the given charset.
-     * Initializes data structures and calculates brightness values for the characters.
+     * Initializes data structures and calculates brightness values for the
+     * characters.
      *
      * @param charset array of characters to initialize the matcher with
      */
@@ -105,8 +112,10 @@ public class SubImgCharMatcher {
             generateTree();  // Ensure the TreeMap is up-to-date
         }
 
-        Map.Entry<Double, Character> floorEntry = normalizedBrightness.floorEntry(brightness);
-        Map.Entry<Double, Character> ceilingEntry = normalizedBrightness.ceilingEntry(brightness);
+        Map.Entry<Double, Character> floorEntry =
+                normalizedBrightness.floorEntry(brightness);
+        Map.Entry<Double, Character> ceilingEntry =
+                normalizedBrightness.ceilingEntry(brightness);
 
         if ((floorEntry == null) && (ceilingEntry != null)) {
             return ceilingEntry.getValue();
@@ -115,7 +124,8 @@ public class SubImgCharMatcher {
         } else {
             double floorDiff = Math.abs(floorEntry.getKey() - brightness);
             double ceilingDiff = Math.abs(ceilingEntry.getKey() - brightness);
-            return (floorDiff <= ceilingDiff) ? floorEntry.getValue() : ceilingEntry.getValue();
+            return (floorDiff <= ceilingDiff) ? floorEntry.getValue() :
+                    ceilingEntry.getValue();
         }
     }
 
@@ -177,8 +187,10 @@ public class SubImgCharMatcher {
         if (reGenerateTree) {
             normalizedBrightness.clear();
             for (char c : this.charSet) {
-                double charNormalizedBrightness = calculateNormalizedBrightness(c, minBrightness, maxBrightness);
-                if (this.normalizedBrightness.containsKey(charNormalizedBrightness) && this.normalizedBrightness.get(charNormalizedBrightness) < c) {
+                double charNormalizedBrightness =
+                        calculateNormalizedBrightness(c, minBrightness, maxBrightness);
+                if (this.normalizedBrightness.containsKey(charNormalizedBrightness)
+                        && this.normalizedBrightness.get(charNormalizedBrightness) < c) {
                     continue;
                 }
                 this.normalizedBrightness.put(charNormalizedBrightness, c);

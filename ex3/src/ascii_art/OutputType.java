@@ -1,4 +1,4 @@
-package ascii_output;
+package ascii_art;
 
 /**
  * Enum representing different types of output formats.
