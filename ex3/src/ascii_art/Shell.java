@@ -1,19 +1,19 @@
 package ascii_art;
 
-import ascii_art.ascii_exception.*;
-import ascii_output.AsciiOutput;
-import ascii_output.ConsoleAsciiOutput;
-import ascii_output.HtmlAsciiOutput;
-import image.Image;
-import image.PaddedImage;
-import image_char_matching.SubImgCharMatcher;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.TreeSet;
+import ascii_art.ascii_exception.*;
+import ascii_output.AsciiOutput;
+import ascii_output.ConsoleAsciiOutput;
+import ascii_output.HtmlAsciiOutput;
+import ascii_art.OutputType;
+import image.Image;
+import image.PaddedImage;
+import image_char_matching.SubImgCharMatcher;
 
 /**
  * The Shell class handles the user interface operations for the ASCII art application.
@@ -59,9 +59,9 @@ public class Shell {
     private static final String HYPHEN_CHAR = "-";
     private static final String EMPTY = "";
     private static final String IMAGE_SUFFIX = ".jpeg";
-    private static final String OUT_FORMAT = "./out.html";
+    private static final String OUT_FORMAT = "out.html";
     private static final int INITIAL_RESOLUTION = 128; // Initial number of characters per line
-    private static final String DEF_IMAGE = "./cat.jpeg";
+    private static final String DEF_IMAGE = "cat.jpeg";
     private static final char[] DEF_CHARS = new char[]{'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     // Character set instance

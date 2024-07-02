@@ -68,7 +68,39 @@ itamarshahar2, amirt97
         * Search O(log(n))
         * Space O(n)
 
-3. Exception part
+3. Exception part:
+In the `Shell` class for the ASCII art application, the Java exception 
+mechanism is used to handle input errors and print appropriate 
+error messages effectively:
+
+**Custom Exception Classes**: Specific errors are 
+handled using custom exceptions like `InvalidInputException`, 
+`InvalidCommandException`, `ExceedingBoundaryException`, and 
+`InvalidCallException`.
+
+**Error Message Constants**: Error messages are defined
+ as constants, ensuring consistency and maintainability.
+
+**Try-Catch Blocks**: The `run` method processes user 
+commands within a try-catch block, catching exceptions 
+and printing error messages.
+
+**Input Validation**: Methods like `addCommandHandler` 
+and `removeCommandHandler` validate inputs and throw
+ `InvalidInputException` for incorrect formats.
+
+**Resolution Handling**: Methods such as `resCommandHandler`, 
+`imageCommandHandler`, `increaseResolution`, and `decreaseResolution` 
+validate and handle inputs, throwing specific exceptions with formatted 
+messages when needed.
+
+**Consistent Messaging**: Using constants for error
+ messages ensures clear, 
+consistent feedback for users.
+
+Overall, the exception mechanism is used to manage input
+ errors systematically and provide clear feedback to users.
+
 4. Changes in the API of SubImageCharMatcher class:
     * public TreeSet<Character> getCharSet()
         getter for the charSet. Used in the "chars" command.
