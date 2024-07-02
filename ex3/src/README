@@ -74,3 +74,5 @@ itamarshahar2, amirt97
         getter for the charSet. Used in the "chars" command.
     * double calculateImageBrightness(Image image)
         calculate the brightness of the image
+5. public double calculateImageBrightness(Image image)
+        this function calculate the brightness of a given image
