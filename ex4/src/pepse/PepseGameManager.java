@@ -34,7 +34,7 @@ public class PepseGameManager extends GameManager {
 //        Terrain terrain = new Terrain(windowController.getWindowDimensions(),
 //                0 );
         List<Block> blocks = terrain.createInRange(-5,
-                (int) windowController.getWindowDimensions().x() + 5); //
+                (int) windowController.getWindowDimensions().x() + 5 ); //
         // TODO - itamar - verify why (-5) ?
         for (Block block : blocks){
             gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);

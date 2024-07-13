@@ -15,12 +15,13 @@ public class Terrain {
     private static final int TERRAIN_DEPTH = 20;
     private final NoiseGenerator noiseGenerator;
     private final Vector2 windowDimensions;
-    public Terrain(Vector2 windowDimensions, int seed) {
-        this.groundHeightAtX0 = windowDimensions.x() * (2 / 3); // TODO verify
-        // logic
-        this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
-        this.windowDimensions = windowDimensions;
+    public static final float RATIO = (float) (2.0 / 3.0);
 
+    public Terrain(Vector2 windowDimensions, int seed) {
+
+        this.groundHeightAtX0 = windowDimensions.y() * RATIO;
+        this.windowDimensions = windowDimensions;
+       this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
     }
 
     public float groundHeightAt(float x) {
@@ -34,21 +35,18 @@ public class Terrain {
         //הוא אלגוריתם פופולרי לפונקציה כזו. Noise
         //Perlin Noise שבעזרתה תוכלו לייצר NoiseGenerator בקבצים המסופקים לכם תוכלו למצוא את המחלקה
         //לפי התיעוד במחלקהגשד
-        return groundHeightAtX0;
+        float noise = (float) noiseGenerator.noise(x, Block.SIZE * 7);
 
-//         float noise = (float) noiseGenerator.noise(x, Block.SIZE * 7); //
-//         TODO - itamar check why 7
-//        return groundHeightAtX0 + noise;
-
+        return groundHeightAtX0 + noise;
     }
 
     public List<Block> createInRange(int minX, int maxX) {
 
         List<Block> blockList = new ArrayList<>();
         minX -= (minX%Block.SIZE);
-        for (int x = minX; x <= maxX; x += Block.SIZE) {
+        for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
-            for (float y = windowDimensions.y(); y > topY;y -= Block.SIZE){
+            for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE){
 //                Vector2 topLeftCorner = new Vector2(x, y);
 //                Block block = new Block(topLeftCorner, new
 //                RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
