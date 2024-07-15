@@ -51,26 +51,6 @@ public class PepseGameManager extends GameManager {
         float cycleLength = 30;
         GameObject night = Night.create(windowController.getWindowDimensions(), cycleLength);
         gameObjects().addGameObject(night, Layer.STATIC_OBJECTS); // TODO
-         Verify Layer
-        Transition transition = new Transition(
-                night,
-                night.renderer()::setOpaqueness,
-                0,
-                MIDNIGHT_OPACITY,
-                CUBIC_INTERPOLATOR_FLOAT,
-                30,
-                TRANSITION_BACK_AND_FORTH, // TODO maybe TRANSITION_LOOP?
-                null,
-
-
-
-
-
-
-
-                )
-
-
     }
 }
 
