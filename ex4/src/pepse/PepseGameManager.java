@@ -8,10 +8,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
-import pepse.world.Block;
-import pepse.world.Night;
-import pepse.world.Sky;
-import pepse.world.Terrain;
+import pepse.world.*;
 
 import java.util.List;
 import java.util.Random;
@@ -36,6 +33,7 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(sky, Layer.BACKGROUND);
 
         ///////////////////////////////////////////////////////////////////////
+
         // Terrain Part
         Random random = new Random();
         Terrain terrain = new Terrain(windowController.getWindowDimensions(), random.nextInt());
@@ -47,10 +45,33 @@ public class PepseGameManager extends GameManager {
             gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
         }
         ///////////////////////////////////////////////////////////////////////
+
         // Light and Dark Part
         float cycleLength = 30;
         GameObject night = Night.create(windowController.getWindowDimensions(), cycleLength);
-        gameObjects().addGameObject(night, Layer.STATIC_OBJECTS); // TODO
+        gameObjects().addGameObject(night, Layer.BACKGROUND); // TODO
+        ///////////////////////////////////////////////////////////////////////
+
+        // Sun Part
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), cycleLength);
+        gameObjects().addGameObject(sun, Layer.BACKGROUND); // TODO
+
+        ///////////////////////////////////////////////////////////////////////
+
+        // Sun Halo Part
+         GameObject sunHalo =
+                 SunHalo.create(windowController.getWindowDimensions()
+                 , cycleLength, sun);
+         sunHalo.addComponent(deltaTime -> sunHalo.setCenter(sun.getCenter()));
+
+        gameObjects().addGameObject(sunHalo, Layer.BACKGROUND); // TODO
+
+
+
+
+
+
+
     }
 }
 
