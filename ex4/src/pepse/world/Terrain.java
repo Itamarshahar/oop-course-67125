@@ -47,9 +47,6 @@ public class Terrain {
         for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
             for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE){
-//                Vector2 topLeftCorner = new Vector2(x, y);
-//                Block block = new Block(topLeftCorner, new
-//                RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 Block block = new Block(Vector2.of(x, y),
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 block.setTag(GROUND_TAG);
