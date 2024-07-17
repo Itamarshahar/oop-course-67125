@@ -2,7 +2,7 @@
 TARFILE = ex4.tar
 
 # Define the files and directories to be included in the tar file
-FILES = README ascii_art util world
+FILES = README pepse
 
 # Default target
 all: $(TARFILE)
