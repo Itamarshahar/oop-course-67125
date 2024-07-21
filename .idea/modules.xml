@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ex0/ex0.iml" filepath="$PROJECT_DIR$/ex0/ex0.iml" />
       <module fileurl="file://$PROJECT_DIR$/ex3/ex3.iml" filepath="$PROJECT_DIR$/ex3/ex3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ex4/ex4.iml" filepath="$PROJECT_DIR$/ex4/ex4.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/oop-course-67125.iml" filepath="$PROJECT_DIR$/.idea/oop-course-67125.iml" />
     </modules>
   </component>
