@@ -7,7 +7,7 @@ import pepse.util.NoiseGenerator;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import danogl.collisions.Layer;
 /**
  * This class is responsible for generating the terrain in the game world.
  * It uses noise generation to create a realistic and varied ground height.
@@ -15,7 +15,11 @@ import java.util.List;
 public class Terrain {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private final float groundHeightAtX0;
-    private final String GROUND_TAG = "ground";
+    public static final String GROUND_TAG = "ground";
+    public static final String TOP_TAG = "topGround";
+    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1; // TODO
+    // maybe irrelevant
+
     private static final int TERRAIN_DEPTH = 20;
     private final NoiseGenerator noiseGenerator;
     private final Vector2 windowDimensions;
