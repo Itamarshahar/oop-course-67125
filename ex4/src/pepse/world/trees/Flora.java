@@ -4,11 +4,11 @@ import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
+import pepse.PepseGameManager;
 import pepse.util.ColorSupplier;
 import pepse.world.Block;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -22,34 +22,34 @@ public class Flora {
     public static final String LEAF_TAG = Leaf.TAG;
     public static final String TRUNK_TAG = Trunk.TAG;
     private static final int RANDOM_BOUND_FLORA = 10;
-    private static final int BOUND = 20;
+//    private static final int BOUND = 20;
     private static final float HIGHT_RATIO = (float) (1.0 / 2);
-    private static final String TREE_TRUNK_BLOCK_TAG = "TreeTrunkBlock";
     private static final int LEAF_BOUND = 120;
     private static final int MAX_LEAVE_PER_TREE = 40;
     private static final int MIN_LEAVS_PER_TREE = 15;
     private static final int MAX_FRUIT_PER_TREE = 4;
     private static final int MIN_FRUIT_PER_TREE = 10;
     private static final int MIN_TRUNK_HIGHT = 2 * Block.SIZE;
-    private static final int MIN_TREE_HEIGHT = 6; // In blocks (not pixels)
-    private static final int MAX_TREE_HEIGHT = 12; // In blocks (not pixels)
-    private static final int TREE_SPACING = 4; // In blocks (not pixels)
+//    private static final int MIN_TREE_HEIGHT = 6; // In blocks (not pixels)
+//    private static final int MAX_TREE_HEIGHT = 12; // In blocks (not pixels)
+//    private static final int TREE_SPACING = 4; // In blocks (not pixels)
+    public static final int LEAF_LAYER = PepseGameManager.LEAF_LAYER;
     public static int BASE_LEAF_SIZE = 20;
     private static final float FRUIT_SIZE = 0.5f * BASE_LEAF_SIZE;
     private static Function<Float, Float> groundHeightFunction;
     private static Consumer<Float> onEaten;
-    private static BooleanSupplier didJustJump;
+//    private static BooleanSupplier didJustJump;
     private static Consumer<Runnable> addDidJustJumpListener;
     private static final Color[] FRUIT_COLORS = {new Color(255, 0, 0), new Color(255, 155, 0), new Color(120, 25, 100), new Color(0, 0, 255)};
     private final GameObjectCollection gameObjects;
-    private final int seed;
-    private final int trunkLayer;
-    private final int topLayer;
+//    private final int seed;
+//    private final int trunkLayer;
+//    private final int topLayer;
     private final Random random = new Random(13);
     private RectangleRenderable trunkBlockRenderable;
-    private Trunk trunk;
-    private final ArrayList<Leaf> leaves = new ArrayList<>();
-    private final ArrayList<Fruit> fruits = new ArrayList<>();
+//    private Trunk trunk;
+//    private final ArrayList<Leaf> leaves = new ArrayList<>();
+//    private final ArrayList<Fruit> fruits = new ArrayList<>();
     private int maxHight;
     //    private Random random = new Random();
 //    private RectangleRenderable trunkBlockRenderable;
@@ -72,16 +72,22 @@ public class Flora {
      * @param addDidJustJumpListener the didJustJump callback, of a Avatar for example. Adds an observer
      *                               to the Avatar's didJustJump observers.
      */
-    public Flora(GameObjectCollection gameObjects, Function<Float, Float> groundHeightFunction, Consumer<Float> onEaten, Consumer<Runnable> addDidJustJumpListener, int trunkLayer, int topLayer, int seed) {
+    public Flora(GameObjectCollection gameObjects,
+                 Function<Float, Float> groundHeightFunction,
+                 Consumer<Float> onEaten,
+                 Consumer<Runnable> addDidJustJumpListener,
+                 int trunkLayer,
+                 int topLayer,
+                 int seed) {
         this.gameObjects = gameObjects;
         Flora.groundHeightFunction = groundHeightFunction;
         Flora.onEaten = onEaten;
         Flora.addDidJustJumpListener = addDidJustJumpListener;
-        this.trunkLayer = trunkLayer;
-        this.topLayer = topLayer;
-        this.seed = seed;
-
-
+//        this.trunkLayer = trunkLayer;
+//        this.topLayer = topLayer;
+//        this.seed = seed;
+        this.trunkBlockRenderable =
+                new RectangleRenderable(ColorSupplier.approximateColor(Trunk.BASIC_TRUNK_COLOR));
     }
 
     /**
@@ -104,25 +110,31 @@ public class Flora {
 //                                onEaten,
 //                                addDidJustJumpListener,
 //                                seed);
-            float groundHeight = groundHeightFunction.apply((float) x) - Block.SIZE;
+//            float groundHeight = groundHeightFunction.apply((float) x) - Block.SIZE;
             // -1 block to account for ground
-
-            createTree(x, groundHeight, onEaten,
-                                addDidJustJumpListener,
+            createTree(x,
+//                    groundHeight,
+//                            onEaten,
+//                                addDidJustJumpListener,
                     groundHeightFunction);
         }
     }
 
 
-    void createTree(float groundX, float groundHeight, Consumer<Float> onEaten, Consumer<Runnable> addDidJustJumpListener, Function<Float, Float> groundHeightFunction) {
-        createTrunk(groundHeightFunction, groundX, addDidJustJumpListener);
+    void createTree(float groundX,
+//                    float groundHeight,
+//                    Consumer<Float> onEaten,
+//                    Consumer<Runnable> addDidJustJumpListener,
+                    Function<Float, Float> groundHeightFunction) {
+        createTrunk(groundHeightFunction, groundX);
         createLeaves();
         createFruit();
     }
 
     private void createTrunk(Function<Float, Float> groundHeightFunction,
-                             float groundX,
-                             Consumer<Runnable> addDidJustJumpListener) {
+                             float groundX
+//                             Consumer<Runnable> addDidJustJumpListener
+    ) {
 //        TreeTrunk.create(gameObjects, groundHeight, groundX, treeHeight, trunkLayer);
 //        TreeTop.create(gameObjects, groundHeight, groundX, treeHeight, topLayer, seed);
         int groundHight = (int) Math.floor(groundHeightFunction.apply(xCoord));
@@ -133,8 +145,7 @@ public class Flora {
         treeHight = yCoord;
         trunk.setDimensions(Vector2.of(Block.SIZE, trunkHight + Block.SIZE));
         trunk.setTopLeftCorner(Vector2.of(groundX, yCoord));
-        trunk.setTag(TREE_TRUNK_BLOCK_TAG);
-        this.trunk = trunk;
+//        this.trunk = trunk;
         addDidJustJumpListener.accept(trunk::onJump);
         gameObjects.addGameObject(trunk, Layer.STATIC_OBJECTS);
 
@@ -147,7 +158,8 @@ public class Flora {
             int y = random.nextInt(LEAF_BOUND) - (treeHight / 20);
             Vector2 fruitPosition = Vector2.of(xCoord + x, treeHight - y);
             Fruit fruit = new Fruit(fruitPosition, onEaten, FRUIT_SIZE, FRUIT_COLORS);
-            fruits.add(fruit);
+//            fruits.add(fruit);
+//            fruit.setTag();
             addDidJustJumpListener.accept(fruit::onJump);
             gameObjects.addGameObject(fruit, Layer.DEFAULT);
         }
@@ -155,15 +167,15 @@ public class Flora {
 
 
     private void createLeaves() {
-        int leafsAmount = random.nextInt(MAX_LEAVE_PER_TREE) + MIN_LEAVS_PER_TREE;
-        for (int i = 0; i < leafsAmount; i++) {
+        int numberOfLeaves = random.nextInt(MAX_LEAVE_PER_TREE) + MIN_LEAVS_PER_TREE;
+        for (int i = 0; i < numberOfLeaves; i++) {
             int x = random.nextInt(LEAF_BOUND) - (LEAF_BOUND / 2);
             int y = random.nextInt(LEAF_BOUND) - (treeHight / 20);
             Vector2 leafPosition = Vector2.of(xCoord + x, treeHight - y);
             Leaf leaf = new Leaf(leafPosition, Vector2.ONES.mult(Leaf.BASE_LEAF_SIZE), new RectangleRenderable(ColorSupplier.approximateColor(Leaf.BASE_LEAF_COLOR)));
-            leaves.add(leaf);
+//            leaves.add(leaf);
             addDidJustJumpListener.accept(leaf::onJump);
-            gameObjects.addGameObject(leaf, Layer.BACKGROUND);
+            gameObjects.addGameObject(leaf, LEAF_LAYER);
         }
     }
 
