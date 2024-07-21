@@ -1,5 +1,6 @@
 package pepse.world;
 
+import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
@@ -17,13 +18,13 @@ public class Terrain {
     private final float groundHeightAtX0;
     public static final String GROUND_TAG = "ground";
     public static final String TOP_TAG = "topGround";
-    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1; // TODO
-    // maybe irrelevant
-
+    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;    // maybe irrelevant
+        private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
     private static final int TERRAIN_DEPTH = 20;
     private final NoiseGenerator noiseGenerator;
     private final Vector2 windowDimensions;
     public static final float RATIO = (float) (2.0 / 3.0);
+    private final GameObjectCollection gameObjects;
 
     /**
      * Constructs a new Terrain object.
@@ -31,10 +32,11 @@ public class Terrain {
      * @param windowDimensions The dimensions of the game window.
      * @param seed             The seed for the noise generator to create varied terrain.
      */
-    public Terrain(Vector2 windowDimensions, int seed) {
+    public Terrain(Vector2 windowDimensions, int seed, GameObjectCollection gameObjects) {
         this.groundHeightAtX0 = windowDimensions.y() * RATIO;
         this.windowDimensions = windowDimensions;
         this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
+        this.gameObjects = gameObjects;
     }
 
     /**
@@ -55,8 +57,8 @@ public class Terrain {
      * @param maxX The maximum x-coordinate of the range.
      * @return A list of blocks representing the terrain in the specified range.
      */
-    public List<Block> createInRange(int minX, int maxX) {
-        List<Block> blockList = new ArrayList<>();
+    public void createInRange(int minX, int maxX) {
+//        List<Block> blockList = new ArrayList<>();
         minX -= (minX % Block.SIZE);
         for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
@@ -64,9 +66,11 @@ public class Terrain {
                 Block block = new Block(Vector2.of(x, y),
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 block.setTag(GROUND_TAG);
-                blockList.add(block);
+//                blockList.add(block);
+                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
+//                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
             }
         }
-        return blockList;
+//        return blockList;
     }
 }

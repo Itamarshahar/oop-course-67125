@@ -26,7 +26,7 @@ public class Trunk extends Block implements ResponsiveToJump {
      */
     public Trunk(Vector2 topLeftCorner, Renderable renderable) {
         super(topLeftCorner, renderable);
-        this.setTag(TAG); // TODO maybe redundant
+        this.setTag(TAG);
     }
 
     /**

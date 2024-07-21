@@ -12,7 +12,7 @@ import pepse.world.*;
 import pepse.world.trees.Flora;
 //import pepse.world.trees.Tree;
 import danogl.util.Vector2;
-import java.util.List;
+
 import java.util.Random;
 
 public class PepseGameManager extends GameManager {
@@ -26,6 +26,8 @@ public class PepseGameManager extends GameManager {
     private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
     private static final Vector2 AVATAR_INIT_POS = Vector2.of(100, 90);
 
+    public static int LEAF_LAYER = Layer.BACKGROUND+1;
+    private static final int SUN_LAYER = Layer.BACKGROUND;
     private WindowController windowController;
     private Terrain terrain;
     private Vector2 initialAvatarLocation = null;
@@ -38,12 +40,10 @@ public class PepseGameManager extends GameManager {
     private Flora flora;
     private Avatar avatar;
 
-
     public static void main(String[] args) {
         new PepseGameManager().run();
     }
 
-    // TODO doc
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
@@ -58,33 +58,31 @@ public class PepseGameManager extends GameManager {
 
         // Terrain Part
         Random random = new Random();
-        this.terrain = new Terrain(windowController.getWindowDimensions(), random.nextInt());
+        this.terrain = new Terrain(windowController.getWindowDimensions(),
+                random.nextInt(), gameObjects());
 //        Terrain terrain = new Terrain(windowController.getWindowDimensions(),
 //                0 );
-        List<Block> blocks = terrain.createInRange(-5, (int) windowController.getWindowDimensions().x() + 5); //
+//       terrain.createInRange(-5, (int) windowController.getWindowDimensions().x() + 5); //
         // TODO - itamar - verify why (-5) ?
-        for (Block block : blocks) {
-            gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
-        }
+
         ///////////////////////////////////////////////////////////////////////
 
         // Light and Dark Part
-        float cycleLength = 30;
-        GameObject night = Night.create(windowController.getWindowDimensions(), cycleLength);
+        GameObject night = Night.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION);
         gameObjects().addGameObject(night, Layer.BACKGROUND); // TODO
         ///////////////////////////////////////////////////////////////////////
 
         // Sun Part
-        GameObject sun = Sun.create(windowController.getWindowDimensions(), cycleLength);
-        gameObjects().addGameObject(sun, Layer.BACKGROUND); // TODO
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION);
+        gameObjects().addGameObject(sun, SUN_LAYER); // TODO
 
         ///////////////////////////////////////////////////////////////////////
 
         // Sun Halo Part
-        GameObject sunHalo = SunHalo.create(windowController.getWindowDimensions(), cycleLength, sun);
+        GameObject sunHalo = SunHalo.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION, sun);
         sunHalo.addComponent(deltaTime -> sunHalo.setCenter(sun.getCenter()));
 
-        gameObjects().addGameObject(sunHalo, Layer.BACKGROUND); // TODO
+        gameObjects().addGameObject(sunHalo, SUN_LAYER); // TODO
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -108,7 +106,6 @@ public class PepseGameManager extends GameManager {
                 TREE_LEAVES_LAYER,
                 seed);
 
-
         initWorld();
         addCollisionListeners();
 
@@ -117,6 +114,24 @@ public class PepseGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+
+        Vector2 windowDimensions = windowController.getWindowDimensions();
+        float rightScreenX = camera.screenToWorldCoords(windowDimensions).x();
+        float leftScreenX = camera.screenToWorldCoords(windowDimensions).x() - windowDimensions.x();
+
+
+        if (rightScreenX >= worldRightBound) {
+            createWorldInRange(worldRightBound, worldRightBound + WORLD_RENDER_BUFFER);
+            worldRightBound += WORLD_RENDER_BUFFER;
+            worldLeftBound += WORLD_RENDER_BUFFER;
+        }
+
+        if (leftScreenX <= worldLeftBound) {
+            createWorldInRange(worldLeftBound - WORLD_RENDER_BUFFER, worldLeftBound);
+            worldLeftBound -= WORLD_RENDER_BUFFER;
+            worldRightBound -= WORLD_RENDER_BUFFER;
+        }
+
     }
 
     private void trackAvatar() {
@@ -143,16 +158,14 @@ public class PepseGameManager extends GameManager {
     private void collectHiddenObjects() {
         for (GameObject obj : gameObjects()) {
             if (obj.getCenter().x() < worldLeftBound || obj.getCenter().x() > worldRightBound) {
-                removeObject(obj);
+                removeObjectsHandler(obj);
+
             }
         }
     }
 
-    private void removeObject(GameObject obj) {
+    private void removeObjectsHandler(GameObject obj) {
         switch (obj.getTag()) {
-            case Terrain.TOP_TAG:
-                gameObjects().removeGameObject(obj, TOP_TERRAIN_LAYER);
-                break;
             case Terrain.GROUND_TAG:
                 gameObjects().removeGameObject(obj, Terrain.LOWER_TERRAIN_LAYER);
             case Flora.LEAF_TAG:
