@@ -9,9 +9,12 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import pepse.world.*;
+import pepse.world.daynight.Night;
+import pepse.world.daynight.Sun;
+import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Flora;
-//import pepse.world.trees.Tree;
 import danogl.util.Vector2;
+
 
 import java.util.Random;
 
@@ -138,7 +141,7 @@ public class PepseGameManager extends GameManager {
         this.camera = new Camera(avatar, Vector2.ZERO, windowController.getWindowDimensions(),
                 windowController.getWindowDimensions());
         setCamera(camera);
-            initialAvatarLocation = getGroundCenter().subtract(Avatar.AVATAR_DIMENSIONS);
+            initialAvatarLocation = getGroundCenter().subtract(Avatar.DEFAULT_DIMENSIONS);
 
         windowController.getWindowDimensions().mult(0.5f).subtract(initialAvatarLocation);
     }
