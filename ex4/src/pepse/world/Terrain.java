@@ -1,29 +1,29 @@
 package pepse.world;
 
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.util.NoiseGenerator;
+
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import danogl.collisions.Layer;
+
 /**
  * This class is responsible for generating the terrain in the game world.
  * It uses noise generation to create a realistic and varied ground height.
  */
 public class Terrain {
-    private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
-    private final float groundHeightAtX0;
     public static final String GROUND_TAG = "ground";
     public static final String TOP_TAG = "topGround";
-    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;    // maybe irrelevant
-        private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
+    public static final float RATIO = (float) (2.0 / 3.0);
+    private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
+    private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
     private static final int TERRAIN_DEPTH = 20;
+    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;    // maybe irrelevant
+    private final float groundHeightAtX0;
     private final NoiseGenerator noiseGenerator;
     private final Vector2 windowDimensions;
-    public static final float RATIO = (float) (2.0 / 3.0);
     private final GameObjectCollection gameObjects;
 
     /**
@@ -63,14 +63,10 @@ public class Terrain {
         for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
             for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE) {
-                Block block = new Block(Vector2.of(x, y),
-                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
+                Block block = new Block(Vector2.of(x, y), new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 block.setTag(GROUND_TAG);
-//                blockList.add(block);
-                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
-//                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
+                gameObjects.addGameObject(block, Layer.STATIC_OBJECTS);
             }
         }
-//        return blockList;
     }
 }

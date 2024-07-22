@@ -13,9 +13,14 @@ import java.awt.*;
  * The sun moves in a circular path to simulate the day-night cycle.
  */
 public class Sun {
-    private static final float Y_POS_INIT = 1.3f; // Initial vertical position factor for the sun
+
+
+    /**
+     * Size factor of the sun relative to the window height.
+     */
+    public static final float SUN_SIZE_FACTOR = 0.08f;
+    private static final float Y_POS_INIT = 1.3f;
     private static final String SUN_TAG = "sun";
-    public static final float SUN_SIZE_FACTOR = 0.08f; // Size factor relative to the window height
 
     /**
      * Creates a sun object for the game world.
@@ -31,16 +36,7 @@ public class Sun {
         OvalRenderable ovalRenderable = new OvalRenderable(Color.YELLOW);
         GameObject sun = new GameObject(initialSunCenter, sunSize, ovalRenderable);
 
-        new Transition<Float>(
-                sun,
-                (Float angle) -> sun.setCenter(initialSunCenter.subtract(cycleCenter).rotated(angle).add(cycleCenter)),
-                0f,
-                360f,
-                Transition.LINEAR_INTERPOLATOR_FLOAT,
-                cycleLength,
-                Transition.TransitionType.TRANSITION_LOOP,
-                null
-        );
+        new Transition<Float>(sun, (Float angle) -> sun.setCenter(initialSunCenter.subtract(cycleCenter).rotated(angle).add(cycleCenter)), 0f, 360f, Transition.LINEAR_INTERPOLATOR_FLOAT, cycleLength, Transition.TransitionType.TRANSITION_LOOP, null);
 
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sun.setTag(SUN_TAG);
