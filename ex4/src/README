@@ -1,9 +1,45 @@
 itamarshahar2, amirt97
 315669689, 208588244
 
-החל מהשורה הרביעית ענו בקובץ על השאלות הבאות:
-התייחסו בתשובתכם לנקודות ,trees הסבירו על הדרך שבה בחרתם לממש את החבילה
-הבאות:
-9.2.4.1 . פרטו על המחלקות השונות שיצרת בחבילה.
-9.2.4.2 . הסבירו על הקשרים בין המחלקות.
-9.2.4.3 . האם השתמשתם בתבנית עיצוב כלשהי?
+The Trees Package (Q.9.2.4.1):
+    1.Interface ResponsiveToJump
+        This interface represents object that are responsive to the Avatar's
+        jumps. The classes that implement this interface implements a methods
+        called onJump(), which determine the behavior of the object after the
+        jump.
+    2. class Flora:
+        This Facade class that represents the flora object of the game, e.g -
+        handle the creation of the trunk, the leaves, and the fruits in a given
+        interval.
+    3. class Trunk extends Block implements ResponsiveToJump:
+        Represents the trunk of the tree. It extends Block and implements the
+        ResponsiveToJump interface, and onJump
+        the trunk changes it's color.
+    4. class Fruit extends GameObject implements ResponsiveToJump:
+        Represents a fruit on the tree. Implements ResponsiveToJump, and onJump
+        the fruit changes it's color. The fruit, update method handle the
+        collision of the Avatar with the fruit. In the collision the fruit give
+        more energy to the Avatar. After a day cycle, the removed fruits are
+        placed back at the tree top.
+    5. class Leaf extends GameObject implements ResponsiveToJump:
+        Represents a leaf on the tree. Implements ResponsiveToJump, and onJump
+        the leaf rotate in 90 degrees.
+
+The relationships within the trees Package (Q.9.2.4.2):
+    1. The Trunk, Leaf, and Fruit classes extend GameObjects, and implement the
+     DidJumpObserver interface.
+    2. The GameManger initialize the Flora class,
+    3. The Flora class creates the trunk, leaves, and fruits, and adds them
+    into as game-objects.
+    4. callback functions are given by the PepseGAmeManager to the Flora class,
+        and from the Flora class passed to the Trunk, Leaf, Fruit classes. Each
+        class gets the callback functions it needs.
+    5. The Trunk, Leaf, and Fruit classes observe the Avatar class(the subject)
+        The observers are added to the Avatar at the Flora class,
+        when the creating the flora using the appropriate method.
+
+Design Patterns(Q.9.2.4.3):
+    1. The Leaf, Fruit, and Trunk are both GameObject and observers to the
+        Avatar (the subject).
+    2. The Flora class is Facade classes, concealing the
+    complexity of the creation of trunk, the leafs, and the fruits

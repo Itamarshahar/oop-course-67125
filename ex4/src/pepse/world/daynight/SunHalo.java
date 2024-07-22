@@ -1,9 +1,10 @@
-package pepse.world;
+package pepse.world.daynight;
 
 import danogl.GameObject;
 import danogl.components.CoordinateSpace;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
+import pepse.world.daynight.Sun;
 
 import java.awt.*;
 

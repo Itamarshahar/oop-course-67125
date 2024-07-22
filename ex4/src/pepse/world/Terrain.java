@@ -1,36 +1,83 @@
 package pepse.world;
 
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.util.NoiseGenerator;
+
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import danogl.collisions.Layer;
+
 /**
- * This class is responsible for generating the terrain in the game world.
- * It uses noise generation to create a realistic and varied ground height.
+ * The {@code Terrain} class is responsible for generating and managing the terrain in the game world.
+ * It uses noise generation to create realistic and varied ground heights, and manages the terrain's
+ * appearance and position in the game environment.
  */
 public class Terrain {
-    private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
-    private final float groundHeightAtX0;
+
+    /**
+     * Tag used to identify ground objects in the game world.
+     */
     public static final String GROUND_TAG = "ground";
+
+    /**
+     * Tag used to identify top ground objects in the game world.
+     */
     public static final String TOP_TAG = "topGround";
-    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;    // maybe irrelevant
-        private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
-    private static final int TERRAIN_DEPTH = 20;
-    private final NoiseGenerator noiseGenerator;
-    private final Vector2 windowDimensions;
+
+    /**
+     * Ratio of ground height relative to the window dimensions.
+     */
     public static final float RATIO = (float) (2.0 / 3.0);
+
+    /**
+     * Base color used for rendering ground blocks.
+     */
+    private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
+
+    /**
+     * The layer on which top terrain objects are rendered.
+     */
+    private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
+
+    /**
+     * The depth of the terrain.
+     */
+    private static final int TERRAIN_DEPTH = 20;
+
+    /**
+     * The layer on which lower terrain objects are rendered.
+     * May be irrelevant in the current context.
+     */
+    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;
+
+    /**
+     * The initial ground height at x-coordinate 0.
+     */
+    private final float groundHeightAtX0;
+
+    /**
+     * Noise generator used to create varied terrain heights.
+     */
+    private final NoiseGenerator noiseGenerator;
+
+    /**
+     * Dimensions of the game window.
+     */
+    private final Vector2 windowDimensions;
+
+    /**
+     * Collection of game objects managed by the game.
+     */
     private final GameObjectCollection gameObjects;
 
     /**
-     * Constructs a new Terrain object.
+     * Constructs a new {@code Terrain} object with the specified parameters.
      *
      * @param windowDimensions The dimensions of the game window.
-     * @param seed             The seed for the noise generator to create varied terrain.
+     * @param seed             The seed for the noise generator, used to create varied terrain.
+     * @param gameObjects      The collection of game objects to which terrain blocks will be added.
      */
     public Terrain(Vector2 windowDimensions, int seed, GameObjectCollection gameObjects) {
         this.groundHeightAtX0 = windowDimensions.y() * RATIO;
@@ -40,10 +87,10 @@ public class Terrain {
     }
 
     /**
-     * Returns the height of the ground at a given x-coordinate.
+     * Returns the height of the ground at a specified x-coordinate.
      *
-     * @param x The x-coordinate.
-     * @return The height of the ground at the given x-coordinate.
+     * @param x The x-coordinate at which to get the ground height.
+     * @return The height of the ground at the specified x-coordinate.
      */
     public float groundHeightAt(float x) {
         float noise = (float) noiseGenerator.noise(x, Block.SIZE * 7);
@@ -51,14 +98,12 @@ public class Terrain {
     }
 
     /**
-     * Creates blocks in the specified range.
+     * Creates and adds terrain blocks to the game world in the specified x-coordinate range.
      *
-     * @param minX The minimum x-coordinate of the range.
-     * @param maxX The maximum x-coordinate of the range.
-     * @return A list of blocks representing the terrain in the specified range.
+     * @param minX The minimum x-coordinate of the range (inclusive).
+     * @param maxX The maximum x-coordinate of the range (exclusive).
      */
     public void createInRange(int minX, int maxX) {
-//        List<Block> blockList = new ArrayList<>();
         minX -= (minX % Block.SIZE);
         for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
@@ -66,11 +111,8 @@ public class Terrain {
                 Block block = new Block(Vector2.of(x, y),
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 block.setTag(GROUND_TAG);
-//                blockList.add(block);
-                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
-//                gameObjects.addGameObject(block,  Layer.STATIC_OBJECTS);
+                gameObjects.addGameObject(block, Layer.STATIC_OBJECTS);
             }
         }
-//        return blockList;
     }
 }

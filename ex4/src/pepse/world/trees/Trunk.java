@@ -14,15 +14,21 @@ import java.awt.*;
  */
 public class Trunk extends Block implements ResponsiveToJump {
 
+    /**
+     * Basic color of the trunk.
+     */
     public static final Color BASIC_TRUNK_COLOR = new Color(100, 50, 20);
 
+    /**
+     * Tag used to identify trunk objects.
+     */
     public static final String TAG = "trunk";
 
     /**
      * Constructs a new Trunk instance.
      *
      * @param topLeftCorner The position of the top left corner of the trunk.
-     * @param renderable The renderable representing the trunk's appearance.
+     * @param renderable    The renderable representing the trunk's appearance.
      */
     public Trunk(Vector2 topLeftCorner, Renderable renderable) {
         super(topLeftCorner, renderable);
@@ -45,8 +51,10 @@ public class Trunk extends Block implements ResponsiveToJump {
     @Override
     public void onJump() {
         // On jump of the avatar we will change the trunk color
-        Color newTrunkColor = ColorSupplier.approximateColor(Trunk.BASIC_TRUNK_COLOR);
-        RectangleRenderable newTrunkRenderer = new RectangleRenderable(newTrunkColor);
+        Color newTrunkColor = ColorSupplier.approximateColor(
+                Trunk.BASIC_TRUNK_COLOR);
+        RectangleRenderable newTrunkRenderer = new
+                RectangleRenderable(newTrunkColor);
         renderer().setRenderable(newTrunkRenderer);
     }
 }

@@ -21,7 +21,8 @@ public class Sky {
      * @return A GameObject representing the sky background.
      */
     public static GameObject create(Vector2 windowDimensions) {
-        GameObject sky = new GameObject(Vector2.ZERO, windowDimensions, new RectangleRenderable(BASIC_SKY_COLOR));
+        GameObject sky = new GameObject(Vector2.ZERO, windowDimensions,
+                new RectangleRenderable(BASIC_SKY_COLOR));
         sky.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sky.setTag("sky");
         return sky;
