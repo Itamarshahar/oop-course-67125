@@ -51,8 +51,10 @@ public class Trunk extends Block implements ResponsiveToJump {
     @Override
     public void onJump() {
         // On jump of the avatar we will change the trunk color
-        Color newTrunkColor = ColorSupplier.approximateColor(Trunk.BASIC_TRUNK_COLOR);
-        RectangleRenderable newTrunkRenderer = new RectangleRenderable(newTrunkColor);
+        Color newTrunkColor = ColorSupplier.approximateColor(
+                Trunk.BASIC_TRUNK_COLOR);
+        RectangleRenderable newTrunkRenderer = new
+                RectangleRenderable(newTrunkColor);
         renderer().setRenderable(newTrunkRenderer);
     }
 }

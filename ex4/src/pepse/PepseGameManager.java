@@ -9,6 +9,9 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import pepse.world.*;
+import pepse.world.daynight.Night;
+import pepse.world.daynight.Sun;
+import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Flora;
 //import pepse.world.trees.Tree;
 import danogl.util.Vector2;
@@ -45,8 +48,11 @@ public class PepseGameManager extends GameManager {
     }
 
     @Override
-    public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
-        super.initializeGame(imageReader, soundReader, inputListener, windowController);
+    public void initializeGame(ImageReader imageReader, SoundReader soundReader,
+                               UserInputListener inputListener,
+                               WindowController windowController) {
+        super.initializeGame(imageReader, soundReader,
+                inputListener, windowController);
         this.windowController = windowController;
         int seed = DEFAULT_SEED;
         ///////////////////////////////////////////////////////////////////////
@@ -68,18 +74,21 @@ public class PepseGameManager extends GameManager {
         ///////////////////////////////////////////////////////////////////////
 
         // Light and Dark Part
-        GameObject night = Night.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION);
+        GameObject night = Night.create(windowController.getWindowDimensions(),
+                DAYTIME_CYCLE_DURATION);
         gameObjects().addGameObject(night, Layer.BACKGROUND); // TODO
         ///////////////////////////////////////////////////////////////////////
 
         // Sun Part
-        GameObject sun = Sun.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION);
+        GameObject sun = Sun.create(windowController.getWindowDimensions(),
+                DAYTIME_CYCLE_DURATION);
         gameObjects().addGameObject(sun, SUN_LAYER); // TODO
 
         ///////////////////////////////////////////////////////////////////////
 
         // Sun Halo Part
-        GameObject sunHalo = SunHalo.create(windowController.getWindowDimensions(), DAYTIME_CYCLE_DURATION, sun);
+        GameObject sunHalo = SunHalo.create(windowController.getWindowDimensions(),
+                DAYTIME_CYCLE_DURATION, sun);
         sunHalo.addComponent(deltaTime -> sunHalo.setCenter(sun.getCenter()));
 
         gameObjects().addGameObject(sunHalo, SUN_LAYER); // TODO
@@ -127,7 +136,8 @@ public class PepseGameManager extends GameManager {
         }
 
         if (leftScreenX <= worldLeftBound) {
-            createWorldInRange(worldLeftBound - WORLD_RENDER_BUFFER, worldLeftBound);
+            createWorldInRange(worldLeftBound - WORLD_RENDER_BUFFER,
+                    worldLeftBound);
             worldLeftBound -= WORLD_RENDER_BUFFER;
             worldRightBound -= WORLD_RENDER_BUFFER;
         }
@@ -135,17 +145,21 @@ public class PepseGameManager extends GameManager {
     }
 
     private void trackAvatar() {
-        this.camera = new Camera(avatar, Vector2.ZERO, windowController.getWindowDimensions(),
+        this.camera = new Camera(avatar,
+Vector2.ZERO, windowController.getWindowDimensions(),
                 windowController.getWindowDimensions());
         setCamera(camera);
-            initialAvatarLocation = getGroundCenter().subtract(Avatar.AVATAR_DIMENSIONS);
+            initialAvatarLocation = getGroundCenter().subtract(
+                    Avatar.AVATAR_DIMENSIONS);
 
-        windowController.getWindowDimensions().mult(0.5f).subtract(initialAvatarLocation);
+        windowController.getWindowDimensions().mult(0.5f).subtract(
+                initialAvatarLocation);
     }
 
     private void initWorld() {
         worldLeftBound = -WORLD_RENDER_BUFFER;
-        worldRightBound = (int) windowController.getWindowDimensions().x() + WORLD_RENDER_BUFFER;
+        worldRightBound = (int) windowController.getWindowDimensions().x() +
+                WORLD_RENDER_BUFFER;
         createWorldInRange(worldLeftBound, worldRightBound);
     }
 
@@ -157,7 +171,8 @@ public class PepseGameManager extends GameManager {
 
     private void collectHiddenObjects() {
         for (GameObject obj : gameObjects()) {
-            if (obj.getCenter().x() < worldLeftBound || obj.getCenter().x() > worldRightBound) {
+            if (obj.getCenter().x() < worldLeftBound ||
+                    obj.getCenter().x() > worldRightBound) {
                 removeObjectsHandler(obj);
 
             }
@@ -167,7 +182,8 @@ public class PepseGameManager extends GameManager {
     private void removeObjectsHandler(GameObject obj) {
         switch (obj.getTag()) {
             case Terrain.GROUND_TAG:
-                gameObjects().removeGameObject(obj, Terrain.LOWER_TERRAIN_LAYER);
+                gameObjects().removeGameObject(obj,
+                        Terrain.LOWER_TERRAIN_LAYER);
             case Flora.LEAF_TAG:
                 gameObjects().removeGameObject(obj, TREE_LEAVES_LAYER);
                 break;
@@ -183,7 +199,8 @@ public class PepseGameManager extends GameManager {
     private void createAvatar(ImageReader imageReader, UserInputListener inputListener,
                               WindowController windowController) {
         Avatar avatar = new Avatar(AVATAR_INIT_POS, inputListener, imageReader);
-        avatar.setCenter(Vector2.of(windowController.getWindowDimensions().x() * 0.5f, 10)); // TODO change the 10
+        avatar.setCenter(Vector2.of(
+                windowController.getWindowDimensions().x() * 0.5f, 10)); // TODO change the 10
         gameObjects().addGameObject(avatar, Layer.DEFAULT);
 //        gameObjects().addGameObject(GrapichEnergyCounter.create(avatar), Layer.UI);
         this.avatar = avatar;

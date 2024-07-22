@@ -32,10 +32,12 @@ public class Terrain {
      * @param windowDimensions The dimensions of the game window.
      * @param seed             The seed for the noise generator to create varied terrain.
      */
-    public Terrain(Vector2 windowDimensions, int seed, GameObjectCollection gameObjects) {
+    public Terrain(Vector2 windowDimensions, int seed,
+                   GameObjectCollection gameObjects) {
         this.groundHeightAtX0 = windowDimensions.y() * RATIO;
         this.windowDimensions = windowDimensions;
-        this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
+        this.noiseGenerator = new NoiseGenerator(seed,
+                (int) groundHeightAtX0);
         this.gameObjects = gameObjects;
     }
 
@@ -61,11 +63,15 @@ public class Terrain {
 //        List<Block> blockList = new ArrayList<>();
         minX -= (minX % Block.SIZE);
         for (int x = minX; x < maxX; x += Block.SIZE) {
-            double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
+            double topY = Math.floor(groundHeightAt(x) / Block.SIZE) *
+                    Block.SIZE;
             for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE) {
-                Block block = new Block(Vector2.of(x, y), new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
+                Block block = new Block(Vector2.of(x, y),
+            new RectangleRenderable(ColorSupplier.approximateColor(
+                                BASE_GROUND_COLOR)));
                 block.setTag(GROUND_TAG);
-                gameObjects.addGameObject(block, Layer.STATIC_OBJECTS);
+                gameObjects.addGameObject(block,
+                        Layer.STATIC_OBJECTS);
             }
         }
     }

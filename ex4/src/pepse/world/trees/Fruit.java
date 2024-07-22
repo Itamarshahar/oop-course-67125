@@ -12,7 +12,8 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 /**
- * Represents a fruit in the game world, which can respond to jumps and be eaten by the avatar.
+ * Represents a fruit in the game world, which can respond to jumps and be
+ * eaten by the avatar.
  */
 public class Fruit extends GameObject implements ResponsiveToJump {
     /**
@@ -64,7 +65,9 @@ public class Fruit extends GameObject implements ResponsiveToJump {
      * @param fruitColors   An array of colors representing different stages of the fruit.
      */
     public Fruit(Vector2 topLeftCorner, Consumer<Float> onEaten, float fruitSize, Color[] fruitColors) {
-        super(topLeftCorner, Vector2.of(fruitSize, fruitSize), new OvalRenderable(fruitColors[0]));
+        super(topLeftCorner,
+                Vector2.of(fruitSize, fruitSize),
+                new OvalRenderable(fruitColors[0]));
         this.fruitColors = fruitColors;
         this.fruitRanderables = new OvalRenderable[fruitColors.length];
         for (int i = 0; i < fruitColors.length; i++) {
@@ -96,7 +99,14 @@ public class Fruit extends GameObject implements ResponsiveToJump {
             super.onCollisionEnter(other, collision);
             onEaten.accept(BONUS_ENERGY);
             this.setTag(EATEN_FRUIT_TAG);
-            new Transition<Float>(this, this.renderer()::fadeOut, 0f, 0f, Transition.LINEAR_INTERPOLATOR_FLOAT, PepseGameManager.DAYTIME_CYCLE_DURATION, Transition.TransitionType.TRANSITION_ONCE, this::fadeIn);
+            new Transition<Float>(this,
+                    this.renderer()::fadeOut,
+                    0f,
+                    0f,
+                    Transition.LINEAR_INTERPOLATOR_FLOAT,
+                    PepseGameManager.DAYTIME_CYCLE_DURATION,
+                    Transition.TransitionType.TRANSITION_ONCE,
+                    this::fadeIn);
         }
     }
 

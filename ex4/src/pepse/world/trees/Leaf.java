@@ -12,7 +12,8 @@ import java.awt.*;
 import java.util.Random;
 
 /**
- * Represents a leaf in the game world, which can respond to jumps and exhibit wind-like movement.
+ * Represents a leaf in the game world, which can respond to jumps
+ * and exhibit wind-like movement.
  */
 public class Leaf extends GameObject implements ResponsiveToJump {
 
@@ -62,8 +63,14 @@ public class Leaf extends GameObject implements ResponsiveToJump {
         super(topLeftCorner, dimensions, renderable);
         Random random = new Random();
         int randomInt = random.nextInt(PepseGameManager.DAYTIME_CYCLE_DURATION);
-        ScheduledTask angleTask = new ScheduledTask(this, randomInt, true, this::angleTransition);
-        ScheduledTask widthTask = new ScheduledTask(this, randomInt, true, this::widthTransition);
+        ScheduledTask angleTask = new ScheduledTask(this,
+                randomInt,
+                true,
+                this::angleTransition);
+        ScheduledTask widthTask = new ScheduledTask(this,
+                randomInt,
+                true,
+                this::widthTransition);
         setTag(TAG);
     }
 
@@ -74,7 +81,14 @@ public class Leaf extends GameObject implements ResponsiveToJump {
      */
     private Transition<Float> angleTransition() {
         float curAngle = this.renderer().getRenderableAngle();
-        return new Transition<Float>(this, this.renderer()::setRenderableAngle, curAngle, curAngle + LEAF_WIND_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT, PepseGameManager.DAYTIME_CYCLE_DURATION, Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+        return new Transition<Float>(this,
+                this.renderer()::setRenderableAngle,
+                curAngle,
+                curAngle + LEAF_WIND_ANGLE,
+                Transition.LINEAR_INTERPOLATOR_FLOAT,
+                PepseGameManager.DAYTIME_CYCLE_DURATION,
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
+                null);
     }
 
     /**
@@ -83,7 +97,14 @@ public class Leaf extends GameObject implements ResponsiveToJump {
      * @return A Transition object for the leaf's dimensions.
      */
     private Transition<Vector2> widthTransition() {
-        return new Transition<Vector2>(this, this::setDimensions, Vector2.ONES.mult(BASE_LEAF_SIZE), new Vector2(BASE_LEAF_SIZE * 0.5f, BASE_LEAF_SIZE * 1.5f), Transition.LINEAR_INTERPOLATOR_VECTOR, PepseGameManager.DAYTIME_CYCLE_DURATION, Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+        return new Transition<Vector2>(this,
+                this::setDimensions,
+                Vector2.ONES.mult(BASE_LEAF_SIZE),
+                new Vector2(BASE_LEAF_SIZE * 0.5f, BASE_LEAF_SIZE * 1.5f),
+                Transition.LINEAR_INTERPOLATOR_VECTOR,
+                PepseGameManager.DAYTIME_CYCLE_DURATION,
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
+                null);
     }
 
     /**
@@ -101,7 +122,14 @@ public class Leaf extends GameObject implements ResponsiveToJump {
      * Creates a transition to rotate the leaf in response to a jump.
      */
     private void rotateJump() {
-        new Transition<Float>(this, this.renderer()::setRenderableAngle, this.renderer().getRenderableAngle(), this.renderer().getRenderableAngle() + ROTATE_JUMP_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT, ROTATE_ANGLE_TIME, Transition.TransitionType.TRANSITION_ONCE, null);
+        new Transition<Float>(this,
+                this.renderer()::setRenderableAngle,
+                this.renderer().getRenderableAngle(),
+                this.renderer().getRenderableAngle() + ROTATE_JUMP_ANGLE,
+                Transition.LINEAR_INTERPOLATOR_FLOAT,
+                ROTATE_ANGLE_TIME,
+                Transition.TransitionType.TRANSITION_ONCE,
+                null);
     }
 
     /**
@@ -109,6 +137,13 @@ public class Leaf extends GameObject implements ResponsiveToJump {
      */
     @Override
     public void onJump() {
-        new Transition<Float>(this, this.renderer()::setRenderableAngle, this.renderer().getRenderableAngle(), this.renderer().getRenderableAngle() + ROTATE_JUMP_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT, ROTATE_ANGLE_TIME, Transition.TransitionType.TRANSITION_ONCE, null);
+        new Transition<Float>(this,
+                this.renderer()::setRenderableAngle,
+                this.renderer().getRenderableAngle(),
+                this.renderer().getRenderableAngle() + ROTATE_JUMP_ANGLE,
+                Transition.LINEAR_INTERPOLATOR_FLOAT,
+                ROTATE_ANGLE_TIME,
+                Transition.TransitionType.TRANSITION_ONCE,
+                null);
     }
 }

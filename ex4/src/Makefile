@@ -2,7 +2,7 @@
 TARFILE = ex4.tar
 
 # Define the files and directories to be included in the tar file
-FILES = README pepse
+FILES = src/pepse/ assets
 
 # Default target
 all: $(TARFILE)
