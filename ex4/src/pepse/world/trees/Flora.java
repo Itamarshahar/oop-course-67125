@@ -38,7 +38,6 @@ public class Flora {
     private static final float FRUIT_SIZE = 0.5f * BASE_LEAF_SIZE;
     private static Function<Float, Float> groundHeightFunction;
     private static Consumer<Float> onEaten;
-//    private static BooleanSupplier didJustJump;
     private static Consumer<Runnable> addDidJustJumpListener;
     private static final Color[] FRUIT_COLORS = {new Color(255, 0, 0), new Color(255, 155, 0), new Color(120, 25, 100), new Color(0, 0, 255)};
     private final GameObjectCollection gameObjects;
@@ -47,22 +46,9 @@ public class Flora {
 //    private final int topLayer;
     private final Random random = new Random(13);
     private RectangleRenderable trunkBlockRenderable;
-//    private Trunk trunk;
-//    private final ArrayList<Leaf> leaves = new ArrayList<>();
-//    private final ArrayList<Fruit> fruits = new ArrayList<>();
     private int maxHight;
-    //    private Random random = new Random();
-//    private RectangleRenderable trunkBlockRenderable;
     private int treeHight = 0;
-//    private Trunk trunk;
-//    private ArrayList<Leaf> leaves = new ArrayList<>();
-//    private ArrayList<Fruit> fruits = new ArrayList<>();
-
-
-//    public static int BASE_LEAF_SIZE = 20;
     private float xCoord;
-    //    private Consumer<Float> onEaten;
-
 
     /**
      * The constructor of the flora.
@@ -83,9 +69,6 @@ public class Flora {
         Flora.groundHeightFunction = groundHeightFunction;
         Flora.onEaten = onEaten;
         Flora.addDidJustJumpListener = addDidJustJumpListener;
-//        this.trunkLayer = trunkLayer;
-//        this.topLayer = topLayer;
-//        this.seed = seed;
         this.trunkBlockRenderable =
                 new RectangleRenderable(ColorSupplier.approximateColor(Trunk.BASIC_TRUNK_COLOR));
     }
@@ -104,14 +87,6 @@ public class Flora {
             if (randomInt != 0) continue;
             this.xCoord = x;
             maxHight = (int) (groundHeightFunction.apply(xCoord) * HIGHT_RATIO);
-
-//            Tree tree = new Tree(groundHeightFunction,
-//                                x,
-//                                onEaten,
-//                                addDidJustJumpListener,
-//                                seed);
-//            float groundHeight = groundHeightFunction.apply((float) x) - Block.SIZE;
-            // -1 block to account for ground
             createTree(x,
 //                    groundHeight,
 //                            onEaten,
@@ -122,9 +97,6 @@ public class Flora {
 
 
     void createTree(float groundX,
-//                    float groundHeight,
-//                    Consumer<Float> onEaten,
-//                    Consumer<Runnable> addDidJustJumpListener,
                     Function<Float, Float> groundHeightFunction) {
         createTrunk(groundHeightFunction, groundX);
         createLeaves();
@@ -133,7 +105,6 @@ public class Flora {
 
     private void createTrunk(Function<Float, Float> groundHeightFunction,
                              float groundX
-//                             Consumer<Runnable> addDidJustJumpListener
     ) {
 //        TreeTrunk.create(gameObjects, groundHeight, groundX, treeHeight, trunkLayer);
 //        TreeTop.create(gameObjects, groundHeight, groundX, treeHeight, topLayer, seed);
