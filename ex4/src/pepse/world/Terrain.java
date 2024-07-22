@@ -19,12 +19,7 @@ public class Terrain {
     /**
      * Tag used to identify ground objects in the game world.
      */
-    public static final String GROUND_TAG = "ground";
-
-    /**
-     * Tag used to identify top ground objects in the game world.
-     */
-    public static final String TOP_TAG = "topGround";
+    public static final String TAG = "ground";
 
     /**
      * Ratio of ground height relative to the window dimensions.
@@ -110,7 +105,7 @@ public class Terrain {
             for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE) {
                 Block block = new Block(Vector2.of(x, y),
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
-                block.setTag(GROUND_TAG);
+                block.setTag(TAG);
                 gameObjects.addGameObject(block, Layer.STATIC_OBJECTS);
             }
         }

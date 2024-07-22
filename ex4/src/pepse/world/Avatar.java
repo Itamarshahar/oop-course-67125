@@ -7,13 +7,14 @@ import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
-import danogl.gui.WindowController;
 import danogl.gui.rendering.*;
 import danogl.util.Vector2;
+import pepse.world.trees.Trunk;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static java.lang.Math.max;
@@ -73,7 +74,6 @@ public class Avatar extends GameObject {
     private static Renderable energyBarRenderable = null;
     private static GameObject energyCounter = null;
     private static GameObject energyBar = null;
-    private static Avatar avatar = null;
 
     private static final String[] idlePaths = {"assets/idle_0.png",
             "assets/idle_1.png", "assets/idle_2.png", "assets/idle_3.png"};
@@ -86,10 +86,11 @@ public class Avatar extends GameObject {
     private float energy = MAX_ENERGY;
     private final float ENERGY_WALK_UNIT = .5f;
     private final float ENERGY_JUMP_UNIT = 10;
-    private final float ENERGY_REST_UNIT = 1;
     private AvatarState state = AvatarState.REST;
     private UserInputListener inputListener;
     private ArrayList<Runnable> didJustJumpObserver = new ArrayList<>();
+    private ArrayList<String> shouldCollide = new
+            ArrayList<String>(Arrays.asList(Trunk.TAG, Terrain.TAG));
 
     /**
      * Constructs a new Avatar object.
@@ -255,12 +256,11 @@ public class Avatar extends GameObject {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        if (collision.getNormal().y() < 0) {
-            renderer().setRenderableAngle(0);
+        if (shouldCollide.contains(other.getTag())) {
+            transform().setVelocityY(0);
             state = AvatarState.REST;
         }
     }
-
 
     /**
      * This method returns the energy of the avatar.
@@ -291,7 +291,7 @@ public class Avatar extends GameObject {
     }
 
     private void increeseEnergy(float delta) {
-        this.energy = min(energy + delta, MIN_ENERGY);
+        this.energy = min(energy + delta, MAX_ENERGY);
     }
 
     private void decreeseEnergy(float delta) {

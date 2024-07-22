@@ -115,6 +115,6 @@ public class Fruit extends GameObject implements ResponsiveToJump {
      */
     private void fadeIn() {
         renderer().fadeIn(0f);
-        setTag(TAG); // TODO why this is needed?
+        setTag(TAG);
     }
 }

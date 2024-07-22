@@ -38,7 +38,7 @@ public class Night {
                 MIDNIGHT_OPACITY,
                 Transition.CUBIC_INTERPOLATOR_FLOAT,
                 cycleLength / 2,
-                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, //TODO maybe TRANSITION_LOOP?
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
                 null);
 
         return night;

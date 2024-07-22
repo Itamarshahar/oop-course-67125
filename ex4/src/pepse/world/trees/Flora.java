@@ -18,8 +18,19 @@ import java.util.function.Function;
  * This class is responsible for creating the flora. This class implements the Facade design pattern.
  */
 public class Flora {
+    /**
+     * Tag for fruit objects.
+     */
     public static final String FRUIT_TAG = Fruit.TAG;
+
+    /**
+     * Tag for leaf objects.
+     */
     public static final String LEAF_TAG = Leaf.TAG;
+
+    /**
+     * Tag for trunk objects.
+     */
     public static final String TRUNK_TAG = Trunk.TAG;
     private static final int RANDOM_BOUND_FLORA = 10;
 //    private static final int BOUND = 20;
@@ -33,14 +44,21 @@ public class Flora {
 //    private static final int MIN_TREE_HEIGHT = 6; // In blocks (not pixels)
 //    private static final int MAX_TREE_HEIGHT = 12; // In blocks (not pixels)
 //    private static final int TREE_SPACING = 4; // In blocks (not pixels)
-    public static final int LEAF_LAYER = PepseGameManager.LEAF_LAYER;
+    /**
+     * Represent the leaf layer
+     */
+    public static final int LEAF_LAYER = PepseGameManager.TREE_LEAVES_LAYER;
+    /**
+     * Represent leaf size
+     */
     public static int BASE_LEAF_SIZE = 20;
     private static final float FRUIT_SIZE = 0.5f * BASE_LEAF_SIZE;
     private static Function<Float, Float> groundHeightFunction;
     private static Consumer<Float> onEaten;
 //    private static BooleanSupplier didJustJump;
     private static Consumer<Runnable> addDidJustJumpListener;
-    private static final Color[] FRUIT_COLORS = {new Color(255, 0, 0), new Color(255, 155, 0), new Color(120, 25, 100), new Color(0, 0, 255)};
+    private static final Color[] FRUIT_COLORS = {new Color(255, 0, 0),
+            new Color(255, 155, 0), new Color(120, 25, 100), new Color(0, 0, 255)};
     private final GameObjectCollection gameObjects;
 //    private final int seed;
 //    private final int trunkLayer;
@@ -172,7 +190,8 @@ public class Flora {
             int x = random.nextInt(LEAF_BOUND) - (LEAF_BOUND / 2);
             int y = random.nextInt(LEAF_BOUND) - (treeHight / 20);
             Vector2 leafPosition = Vector2.of(xCoord + x, treeHight - y);
-            Leaf leaf = new Leaf(leafPosition, Vector2.ONES.mult(Leaf.BASE_LEAF_SIZE), new RectangleRenderable(ColorSupplier.approximateColor(Leaf.BASE_LEAF_COLOR)));
+            Leaf leaf = new Leaf(leafPosition, Vector2.ONES.mult(Leaf.BASE_LEAF_SIZE),
+                    new RectangleRenderable(ColorSupplier.approximateColor(Leaf.BASE_LEAF_COLOR)));
 //            leaves.add(leaf);
             addDidJustJumpListener.accept(leaf::onJump);
             gameObjects.addGameObject(leaf, LEAF_LAYER);
