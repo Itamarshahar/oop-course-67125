@@ -48,6 +48,7 @@ public class PepseGameManager extends GameManager {
      * The layer on which ENERGY_LAYER objects are rendered.
      */
     public static final int ENERGY_LAYER = Layer.UI;
+
      // Define the map with collision settings as a class variable
     private static final Map<Map.Entry<Integer, Integer>, Boolean> COLLISION_SETTINGS = new HashMap<>();
     static {
@@ -55,7 +56,8 @@ public class PepseGameManager extends GameManager {
         COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, LOWER_TERRAIN_LAYER), true);
         COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, TREE_TRUNK_LAYER), true);
         COLLISION_SETTINGS.put(Map.entry(LOWER_TERRAIN_LAYER, TREE_LEAVES_LAYER), false);
-//        COLLISION_SETTINGS.put(Map.entry(TOP_TERRAIN_LAYER, TREE_LEAVES_LAYER), true);
+        COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, Flora.FRUIT_LAYER), true);
+        COLLISION_SETTINGS.put(Map.entry(TREE_LEAVES_LAYER, Flora.FRUIT_LAYER), false);
 
     }
 
@@ -240,7 +242,7 @@ public class PepseGameManager extends GameManager {
             inputListener, WindowController windowController) {
         Avatar avatar = new Avatar(AVATAR_INIT_POS, inputListener, imageReader);
         avatar.setCenter(Vector2.of(windowController.getWindowDimensions().x() * 0.5f, 10));
-        gameObjects().addGameObject(avatar, Layer.DEFAULT);
+        gameObjects().addGameObject(avatar, AVATAR_LAYER);
         Avatar.displayEnergy(gameObjects());
         this.avatar = avatar;
     }

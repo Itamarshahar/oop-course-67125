@@ -49,6 +49,10 @@ public class Flora {
      */
     public static final int LEAF_LAYER = PepseGameManager.TREE_LEAVES_LAYER;
     /**
+     * Represent the leaf fruit.
+     */
+    public static final int FRUIT_LAYER = LEAF_LAYER + 1;
+    /**
      * Represent leaf size
      */
     public static int BASE_LEAF_SIZE = 20;
@@ -179,7 +183,7 @@ public class Flora {
 //            fruits.add(fruit);
 //            fruit.setTag();
             addDidJustJumpListener.accept(fruit::onJump);
-            gameObjects.addGameObject(fruit, Layer.DEFAULT);
+            gameObjects.addGameObject(fruit, FRUIT_LAYER);
         }
     }
 
