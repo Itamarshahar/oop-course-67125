@@ -3,7 +3,6 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
@@ -19,6 +18,7 @@ import java.util.function.Consumer;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static pepse.PepseGameManager.ENERGY_LAYER;
 
 /**
  * Avatar class representing a character with walking, jumping, and flying capabilities.
@@ -241,10 +241,10 @@ public class Avatar extends GameObject {
     public static void displayEnergy(GameObjectCollection gameObjects) {
         energyCounter = new GameObject(ENERGY_COUNTER_POS, ENERGY_COUNTER_DIMENSIONS, energyRenderable);
         energyCounter.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-        gameObjects.addGameObject(energyCounter, Layer.UI);
+        gameObjects.addGameObject(energyCounter, ENERGY_LAYER);
         energyBar = new GameObject(ENERGY_BAR_POS, ENERGY_BAR_DIMENSIONS, energyBarRenderable);
         energyBar.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-        gameObjects.addGameObject(energyBar, Layer.UI);
+        gameObjects.addGameObject(energyBar, ENERGY_LAYER);
     }
 
     /**
@@ -276,9 +276,9 @@ public class Avatar extends GameObject {
      */
     public void changeEnergyBy(float delta) {
         if (delta > 0) {
-            increeseEnergy(delta);
+            increaseEnergy(delta);
         } else {
-            decreeseEnergy(-delta);
+            decreaseEnergy(-delta);
         }
     }
 
@@ -290,11 +290,11 @@ public class Avatar extends GameObject {
         return this::changeEnergyBy;
     }
 
-    private void increeseEnergy(float delta) {
+    private void increaseEnergy(float delta) {
         this.energy = min(energy + delta, MAX_ENERGY);
     }
 
-    private void decreeseEnergy(float delta) {
+    private void decreaseEnergy(float delta) {
         this.energy = max(energy - delta, MIN_ENERGY);
     }
     /**
@@ -302,7 +302,7 @@ public class Avatar extends GameObject {
      *
      * @param observer The observer to be added. It should implement the Runnable interface.
      */
-    public void addDidJustJumpObserver(Runnable observer) {
+    public void addResponsiveToJumpObserver(Runnable observer) {
         didJustJumpObserver.add(observer);
     }
 
