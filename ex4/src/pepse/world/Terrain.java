@@ -9,6 +9,8 @@ import pepse.util.NoiseGenerator;
 
 import java.awt.*;
 
+import static pepse.PepseGameManager.LOWER_TERRAIN_LAYER;
+
 /**
  * The {@code Terrain} class is responsible for generating and managing the terrain in the game world.
  * It uses noise generation to create realistic and varied ground heights, and manages the terrain's
@@ -31,21 +33,6 @@ public class Terrain {
      */
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
 
-    /**
-     * The layer on which top terrain objects are rendered.
-     */
-    private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
-
-    /**
-     * The depth of the terrain.
-     */
-    private static final int TERRAIN_DEPTH = 20;
-
-    /**
-     * The layer on which lower terrain objects are rendered.
-     * May be irrelevant in the current context.
-     */
-    public static int LOWER_TERRAIN_LAYER = Layer.FOREGROUND - 1;
 
     /**
      * The initial ground height at x-coordinate 0.
@@ -102,11 +89,11 @@ public class Terrain {
         minX -= (minX % Block.SIZE);
         for (int x = minX; x < maxX; x += Block.SIZE) {
             double topY = Math.floor(groundHeightAt(x) / Block.SIZE) * Block.SIZE;
-            for (float y = windowDimensions.y(); y > topY; y -= Block.SIZE) {
+            for (float y = windowDimensions.y() + 150; y > topY; y -= Block.SIZE) {
                 Block block = new Block(Vector2.of(x, y),
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 block.setTag(TAG);
-                gameObjects.addGameObject(block, Layer.STATIC_OBJECTS);
+                gameObjects.addGameObject(block, LOWER_TERRAIN_LAYER);
             }
         }
     }
