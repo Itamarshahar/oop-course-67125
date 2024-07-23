@@ -29,27 +29,35 @@ public class PepseGameManager extends GameManager {
      */
     public static final int DAYTIME_CYCLE_DURATION = 30;
     private static final int DEFAULT_SEED = 42;
-    private static final int TREE_TRUNK_LAYER = Layer.DEFAULT + 1;
+
+    private static final Vector2 AVATAR_INIT_POS = Vector2.of(100, 90);
+
+    private static final int TREE_TRUNK_LAYER = Layer.STATIC_OBJECTS;
     /**
      * Represent the layers of the leaves
      */
     public static final int TREE_LEAVES_LAYER = Layer.BACKGROUND + 1;
     private static final int WORLD_RENDER_BUFFER = Block.SIZE * 10;
     private static final int AVATAR_LAYER = Layer.DEFAULT + 3;
-    private static final int TOP_TERRAIN_LAYER = Layer.DEFAULT;
-    private static final Vector2 AVATAR_INIT_POS = Vector2.of(100, 90);
     private static final int SUN_LAYER = Layer.BACKGROUND;
-    // Define the map with collision settings as a class variable
+     /**
+     * The layer on which lower terrain objects are rendered.
+     */
+     public static final int LOWER_TERRAIN_LAYER = Layer.STATIC_OBJECTS; //  Layer.FOREGROUND - 1;
+     /**
+     * The layer on which ENERGY_LAYER objects are rendered.
+     */
+    public static final int ENERGY_LAYER = Layer.UI;
+     // Define the map with collision settings as a class variable
     private static final Map<Map.Entry<Integer, Integer>, Boolean> COLLISION_SETTINGS = new HashMap<>();
-
     static {
         COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, TREE_LEAVES_LAYER), false);
-        COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, TOP_TERRAIN_LAYER), true);
+        COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, LOWER_TERRAIN_LAYER), true);
         COLLISION_SETTINGS.put(Map.entry(AVATAR_LAYER, TREE_TRUNK_LAYER), true);
-        COLLISION_SETTINGS.put(Map.entry(Terrain.LOWER_TERRAIN_LAYER, TREE_LEAVES_LAYER), false);
-        COLLISION_SETTINGS.put(Map.entry(TOP_TERRAIN_LAYER, TREE_LEAVES_LAYER), true);
-    }
+        COLLISION_SETTINGS.put(Map.entry(LOWER_TERRAIN_LAYER, TREE_LEAVES_LAYER), false);
+//        COLLISION_SETTINGS.put(Map.entry(TOP_TERRAIN_LAYER, TREE_LEAVES_LAYER), true);
 
+    }
 
     private WindowController windowController;
     private Terrain terrain;
@@ -114,7 +122,7 @@ public class PepseGameManager extends GameManager {
         trackAvatar();
 
         this.flora = new Flora(gameObjects(), terrain::groundHeightAt, this.avatar::changeEnergyBy,
-                this.avatar::addDidJustJumpObserver, TREE_TRUNK_LAYER, TREE_LEAVES_LAYER, seed);
+                this.avatar::addResponsiveToJumpObserver, TREE_TRUNK_LAYER, TREE_LEAVES_LAYER, seed);
 
         initWorld();
         applyCollisionSettings();
@@ -208,7 +216,7 @@ public class PepseGameManager extends GameManager {
     private void removeObjectsHandler(GameObject obj) {
         switch (obj.getTag()) {
             case Terrain.TAG:
-                gameObjects().removeGameObject(obj, Terrain.LOWER_TERRAIN_LAYER);
+                gameObjects().removeGameObject(obj, LOWER_TERRAIN_LAYER);
             case Flora.LEAF_TAG:
                 gameObjects().removeGameObject(obj, TREE_LEAVES_LAYER);
                 break;
